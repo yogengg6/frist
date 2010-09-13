@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+		Schema for Biometric Data Interchange Formats packages
+		for INCITS M1.3 and ISO SC 37/WG 3
+		Visit http://www.openbiometricsinitiative.org/ for more information
+	</xsd:documentation>
+	</xsd:annotation>
+	<!-- list of possible item formats -->
+	<xsd:simpleType name="formatType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="bit"/>
+			<xsd:enumeration value="byte"/>
+			<xsd:enumeration value="word"/>
+			<xsd:enumeration value="dword"/>
+			<xsd:enumeration value="tword"/>
+			<xsd:enumeration value="string"/>
+			<xsd:enumeration value="binary"/>
+      <xsd:enumeration value="jpegorjpeg2000"/>
+      <xsd:enumeration value="image"/>
+    </xsd:restriction>
+	</xsd:simpleType>
+	<!-- definition of a list item, to provide possible values -->
+	<xsd:complexType name="listitemType">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string"/>
+			<xsd:element name="value" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- definition of an item, the base data unit -->
+	<xsd:complexType name="itemType">
+		<xsd:sequence>
+			<!-- mandatory members -->
+			<xsd:element name="name" type="xsd:string"/>
+			<xsd:element name="format" type="formatType"/>
+			<!-- optional members -->
+			<xsd:element name="minoccurences" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="maxoccurences" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="min" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="max" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="default" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="description" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="reserved" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="listitem" type="listitemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- definition of an entity, which is simply either an item or a section -->
+	<xsd:element name="entity" abstract="true" type="xsd:anyType"/>
+	<xsd:element name="item" type="itemType" substitutionGroup="entity"/>
+	<xsd:element name="section" type="sectionType" substitutionGroup="entity"/>
+	<!-- definition of a section, which can contain other items and sections in any order -->
+	<xsd:complexType name="sectionType">
+		<xsd:sequence>
+			<!-- mandatory members -->
+			<xsd:element name="name" type="xsd:string"/>
+			<!-- optional members -->
+			<xsd:element name="minoccurences" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="maxoccurences" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="description" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="reserved" type="xsd:boolean" minOccurs="0"/>
+			<!-- set of other items and sections -->
+			<xsd:element ref="entity" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- defines the standard, using name, description and a main section -->
+	<xsd:complexType name="standardType">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string"/>
+      <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="version" type="xsd:string" minOccurs="0"/>
+      <!-- set of other items and sections -->
+      <xsd:element ref="entity" maxOccurs="unbounded"/>
+    </xsd:sequence>
+	</xsd:complexType>
+	<!-- the standard element, containing the standard's package definition -->
+	<xsd:element name="standard" type="standardType"/>
+</xsd:schema>

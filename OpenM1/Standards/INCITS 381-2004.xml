@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<standard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BDIF.xsd">
+	<name>INCITS 381-2004</name>
+	<description>INCITS Fingerprint Image Package</description>
+	<version>1.0</version>
+
+	<!-- General Record Header -->
+	<section>
+		<name>General Record Header</name>
+		<item>
+			<name>Format Identifier</name>
+			<format>string</format>
+			<min>3</min>
+			<max>3</max>
+			<default>FIR</default>
+			<reserved>true</reserved>
+		</item>
+		<item>
+			<name>Version Number</name>
+			<format>string</format>
+			<min>3</min>
+			<max>3</max>
+			<default>010</default>
+			<reserved>true</reserved>
+		</item>
+
+		<item>
+			<name>Record Length</name>
+			<format>tword</format>
+			<default>length(INCITS 381-2004)</default>
+			<reserved>true</reserved>
+		</item>
+
+		<item>
+			<name>CBEFF Product Identifier</name>
+			<format>dword</format>
+		</item>
+		<item>
+			<name>Capture Device ID</name>
+			<format>word</format>
+			<default>0</default>
+		</item>
+		<item>
+			<name>Image Acquisition Level</name>
+			<format>word</format>
+		</item>
+		<item>
+			<name>Number of Fingers</name>
+			<format>byte</format>
+			<min>1</min>
+			<default>occurrences(Finger Image Record)</default>
+			<reserved>true</reserved>
+		</item>
+		<item>
+			<name>Scale Units</name>
+			<format>byte</format>
+			<listitem>
+				<name>pixels per inch</name>
+				<value>1</value>
+			</listitem>
+			<listitem>
+				<name>pixels per cm</name>
+				<value>2</value>
+			</listitem>
+		</item>
+		<item>
+			<name>Horizontal Scan Resolution</name>
+			<format>word</format>
+		</item>
+		<item>
+			<name>Vertical Scan Resolution</name>
+			<format>word</format>
+		</item>
+		<item>
+			<name>Horizontal Image Resolution</name>
+			<format>word</format>
+		</item>
+		<item>
+			<name>Vertical Image Resolution</name>
+			<format>word</format>
+		</item>
+		<item>
+			<name>Pixel Depth</name>
+			<format>byte</format>
+			<min>1</min>
+			<max>16</max>
+		</item>
+		<item>
+			<name>Image Compression Algorithm</name>
+			<format>byte</format>
+			<listitem>
+				<name>Uncompressed - no bit packing</name>
+				<value>0</value>
+			</listitem>
+			<listitem>
+				<name>Uncompressed - bit packed</name>
+				<value>1</value>
+			</listitem>
+			<listitem>
+				<name>Compressed - WSQ</name>
+				<value>2</value>
+			</listitem>
+			<listitem>
+				<name>Compressed - JPEG</name>
+				<value>3</value>
+			</listitem>
+			<listitem>
+				<name>Compressed - JPEG2000</name>
+				<value>4</value>
+			</listitem>
+			<listitem>
+				<name>PNG</name>
+				<value>5</value>
+			</listitem>
+		</item>
+		<item>
+			<name>Reserved</name>
+			<format>word</format>
+			<default>0</default>
+			<reserved>true</reserved>
+		</item>
+	</section>
+
+	<!-- Finger Image Record -->
+	<section>
+		<name>Finger Image Record</name>
+		<maxoccurences>unbounded</maxoccurences>
+
+		<!-- Finger Image  Header -->
+		<section>
+			<name>Finger Image Header</name>
+			<item>
+				<name>Finger Image Record Length</name>
+				<format>dword</format>
+				<default>length(Finger Image Record)</default>
+				<reserved>true</reserved>
+			</item>
+			<item>
+				<name>Finger Position</name>
+				<format>byte</format>
+				<listitem>
+					<name>Unknown</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>Right thumb</name>
+					<value>1</value>
+				</listitem>
+				<listitem>
+					<name>Right index finger</name>
+					<value>2</value>
+				</listitem>
+				<listitem>
+					<name>Right middle finger</name>
+					<value>3</value>
+				</listitem>
+				<listitem>
+					<name>Right ring finger</name>
+					<value>4</value>
+				</listitem>
+				<listitem>
+					<name>Right little finger</name>
+					<value>5</value>
+				</listitem>
+				<listitem>
+					<name>Left thumb</name>
+					<value>6</value>
+				</listitem>
+				<listitem>
+					<name>Left index finger</name>
+					<value>7</value>
+				</listitem>
+				<listitem>
+					<name>Left middle finger</name>
+					<value>8</value>
+				</listitem>
+				<listitem>
+					<name>Left ring finger</name>
+					<value>9</value>
+				</listitem>
+				<listitem>
+					<name>Left little finger</name>
+					<value>10</value>
+				</listitem>
+				<listitem>
+					<name>Plain right four fingers</name>
+					<value>13</value>
+				</listitem>
+				<listitem>
+					<name>Plain left four fingers</name>
+					<value>14</value>
+				</listitem>
+				<listitem>
+					<name>Plain thumbs</name>
+					<value>15</value>
+				</listitem>
+				<listitem>
+					<name>Unknown palm</name>
+					<value>20</value>
+				</listitem>
+				<listitem>
+					<name>Right full palm</name>
+					<value>21</value>
+				</listitem>
+				<listitem>
+					<name>Right writer's palm</name>
+					<value>22</value>
+				</listitem>
+				<listitem>
+					<name>Left full palm</name>
+					<value>23</value>
+				</listitem>
+				<listitem>
+					<name>Left writer's palm</name>
+					<value>24</value>
+				</listitem>
+				<listitem>
+					<name>Right lower palm</name>
+					<value>25</value>
+				</listitem>
+				<listitem>
+					<name>Right upper palm</name>
+					<value>26</value>
+				</listitem>
+				<listitem>
+					<name>Left lower palm</name>
+					<value>27</value>
+				</listitem>
+				<listitem>
+					<name>Left upper palm</name>
+					<value>28</value>
+				</listitem>
+				<listitem>
+					<name>Right other</name>
+					<value>29</value>
+				</listitem>
+				<listitem>
+					<name>Left other</name>
+					<value>30</value>
+				</listitem>
+				<listitem>
+					<name>Right interdigital</name>
+					<value>31</value>
+				</listitem>
+				<listitem>
+					<name>Right thenar</name>
+					<value>32</value>
+				</listitem>
+				<listitem>
+					<name>Right hypothenar</name>
+					<value>33</value>
+				</listitem>
+				<listitem>
+					<name>Left interdigital</name>
+					<value>34</value>
+				</listitem>
+				<listitem>
+					<name>Left thenar</name>
+					<value>35</value>
+				</listitem>
+				<listitem>
+					<name>Left hypothenar</name>
+					<value>36</value>
+				</listitem>
+			</item>
+			<item>
+				<name>Count of Views</name>
+				<format>byte</format>
+				<min>1</min>
+				<max>255</max>
+			</item>
+			<item>
+				<name>View Number</name>
+				<format>byte</format>
+				<min>1</min>
+				<max>255</max>
+			</item>
+			<item>
+				<name>Finger Image Quality</name>
+				<format>byte</format>
+				<default>254</default>
+				<reserved>true</reserved>
+			</item>
+			<item>
+				<name>Impression Type</name>
+				<format>byte</format>
+				<listitem>
+					<name>Live-scan plain</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>Live-scan rolled</name>
+					<value>1</value>
+				</listitem>
+				<listitem>
+					<name>Nonlive-scan plain</name>
+					<value>2</value>
+				</listitem>
+				<listitem>
+					<name>Nonlive-scan rolled</name>
+					<value>3</value>
+				</listitem>
+				<listitem>
+					<name>Latent</name>
+					<value>7</value>
+				</listitem>
+				<listitem>
+					<name>Swipe</name>
+					<value>8</value>
+				</listitem>
+				<listitem>
+					<name>Live-scan contactless</name>
+					<value>9</value>
+				</listitem>
+			</item>
+			<item>
+				<name>Horizontal Line Length</name>
+				<format>word</format>
+			</item>
+			<item>
+				<name>Vertical Line Length</name>
+				<format>word</format>
+			</item>
+		</section>
+
+		<!-- Finger Image Data -->
+		<item>
+			<name>Finger Image Data</name>
+			<format>image</format>
+		</item>
+
+	</section>
+
+</standard>

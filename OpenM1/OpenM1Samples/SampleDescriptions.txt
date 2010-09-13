@@ -1,0 +1,15 @@
+
+OpenM1Sample1
+Reads-in several XML Standard configuration files and output their structures in an easily readbale form.
+
+OpenM1Sample2
+Creates a sample ISO 19794-5 Face Recognition BFID package.
+
+OpenM1Sample3
+Reads-in a sample ISO 19794-5 Face Recognition BFID package, extracts its face image and saved it to file.
+
+OpenM1Sample4
+Creates a sample ISO 19794-4 Fingerprint Image BFID Package.
+
+OpenM1Sample5
+Creates a sample INCITS 385-2004 Fingerprint Image BFID Package.

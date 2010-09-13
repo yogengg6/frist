@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<standard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BDIF.xsd">
+	<name>ISO 19794-5</name>
+	<description>ISO Face Recognition Package</description>
+	<version>1.0</version>
+
+	<!-- Facial Record Header -->
+	<section>
+		<name>Facial Record Header</name>
+		<reserved>true</reserved>
+		<item>
+			<name>Format Identifier</name>
+			<format>string</format>
+			<min>3</min>
+			<max>3</max>
+			<default>FAC</default>
+			<reserved>true</reserved>
+		</item>
+		<item>
+			<name>Version Number</name>
+			<format>string</format>
+			<min>3</min>
+			<max>3</max>
+			<default>010</default>
+			<reserved>true</reserved>
+		</item>
+		<item>
+			<name>Length of Record</name>
+			<format>dword</format>
+			<default>length(ISO 19794-5)</default>
+			<reserved>true</reserved>
+		</item>
+		<item>
+			<name>Number of Facial Images</name>
+			<format>word</format>
+			<min>1</min>
+			<max>unbounded</max>
+			<default>occurrences(Facial Record Data)</default>
+			<reserved>true</reserved>
+		</item>
+	</section>
+
+	<!-- Facial Record Data -->
+	<section>
+		<name>Facial Record Data</name>
+		<maxoccurences>unbounded</maxoccurences>
+
+		<!-- Facial Information Block -->
+		<section>
+			<name>Facial Information Block</name>
+			<item>
+				<name>Face Image Block Length</name>
+				<format>dword</format>
+				<default>length(Facial Record Data)</default>
+				<reserved>true</reserved>
+			</item>
+			<item>
+				<name>Number of Feature Points</name>
+				<format>word</format>
+				<default>occurrences(Feature Points)</default>
+				<reserved>true</reserved>
+			</item>
+			<item>
+				<name>Gender</name>
+				<format>byte</format>
+				<default>0</default>
+				<listitem>
+					<name>Unspecified</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>Male</name>
+					<value>1</value>
+				</listitem>
+				<listitem>
+					<name>Female</name>
+					<value>2</value>
+				</listitem>
+				<listitem>
+					<name>Unknonw</name>
+					<value>3</value>
+				</listitem>
+			</item>
+			<item>
+				<name>Eye Color</name>
+				<format>byte</format>
+				<default>0</default>
+				<listitem>
+					<name>Unspecified</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>Black</name>
+					<value>1</value>
+				</listitem>
+				<listitem>
+					<name>Blue</name>
+					<value>2</value>
+				</listitem>
+				<listitem>
+					<name>Brown</name>
+					<value>3</value>
+				</listitem>
+				<listitem>
+					<name>Gray</name>
+					<value>4</value>
+				</listitem>
+				<listitem>
+					<name>Green</name>
+					<value>5</value>
+				</listitem>
+				<listitem>
+					<name>Multi-Coloured</name>
+					<value>6</value>
+				</listitem>
+				<listitem>
+					<name>Pink</name>
+					<value>7</value>
+				</listitem>
+				<listitem>
+					<name>Other or Unknown</name>
+					<value>8</value>
+				</listitem>
+			</item>
+			<item>
+				<name>Hair Color</name>
+				<format>byte</format>
+				<default>0</default>
+				<listitem>
+					<name>Unspecified</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>Bald</name>
+					<value>1</value>
+				</listitem>
+				<listitem>
+					<name>Black</name>
+					<value>2</value>
+				</listitem>
+				<listitem>
+					<name>Blonde</name>
+					<value>3</value>
+				</listitem>
+				<listitem>
+					<name>Brown</name>
+					<value>4</value>
+				</listitem>
+				<listitem>
+					<name>Gray</name>
+					<value>5</value>
+				</listitem>
+				<listitem>
+					<name>White</name>
+					<value>6</value>
+				</listitem>
+				<listitem>
+					<name>Red</name>
+					<value>7</value>
+				</listitem>
+				<listitem>
+					<name>Green</name>
+					<value>8</value>
+				</listitem>
+				<listitem>
+					<name>Blue</name>
+					<value>9</value>
+				</listitem>
+				<listitem>
+					<name>Unknown or Other</name>
+					<value>255</value>
+				</listitem>
+			</item>
+			<section>
+				<name>Feature Mask</name>
+				<!-- 3-byte bit field -->
+				<item>
+					<name>Features Specified</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Glasses</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Moustache</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Beard</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Teeth Visible</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Blink</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Mouth Open</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Left Eye Patch</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Right Eye Patch</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Dark Glasses</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Feature Distorting Medical Condition</name>
+					<format>bit</format>
+					<default>0</default>
+				</item>
+				<item>
+					<name>Feature Mask bit 11</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 12</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 13</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 14</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 15</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 16</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 17</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 18</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 19</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 20</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 21</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 22</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+				<item>
+					<name>Feature Mask bit 23</name>
+					<format>bit</format>
+					<default>0</default>
+					<reserved>true</reserved>
+				</item>
+			</section>
+			<item>
+				<name>Expression</name>
+				<format>word</format>
+				<default>0</default>
+				<listitem>
+					<name>Unspecified</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>Neutral</name>
+					<value>1</value>
+				</listitem>
+				<listitem>
+					<name>Smile with closed mouth</name>
+					<value>2</value>
+				</listitem>
+				<listitem>
+					<name>Smile with open mouth</name>
+					<value>3</value>
+				</listitem>
+				<listitem>
+					<name>Raised Eyebrows</name>
+					<value>4</value>
+				</listitem>
+				<listitem>
+					<name>Eyes looking away from the camera</name>
+					<value>5</value>
+				</listitem>
+				<listitem>
+					<name>Squinting</name>
+					<value>6</value>
+				</listitem>
+				<listitem>
+					<name>Frowning</name>
+					<value>7</value>
+				</listitem>
+			</item>
+			<item>
+				<name>Pose Angle - Yaw</name>
+				<format>byte</format>
+				<min>0</min>
+				<max>181</max>
+				<default>0</default>
+			</item>
+			<item>
+				<name>Pose Angle - Pitch</name>
+				<format>byte</format>
+				<min>0</min>
+				<max>181</max>
+				<default>0</default>
+			</item>
+			<item>
+				<name>Pose Angle - Roll</name>
+				<format>byte</format>
+				<min>0</min>
+				<max>181</max>
+				<default>0</default>
+			</item>
+			<item>
+				<name>Pose Angle Uncertainty - Yaw</name>
+				<format>byte</format>
+				<min>0</min>
+				<max>181</max>
+				<default>0</default>
+			</item>
+			<item>
+				<name>Pose Angle Uncertainty - Pitch</name>
+				<format>byte</format>
+				<min>0</min>
+				<max>181</max>
+				<default>0</default>
+			</item>
+			<item>
+				<name>Pose Angle Uncertainty - Roll</name>
+				<format>byte</format>
+				<min>0</min>
+				<max>181</max>
+				<default>0</default>
+			</item>
+		</section>
+
+		<!-- Feature Points(s) -->
+		<section>
+			<name>Feature Points</name>
+			<minoccurences>0</minoccurences>
+			<maxoccurences>unbounded</maxoccurences>
+			<item>
+				<name>Feature Type</name>
+				<format>byte</format>
+				<default>1</default>
+				<reserved>true</reserved>
+			</item>
+			<item>
+				<name>Feature Point</name>
+				<format>byte</format>
+			</item>
+			<item>
+				<name>Horizontal Position</name>
+				<format>word</format>
+			</item>
+			<item>
+				<name>Vertical Position</name>
+				<format>word</format>
+			</item>
+			<item>
+				<name>Reserved</name>
+				<format>word</format>
+				<default>0</default>
+				<reserved>true</reserved>
+			</item>
+		</section>
+
+		<!-- Image Information -->
+		<section>
+			<name>Image Information</name>
+			<item>
+				<name>Face Image Type</name>
+				<format>byte</format>
+				<default>0</default>
+				<listitem>
+					<name>Unspecified</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>Basic</name>
+					<value>1</value>
+				</listitem>
+				<listitem>
+					<name>Full Frontal</name>
+					<value>2</value>
+				</listitem>
+				<listitem>
+					<name>Token Frontal</name>
+					<value>3</value>
+				</listitem>
+				<listitem>
+					<name>Other</name>
+					<value>4</value>
+				</listitem>
+			</item>
+			<item>
+				<name>Image Data Type</name>
+				<format>byte</format>
+				<reserved>true</reserved>
+				<listitem>
+					<name>JPEG</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>JPEG2000</name>
+					<value>1</value>
+				</listitem>
+			</item>
+			<item>
+				<name>Width</name>
+				<format>word</format>
+			</item>
+			<item>
+				<name>Height</name>
+				<format>word</format>
+			</item>
+			<item>
+				<name>Image Color Space</name>
+				<format>byte</format>
+				<default>0</default>
+				<listitem>
+					<name>Unspecified</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>24 bit RGB</name>
+					<value>1</value>
+				</listitem>
+				<listitem>
+					<name>YUV422</name>
+					<value>2</value>
+				</listitem>
+				<listitem>
+					<name>8-bit greyscale</name>
+					<value>3</value>
+				</listitem>
+				<listitem>
+					<name>Other</name>
+					<value>4</value>
+				</listitem>
+			</item>
+			<item>
+				<name>Source Type</name>
+				<format>byte</format>
+				<default>0</default>
+				<listitem>
+					<name>Unspecified</name>
+					<value>0</value>
+				</listitem>
+				<listitem>
+					<name>Static photograph from an unknown source</name>
+					<value>1</value>
+				</listitem>
+				<listitem>
+					<name>Static photograph from a digital still-image camera</name>
+					<value>2</value>
+				</listitem>
+				<listitem>
+					<name>Static photograph from a scanner</name>
+					<value>3</value>
+				</listitem>
+				<listitem>
+					<name>Single video frame from an unkwwon source</name>
+					<value>4</value>
+				</listitem>
+				<listitem>
+					<name>Single video frame from an analogue video camera</name>
+					<value>5</value>
+				</listitem>
+				<listitem>
+					<name>Single video frame from a digital video camera</name>
+					<value>6</value>
+				</listitem>
+				<listitem>
+					<name>Unknown</name>
+					<value>7</value>
+				</listitem>
+			</item>
+			<item>
+				<name>Device Type</name>
+				<format>word</format>
+				<default>0</default>
+			</item>
+			<item>
+				<name>Quality</name>
+				<format>word</format>
+				<default>0</default>
+				<reserved>true</reserved>
+			</item>
+		</section>
+
+		<!-- Image Data -->
+		<item>
+			<name>Image Data</name>
+			<format>jpegorjpeg2000</format>
+		</item>
+
+	</section>
+
+</standard>

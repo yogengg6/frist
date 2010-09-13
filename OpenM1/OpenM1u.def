@@ -1,0 +1,11 @@
+; OpenM1u.def
+
+LIBRARY      "OpenM1u"
+
+EXPORTS
+	M1ReadStandard
+	M1FreeStandard
+	M1GetHeadContainer
+	M1GetContainerInfo
+	M1EnumContainerReset
+	M1EnumContainerGetNext
