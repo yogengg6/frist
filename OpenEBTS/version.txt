@@ -3,6 +3,16 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.11, March 21st 2013
+---------------------------------
+
+* Special chars tag (sca) can now take double-quotes as possible values, as long
+as they're preceded by backslashes
+* Standardization of zero-padded numeric field labels (see CNISTField::GetFieldLabel)
+* Fixed multi-MNU ruleset verification bug: when several rules with the same MNU were
+defined they were all being applied regardless of which TOT they were associated with.
+
+
 Version 2.0.0.10, August 14th 2012
 ----------------------------------
 

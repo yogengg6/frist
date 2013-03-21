@@ -1741,7 +1741,7 @@ void CNISTRecord::AdjustRecordLength()
 	char szFieldLabel[20];
 	char szLen[30];
 
-	sprintf(szFieldLabel, FMT_FIELD_LABEL, m_nRecordType, 1);
+	CNISTField::GetFieldLabel(szFieldLabel, sizeof(szFieldLabel), m_nRecordType, 1);
 
 	nLen += (int)strlen(szFieldLabel);
 	nLen++; // for record seperator

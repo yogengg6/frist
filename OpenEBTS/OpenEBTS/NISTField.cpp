@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Includes.h"
 #include "NISTField.h"
 #include "NISTRecord.h"
@@ -430,6 +431,41 @@ int CNISTField::GetNumItems(int Subfield, int *pCount)
 	return nRet;
 }
 
+void CNISTField::GetFieldLabel(char* szLabel, int nMaxChars, int nRecordType, int nFieldIndex)
+// Note: Field labels ALWAYS get written in ASCII, so we use regular char functions.
+// For Type-1 records, use 2 digits by default, unless we happen to need more.
+// For all other record types, use 3 digits by default, unless we happen to need more.
+// Note that the orinal ANSI/NIST-ITL 1-2007 standard let's us use as many digits as we want,
+// but some agencies prefer the specific method used here.
+{
+	int numDigitsNeeded;
+	int numDigitsToUse;
+	char szFormat[16];
+
+	if (nFieldIndex < 1)
+	{
+		// Probably won't happen
+		strcpy_s(szLabel, nMaxChars, "");
+		return;
+	}
+
+	numDigitsNeeded = (int)log10((double)nFieldIndex) + 1;
+
+	if (nRecordType == 1)
+	{
+		numDigitsToUse = max(2, numDigitsNeeded);
+	}
+	else
+	{
+		numDigitsToUse = max(3, numDigitsNeeded);
+	}
+
+	// Generate "%d.%0[N]d:" where [N] is numDigitsToUse
+	sprintf_s(szFormat, 16, "%%d.%%0%dd:", numDigitsToUse);
+	// Now apply "%d.%0[N]d:" to m_nRecordType and nFieldIndex
+	sprintf_s(szLabel, nMaxChars, szFormat, nRecordType, nFieldIndex);
+}
+
 int CNISTField::GetWriteLen()
 {
 	size_t nLen = 0;
@@ -438,8 +474,7 @@ int CNISTField::GetWriteLen()
 	char szFieldLabel[20];
 	size_t nLabelLen = 0;
 
-	// Note: these ALWAYS get written in ASCII, so we use good'ole char functions
-	sprintf(szFieldLabel, FMT_FIELD_LABEL, m_nRecordType, m_nField);
+	GetFieldLabel(szFieldLabel, sizeof(szFieldLabel), m_nRecordType, m_nField);
 	nLabelLen = strlen(szFieldLabel);
 
 	if (nCount)
@@ -554,7 +589,11 @@ int CNISTField::Write(BYTE *pBuffer, int *poffset, bool bRecordSeparator)
 	{
 		int len = _tcstol(m_SubFieldAry.at(0)->m_sData, NULL, 10);
 
-		sprintf(szFieldLabel, FMT_FIELD_LABEL_LEN, m_nRecordType, m_nField, len);
+		GetFieldLabel(szFieldLabel, sizeof(szFieldLabel), m_nRecordType, m_nField);
+		// Append lenght]
+		char szLength[16];
+		sprintf_s(szLength, sizeof(szLength), "%d", len);
+		strcat_s(szFieldLabel, sizeof(szFieldLabel), szLength);
 
 		memcpy(pBuffer + *poffset, szFieldLabel, strlen(szFieldLabel));	// Field tag is ALWAYS in regular ASCII
 		*poffset = *poffset + (int)strlen(szFieldLabel);
@@ -565,7 +604,7 @@ int CNISTField::Write(BYTE *pBuffer, int *poffset, bool bRecordSeparator)
 		nCount = m_SubFieldAry.size();
 
 		// Add the field descriptor
-		sprintf(szFieldLabel, FMT_FIELD_LABEL, m_nRecordType, m_nField);
+		GetFieldLabel(szFieldLabel, sizeof(szFieldLabel), m_nRecordType, m_nField);
 
 		memcpy(pBuffer + *poffset, szFieldLabel, strlen(szFieldLabel));	// Field tag is ALWAYS in regular ASCII
 		*poffset = *poffset + (int)strlen(szFieldLabel);

@@ -1160,8 +1160,7 @@ bool CRuleObj::IsMandatory(CStdString& sTOT)
 {
 	bool bRet = false;
 	UINT nMandatory;
-	CStdString sTemp;
-	CStdString sMNU;
+	CStdString sTransTOT;
 	map<CStdString, UINT>::iterator it;
 
 	if (m_transactionList.empty()) // No specifics, mandatory or optional for all TOTs
@@ -1172,12 +1171,13 @@ bool CRuleObj::IsMandatory(CStdString& sTOT)
 	{
 		for (it = m_transactionList.begin(); it != m_transactionList.end(); it++)
 		{
-			sMNU = (*it).first;
+			sTransTOT = (*it).first;
 			nMandatory = (*it).second;
 
-			if (!sTOT.CompareNoCase(sMNU))
+			if (!sTOT.CompareNoCase(sTransTOT))
 			{
 				bRet = (nMandatory == TRANS_MANDATORY);
+				break;
 			}
 		}
 	}
@@ -1189,8 +1189,7 @@ bool CRuleObj::IsOptional(CStdString& sTOT)
 {
 	bool bRet = false;
 	UINT nMandatory;
-	CStdString sTemp;
-	CStdString sMNU;
+	CStdString sTransTOT;
 	map<CStdString, UINT>::iterator it;
 
 	// Kludge: In ebts1_2.txt, 10.999 is not marked for DPRS as it should be, but this
@@ -1206,12 +1205,40 @@ bool CRuleObj::IsOptional(CStdString& sTOT)
 	{
 		for (it = m_transactionList.begin(); it != m_transactionList.end(); it++)
 		{
-			sMNU = (*it).first;
+			sTransTOT = (*it).first;
 			nMandatory = (*it).second;
 
-			if (!sTOT.CompareNoCase(sMNU))
+			if (!sTOT.CompareNoCase(sTransTOT))
 			{
 				bRet = (nMandatory == TRANS_OPTIONAL);
+				break;
+			}
+		}
+	}
+
+	return bRet;
+}
+
+bool CRuleObj::IsMandatoryOrOptional(CStdString& sTOT)
+{
+	bool bRet = false;
+	CStdString sTransTOT;
+	map<CStdString, UINT>::iterator it;
+
+	if (m_transactionList.empty()) // No specifics, mandatory or optional for all TOTs
+	{
+		bRet = true;
+	}
+	else
+	{
+		for (it = m_transactionList.begin(); it != m_transactionList.end(); it++)
+		{
+			sTransTOT = (*it).first;
+
+			if (!sTOT.CompareNoCase(sTransTOT))
+			{
+				bRet = true;
+				break;
 			}
 		}
 	}

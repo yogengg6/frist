@@ -3,9 +3,6 @@
 
 #include "Common.h"
 
-#define FMT_FIELD_LABEL		"%d.%03d:"
-#define FMT_FIELD_LABEL_LEN "%d.%03d:%d"
-
 
 typedef enum { fmtUNK, fmtRAW, fmtBMP, fmtJPG, fmtWSQ, fmtJP2, fmtFX4, fmtPNG, fmtCBEFF } OpenEBTSImageFormat;
 
@@ -90,6 +87,8 @@ public:
 	static OpenEBTSImageFormat ImageFormatFromImageExt(CStdString sFormat);
 
 	OpenEBTSImageFormat GetImageFormatFromHeader(int nRecordType, const BYTE* pImage);
+
+	static void GetFieldLabel(char* szLabel, int nMaxChars, int nRecordType, int nFieldIndex);
 };
 
 extern char *g_szImageFormats[];

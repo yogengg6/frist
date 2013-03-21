@@ -639,26 +639,54 @@ CStdString CIWVerification::ExtractAdvancedTagValue(TCHAR **ppRule, const TCHAR 
 
 CStdString CIWVerification::ExtractTagValue(TCHAR **ppRule, const TCHAR *szTag)
 // Look for tag '[tagname]="[tagvalue]"'
+// [tagvalue] can contain double-quotes if they are preceded by a backslash
 {
 	CStdString sFullTag;
 	CStdString sString;
 	CStdString sRet;
 	long	   lPosStart;
 	long	   lPosEnd;
+	long	   lPosCurr;
+	bool	   bEnd;
 
 	sRet = "";
 
 	sString = *ppRule;												// Copy string into a CStdString
 
 	sFullTag = szTag;
-	sFullTag += _T("=\"");												// e.g. desc --> desc="
+	sFullTag += _T("=\"");											// e.g. desc --> desc="
 	lPosStart = sString.Find(sFullTag);								// Find beginning of tag
 
 	// Note that it's possible that there is no such tag, which is fine, we just return ""
 	if (lPosStart != -1)
 	{
 		lPosStart += sFullTag.GetLength();							// Jump to actual tag value
-		lPosEnd = sString.Find(_T("\""), lPosStart);				// Find closing double-quote
+
+		// Find double-quote that isn't preceded by a backslash
+		bEnd = false;
+		lPosCurr = lPosStart;
+		while (!bEnd)
+		{
+			lPosEnd = sString.Find(_T("\""), lPosCurr);				// Find closing double-quote
+			if (lPosEnd == -1)
+			{
+				bEnd = true;
+			}
+			else
+			{
+				if (lPosEnd == lPosCurr || sString.at(lPosEnd-1) != '\\')
+				{
+					bEnd = true;
+				}
+				else
+				{
+					// Found a double-quote preceded by a backslash, remove it
+					// and continue search for real closing double-quote
+					sString.erase(lPosEnd-1, 1);
+					lPosCurr = lPosEnd;
+				}
+			}
+		}
 		if (lPosEnd != -1)
 		{
 			sRet = sString.Mid(lPosStart, lPosEnd - lPosStart);		// Extract tag value
@@ -1330,6 +1358,12 @@ int CIWVerification::VerifyTransaction(CIWTransaction *pTrans)
 			for (i=0; i < (int)m_rulesAry.size(); i++)
 			{
 				pRule = &m_rulesAry.at(i);
+
+				// Only apply rule if it belongs to this transaction type
+				if (!pRule->IsMandatoryOrOptional(sTOT))
+				{
+					continue;
+				}
 
 #ifdef _DEBUG
 				if (IsLoggingVerbose())

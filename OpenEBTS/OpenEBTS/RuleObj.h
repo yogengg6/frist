@@ -113,6 +113,7 @@ public:
 
 	bool IsMandatory(CStdString& sTOT);
 	bool IsOptional(CStdString& sTOT);
+	bool IsMandatoryOrOptional(CStdString& sTOT);
 	bool AppliesTo(int iRecType, int iRecord, int iField, int iSubfield, int iItem);
 };
 
