@@ -190,9 +190,17 @@ public class OpenEBTS
 			newTransaction(sTOT);
 		}
 
+                private void free()
+                {
+                        if (_nTransaction != 0) IWClose(_nTransaction, _ret);
+                        _nTransaction = 0;
+                        if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
+                        _nVerification = 0;
+                }
+
 		protected void finalize ()
 		{
-			if (_nTransaction != 0) IWClose(_nTransaction, _ret);
+			free();
 		}
 
 		// Basic I/O
@@ -204,7 +212,7 @@ public class OpenEBTS
 
 		public int newTransaction(String sTOT)
 		{
-			if (_nTransaction != 0) IWClose(_nTransaction, _ret);
+			free();
 			_nTransaction = IWNew(sTOT, _ret);
 			_sTOT = sTOT;
 			return _ret.nRet;
@@ -212,6 +220,7 @@ public class OpenEBTS
 
 		public int readFromFile(String sPath)
 		{
+                        free();
 			_nTransaction =  IWReadFromFile(sPath, _nVerification, _ret);
 			return _ret.nRet;
 		}
@@ -229,6 +238,7 @@ public class OpenEBTS
 
 		public int readFromMem(byte[] transaction)
 		{
+                        free();
 			_nTransaction =  IWReadFromMem(transaction, _nVerification, _ret);
 			return _ret.nRet;
 			
@@ -554,13 +564,20 @@ public class OpenEBTS
 		private NISTTransactionCategories _cats = null; 
 		private NISTReturn _ret = new NISTReturn();
 
-		protected void finalize ()
+                private void free()
+                {
+                       if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
+                       _nVerification = 0;
+                }
+
+                protected void finalize ()
 		{
-			if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
+			free();
 		}
 
 		public int loadFromFile(String sPath)
 		{
+                        free();
 			_nVerification = IWReadVerification(sPath, _sbParseError, _ret);
 			_cats = new NISTTransactionCategories(_nVerification);
 			return _ret.nRet;
