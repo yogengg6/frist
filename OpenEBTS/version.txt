@@ -3,6 +3,15 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.12, July 3rd 2013
+-------------------------------
+
+* Photographs now default to Scale Units of 0 to provide pixel aspect of 1:1 instead of providing
+image resolution, which rarely is meaningful
+* Consolidated image compression factors to always go from 1 (smallest file) to 100 (greatest quality).
+This now holds true even for WSQ and JPEG 2000.
+
+
 Version 2.0.0.11, March 21st 2013
 ---------------------------------
 
@@ -30,7 +39,7 @@ Version 2.0.0.9, June 25th 2012
 Version 2.0.0.8, May 4th 2012
 -----------------------------
 
-* Minor bugfix: RemoveSubField() for-loop now more efficent
+* Minor bugfix: RemoveSubField() for-loop now more efficient
 
 
 Version 2.0.0.7, September 29th 2011

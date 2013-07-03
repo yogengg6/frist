@@ -73,7 +73,8 @@ public:
 	int Write(BYTE *pBuffer, int *pnCurrentSize);
 
 
-	static float CompressionToRate(float fCompression);
+	static float CompressionToWSQRate(float fCompression);
+	static float CompressionToJP2Rate(float fCompression);
 	static bool FormatSupportedInput(CStdString sFormat);
 	static bool FormatSupportedEBTS(CStdString sFormat);
 	static int GetDATField(int nRecordType);

@@ -1110,7 +1110,7 @@ int CIWTransaction::BMPtoXYZ(BYTE *pIn, int cbIn, BYTE **ppOut, int *pcbOut, CSt
 	}
 	else if (sOutputFormat == _T("jpg"))
 	{
-		nRet = BMPtoJPG(pIn, cbIn, 15, ppOut, pcbOut);
+		nRet = BMPtoJPG(pIn, cbIn, 85, ppOut, pcbOut);
 	}
 	else if (sOutputFormat == _T("jp2"))
 	{

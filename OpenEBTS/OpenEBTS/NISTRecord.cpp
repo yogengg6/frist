@@ -1036,23 +1036,38 @@ bool CNISTRecord::FormatSupportedEBTS(CStdString sFormat)
 		return false;
 }
 
-float CNISTRecord::CompressionToRate(float fCompression)
+float CNISTRecord::CompressionToWSQRate(float fCompression)
 // Do something similar to EB to convert the 1..100 Compression factor
-// to a WSQ compression "rate" parameter. We want 15 to be approximately
-// 1:15, which maps to FBI's default rate of 0.75, so we use 11.25/Q, but
+// to a WSQ compression "rate" parameter. We want 85 to be approximately
+// 1:15, which maps to FBI's default rate of 0.75, so we use 11.25/(100-Q), but
 // we we make sure the rate never exceed 4 because this gives unpredictable
 // result (and crashes).
-// In the end, this implies that Compression values of 1, 2 and 3 are equivalent.
+// (In the end, this implies that Compression values of 100, 99, 98 are equivalent)
 {
 	int	  QFactor;
 	float fRate;
 
-	QFactor = (int)fCompression;
+	QFactor = 100 - (int)fCompression;
 	QFactor = __min(__max(QFactor, 1), 100);
 	fRate =  11.25f/QFactor;
 	fRate = __min(fRate, 4.0f);
 
 	return fRate;
+}
+
+float CNISTRecord::CompressionToJP2Rate(float fCompression)
+// The openEBTS range is 1..100 smallest file to best quality.
+// The JP2 compression rate is 1 to 100 rate of compression, e.g., 15 means 1:15.
+// So we map 1 to 100, 85 to 16 (the default) and 100 to 1, so 101 - fCompression.
+{
+	int iCompression;
+	float JP2Factor;
+
+	iCompression = (int)fCompression;
+	iCompression = __min(__max(iCompression, 1), 100);
+	JP2Factor = 101.0f - iCompression;
+
+	return JP2Factor;
 }
 
 int CNISTRecord::SetImage(CStdString sInputFormat, int nRecordIndex, int nLength, BYTE *pData,
@@ -1129,11 +1144,11 @@ int CNISTRecord::SetImage(CStdString sInputFormat, int nRecordIndex, int nLength
 			}
 			else if (fmtOut == fmtJP2)
 			{	
-				if (BMPtoJP2(pData, nLength, fCompression, &pDataOut, &nLengthOut)) goto done;
+				if (BMPtoJP2(pData, nLength, CompressionToJP2Rate(fCompression), &pDataOut, &nLengthOut)) goto done;
 			}
 			else if (fmtOut == fmtWSQ)
 			{
-				if (BMPtoWSQ(pData, nLength, CompressionToRate(fCompression), &pDataOut, &nLengthOut)) goto done;
+				if (BMPtoWSQ(pData, nLength, CompressionToWSQRate(fCompression), &pDataOut, &nLengthOut)) goto done;
 			}
 			else if (fmtOut == fmtFX4)
 			{
@@ -1186,7 +1201,7 @@ int CNISTRecord::SetImage(CStdString sInputFormat, int nRecordIndex, int nLength
 			}
 			else if (fmtOut == fmtJP2)
 			{	
-				if (BMPtoJP2(pDataTmp, nLengthTmp, fCompression, &pDataOut, &nLengthOut)) goto done;
+				if (BMPtoJP2(pDataTmp, nLengthTmp, CompressionToJP2Rate(fCompression), &pDataOut, &nLengthOut)) goto done;
 			}
 			else if (fmtOut == fmtFX4)
 			{
@@ -1198,7 +1213,7 @@ int CNISTRecord::SetImage(CStdString sInputFormat, int nRecordIndex, int nLength
 			}
 			else if (fmtOut == fmtWSQ)
 			{
-				if (BMPtoWSQ(pDataTmp, nLengthTmp, CompressionToRate(fCompression), &pDataOut, &nLengthOut)) goto done;
+				if (BMPtoWSQ(pDataTmp, nLengthTmp, CompressionToWSQRate(fCompression), &pDataOut, &nLengthOut)) goto done;
 			}
 			else // (shouldn't happen)
 			{
@@ -1566,14 +1581,12 @@ void CNISTRecord::SetMandatoryImageFields(CNISTField *pNISTField, OpenEBTSImageI
 		sData.Format(_T("%ld"), info.height);
 		SetItem(sData, TYPE10_VLL, 1, 1);
 
-		sData.Format(_T("%ld"), info.scaleUnits);
-		SetItem(sData, TYPE10_SLC, 1, 1);
-
-		sData.Format(_T("%ld"), info.HPS);
-		SetItem(sData, TYPE10_HPS, 1, 1);
-
-		sData.Format(_T("%ld"), info.VPS);
-		SetItem(sData, TYPE10_VPS, 1, 1);
+		// For photographs the most useful default is to use scale units of 0
+		// which means the pixel aspect is provided, and obviously we default to
+		// square pixels, hence 1:1
+		SetItem(_T("0"), TYPE10_SLC, 1, 1);
+		SetItem(_T("1"), TYPE10_HPS, 1, 1);
+		SetItem(_T("1"), TYPE10_VPS, 1, 1);
 
 		SetItem(CStdString(info.szCompression), TYPE10_CGA, 1, 1);
 		SetItem(CStdString(info.szColorSpace), TYPE10_CSP, 1, 1);
