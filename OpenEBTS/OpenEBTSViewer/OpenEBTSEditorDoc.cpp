@@ -1069,8 +1069,32 @@ HGLOBAL COpenEBTSEditorDoc::GetThumbnail(int nType, int nPos)
 				IWFindItem(m_pIWTrans, nType, nPos, 7, 1, 1, &Data);
 				nHeight = _ttol(Data);
 
-				IWFindItem(m_pIWTrans, nType, nPos, 12, 1, 1, &Data);
-				nDepth = _ttol(Data);
+				if (nType != 8)
+				{
+					IWFindItem(m_pIWTrans, nType, nPos, 12, 1, 1, &Data);
+					nDepth = _ttol(Data);
+				}
+				else
+				{
+					// Signatures are always 1bpp, at least they're supposed to be.
+					// We make a smart guess as to the actual bit depth by gaging from the image size.
+					long cRowBytes = imageLen / nHeight;
+					if (cRowBytes == nWidth)
+					{
+						// 1 byte per pixel, aka 8 bits per pixel
+						nDepth = 8;
+					}
+					else if (cRowBytes == nWidth * 3)
+					{
+						// 3 bytes per pixel, aka 24 bits per pixel
+						nDepth = 24;
+					}
+					else
+					{
+						// all else just assume 1 bit per pixel
+						nDepth = 1;
+					}
+				}
 
 				if (RAWtoBMP(nWidth, nHeight, 500, nDepth, (BYTE*)pImageData, (BYTE**)&pBMP, &nLength) == 0)
 				{
