@@ -179,7 +179,13 @@ int CNISTRecord::ReadRecord(BYTE* pTransactionData, int nRecordType)
 						}
 						else
 							pFieldData = (BYTE*)IWStrTok(NULL, CHAR_GS, &bEndofRecord); // get the field	data	
-						
+
+						// This shouldn't happen, but can if the file is corrupted
+						if (!pFieldData)
+						{
+							return IW_ERR_READING_FILE;
+						}
+
 						pField = new CNISTField;
 						pField->m_nRecordType = nRecordType;
 						pField->m_nField = nField;
@@ -1760,9 +1766,22 @@ void CNISTRecord::AdjustRecordLength()
 	nLen++; // for record seperator
 
 	sprintf(szLen, "%d", nLen); // get the length of the len field
-	nLen += (int)strlen(szLen);
+
+	int nLenDigits = (int)strlen(szLen);
+	nLen += nLenDigits;
+
 	// Put real total length in the string
-	sprintf(szLen, "%d", nLen); // get the length of the len field
+	sprintf(szLen, "%d", nLen);
+
+	// CAUTION! if the length happened to be 98 or 99 WITHOUT the length digits, with it it will be
+	// 100 or 101 and hence require one extra byte!
+	// Same holds for 998 and 999, etc..
+	int nLenDigitsNew = (int)strlen(szLen);
+	if (nLenDigits != nLenDigitsNew)
+	{
+		nLen++;
+		sprintf(szLen, "%d", nLen);
+	}
 
 	pField = GetNISTField(REC_TAG_LEN);
 

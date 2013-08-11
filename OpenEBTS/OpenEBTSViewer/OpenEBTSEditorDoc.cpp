@@ -141,6 +141,12 @@ int COpenEBTSEditorDoc::ReadNIST(void)
 		ReadType17Records();
 		ReadType99Records();
 	}
+	else
+	{
+		CString st;
+		st.Format(_T("Error reading EBTS file, code %d"), nRet);
+		AfxMessageBox(st);
+	}
 
 	IWClose(&m_pIWTrans);
 

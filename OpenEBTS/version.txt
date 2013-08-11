@@ -3,6 +3,15 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.13, August 11th 2013
+----------------------------------
+
+* Fixed very rare problem with 98/99/998/999/9998/9999 etc. byte record lengths where stored
+TX_LEN field caused record length to jump by an extra byte
+* Extra check for corrupt files during reading (IWRead/IWReadMem)
+* OpenEBTSViewer reports error when reading corrupt file
+
+
 Version 2.0.0.12, July 3rd 2013
 -------------------------------
 
