@@ -190,13 +190,13 @@ public class OpenEBTS
 			newTransaction(sTOT);
 		}
 
-                private void free()
-                {
-                        if (_nTransaction != 0) IWClose(_nTransaction, _ret);
-                        _nTransaction = 0;
-                        if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
-                        _nVerification = 0;
-                }
+		public void free()
+		{
+			if (_nTransaction != 0) IWClose(_nTransaction, _ret);
+			_nTransaction = 0;
+			if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
+			_nVerification = 0;
+		}
 
 		protected void finalize ()
 		{
@@ -220,7 +220,7 @@ public class OpenEBTS
 
 		public int readFromFile(String sPath)
 		{
-                        free();
+			free();
 			_nTransaction =  IWReadFromFile(sPath, _nVerification, _ret);
 			return _ret.nRet;
 		}
@@ -238,7 +238,7 @@ public class OpenEBTS
 
 		public int readFromMem(byte[] transaction)
 		{
-                        free();
+			free();
 			_nTransaction =  IWReadFromMem(transaction, _nVerification, _ret);
 			return _ret.nRet;
 			
@@ -340,6 +340,7 @@ public class OpenEBTS
 		{
 			// IWReadVerification uses a StringBuffer to return possible parsing errors,
 			// and we use this same logic with associateVerificationFile
+			if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
 			_nVerification = IWReadVerification(sPath, sbParseErrorOut, _ret);
 			if (_ret.nRet == 0)
 			{
@@ -350,11 +351,10 @@ public class OpenEBTS
 
 		public int associateVerificationFile(NISTVerification ver)
 		{
+			if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
 			IWSetVerification(_nTransaction, ver._nVerification, _ret);
-			if (_ret.nRet == 0)
-			{
-				_nVerification = ver._nVerification;
-			}
+			// NISTVerification will be responsible for freeing itself
+			_nVerification = 0;
 			return _ret.nRet;
 		}
 
@@ -564,20 +564,20 @@ public class OpenEBTS
 		private NISTTransactionCategories _cats = null; 
 		private NISTReturn _ret = new NISTReturn();
 
-                private void free()
-                {
-                       if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
-                       _nVerification = 0;
-                }
+		public void free()
+		{
+			if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
+			_nVerification = 0;
+		}
 
-                protected void finalize ()
+		protected void finalize ()
 		{
 			free();
 		}
 
 		public int loadFromFile(String sPath)
 		{
-                        free();
+			free();
 			_nVerification = IWReadVerification(sPath, _sbParseError, _ret);
 			_cats = new NISTTransactionCategories(_nVerification);
 			return _ret.nRet;
