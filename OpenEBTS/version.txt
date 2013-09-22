@@ -3,6 +3,13 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.14, September 22nd 2013
+-------------------------------------
+
+* Fixed IDC management bug whereby reading-in an existing transaction and appending new records
+would create garbage IDC indices.
+
+
 Version 2.0.0.13, August 11th 2013
 ----------------------------------
 

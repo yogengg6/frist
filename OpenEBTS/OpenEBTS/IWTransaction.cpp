@@ -213,7 +213,10 @@ int CIWTransaction::GetRecords()
 
 		// Use the contents field of the type 1 record to process 
 		// the rest of the file.
-		
+
+		// Make sure that by the end of the read, m_nIDCSequence is higher than the highest IDC found
+		m_nIDCSequence = 0;
+
 		if (GetNumSubfields(RECORD_TYPE1, 1, TYPE1_CNT, &nRecords) == IW_SUCCESS)
 		{
 			int nRecordType, nRecordIndex;
@@ -238,6 +241,12 @@ int CIWTransaction::GetRecords()
 					{
 						m_nIDCDigits = sData.GetLength();
 						nRecordIndex = (int)_tcstol(sData, NULL, 10);
+
+						// Ensure m_nIDCSequence gets the highest (non Type-1) IDC
+						if (nRecordType != 1 && nRecordIndex > m_nIDCSequence)
+						{
+							m_nIDCSequence = nRecordIndex;
+						}
 
 						switch (nRecordType)
 						{
@@ -326,6 +335,9 @@ int CIWTransaction::GetRecords()
 					}
 				}
 			}
+
+			// Next available slot, new records will start here
+			m_nIDCSequence++;
 		}								
 	}
 	else
