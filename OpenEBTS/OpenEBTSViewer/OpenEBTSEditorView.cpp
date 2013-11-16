@@ -415,6 +415,17 @@ void COpenEBTSEditorView::OnLButtonDblClk(UINT nFlags, CPoint point)
 	g.DrawImage(&bitmap, 10, 10);
 #endif 
 
+	if (m_pRecord && m_pRecord->m_hAudio)
+	{
+		BYTE* pAudio = (BYTE*)GlobalLock(m_pRecord->m_hAudio);
+		if (pAudio)
+		{
+			CWaitCursor wc;
+			PlaySound((LPCWSTR)pAudio, AfxGetInstanceHandle(), SND_MEMORY);
+			GlobalUnlock(m_pRecord->m_hAudio);
+		}
+	}
+
 	CScrollView::OnLButtonDblClk(nFlags, point);
 }
 

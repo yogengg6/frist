@@ -17,8 +17,8 @@
 #define IDI_FOLDER_OPEN                 161
 #define IDI_FOLDER_CLOSED               162
 #define IDB_TB2_ENABLED                 165
-#define IDB_BITMAP2                     166
 #define IDB_TB2_DISABLED                166
+#define IDR_BMPVOICE                    176
 #define IDC_LIST1                       1000
 #define IDC_PROGRESS                    1010
 #define IDC_PROMPT                      1011
@@ -34,7 +34,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        167
+#define _APS_NEXT_RESOURCE_VALUE        177
 #define _APS_NEXT_COMMAND_VALUE         32781
 #define _APS_NEXT_CONTROL_VALUE         1012
 #define _APS_NEXT_SYMED_VALUE           101

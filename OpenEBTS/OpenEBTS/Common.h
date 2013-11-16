@@ -12,9 +12,9 @@
 #define RECORD_TYPE8  (int)8	// Signature image data
 #define RECORD_TYPE9  (int)9	// Minutiae data
 #define RECORD_TYPE10 (int)10	// Facial and SMT image data
-#define RECORD_TYPE11 (int)11	// future use
+#define RECORD_TYPE11 (int)11	// Voice sample data
 #define RECORD_TYPE12 (int)12	// future use
-#define RECORD_TYPE13 (int)13	// latent image data
+#define RECORD_TYPE13 (int)13	// Latent image data
 #define RECORD_TYPE14 (int)14	// Tenprint fingerprint
 #define RECORD_TYPE15 (int)15	// Palmprint image data
 #define RECORD_TYPE16 (int)16	// Testing image data (user defined)
@@ -104,6 +104,11 @@
 #define TYPE10_CGA	11
 #define TYPE10_CSP	12
 #define TYPE10_DAT	999
+
+/***************
+* TYPE 11 Fields
+***************/
+#define TYPE11_DAT	999
 
 /***************
 * TYPE 13 Fields

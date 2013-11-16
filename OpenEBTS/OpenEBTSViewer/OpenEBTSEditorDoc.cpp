@@ -133,12 +133,12 @@ int COpenEBTSEditorDoc::ReadNIST(void)
 		ReadType8Records();
 		ReadType9Records();
 		ReadType10Records();
-
-		// 11, 12 reserved for future use
+		ReadType11Records();
 
 		ReadType15Records();
 		ReadType16Records();
 		ReadType17Records();
+
 		ReadType99Records();
 	}
 	else
@@ -771,6 +771,97 @@ int COpenEBTSEditorDoc::ReadType10Records()
 	return ERROR_SUCCESS;
 }
 
+int COpenEBTSEditorDoc::ReadType11Records()
+{
+	if (!m_pIWTrans) return -1;
+
+	int nRecordType = 11;
+	int nRecordTypeCount = 0;
+
+	// establish the number of records to read
+	IWGetRecordTypeCount(m_pIWTrans, nRecordType, &nRecordTypeCount);
+
+	// anything to do?
+	if(!nRecordTypeCount) return ERROR_SUCCESS;
+	
+	int FieldNum = 0;
+	int NumSubfields, Subfield;
+	int NumItems, Item;
+
+	CString sSubField;
+	CString sItemData, sData, sLBText;
+	const TCHAR *Data;
+
+	for (int i = 1; i <= nRecordTypeCount; i++)
+	{
+		COpenEBTSRecord* pRec = new COpenEBTSRecord;
+		pRec->m_nRecordType = nRecordType;
+
+		sLBText.Empty();
+
+		IWGetNextField(m_pIWTrans, nRecordType, i, FieldNum, &FieldNum);
+
+		while (FieldNum)
+		{
+			// skip image data (field 999)
+			if(FieldNum == 999)
+			{
+				IWGetNextField(m_pIWTrans, nRecordType, i, FieldNum, &FieldNum);
+				continue;
+			}
+
+			IWNumSubfields(m_pIWTrans, nRecordType, i, FieldNum, &NumSubfields);
+
+			for (Subfield = 1; Subfield <= NumSubfields; Subfield++)
+			{
+				sSubField.Format(NumSubfields > 1 ? _T("Subfield %d") : _T(""), Subfield);
+
+				IWNumItems(m_pIWTrans, nRecordType, i, FieldNum, Subfield, &NumItems);
+
+				sData = "";
+				for (Item = 1; Item <= NumItems; Item++)
+				{
+					IWFindItem(m_pIWTrans, nRecordType, i, FieldNum, Subfield, Item, &Data);
+
+					if(FieldNum == 3)
+					{
+						pRec->m_nImageType = GetImageType(Data);
+					}
+
+					if(NumItems == 1)
+					{
+						sItemData = Data;
+						sData += sItemData;
+					}
+					else
+					{
+						sItemData.Format(_T("Item %d = %s "), Item, Data);
+						sData += sItemData;
+					}
+				}
+
+				sLBText.Format(_T("%d\t%s%s%s\n"), FieldNum, sSubField, NumItems > 1 ? _T(": ") : _T(""), sData);
+				pRec->m_arrStrings.Add(sLBText);
+			}
+
+
+			IWGetNextField(m_pIWTrans, nRecordType, i, FieldNum, &FieldNum);
+		}
+
+		// remove trailing newline character as needed
+		if (sLBText.Right(1).Compare(_T("\n")) == 0)
+			sLBText.Delete(sLBText.GetLength()-1);
+
+		// get audio blob
+		pRec->m_hAudio = GetAudio(nRecordType, i);
+		pRec->m_hDIB = GetAudioIcon();
+
+		m_arrRecords.Add(pRec);
+	}
+
+	return ERROR_SUCCESS;
+}
+
 int COpenEBTSEditorDoc::ReadType15Records()
 {
 	if (!m_pIWTrans) return -1;
@@ -1148,14 +1239,84 @@ HGLOBAL COpenEBTSEditorDoc::GetThumbnail(int nType, int nPos)
 	return NULL;
 }
 
-HGLOBAL COpenEBTSEditorDoc::PackageAsHGLOBAL(BYTE* p, long n)
+HGLOBAL COpenEBTSEditorDoc::GetAudio(int nType, int nPos)
+{
+	if(!m_pIWTrans) return NULL;
+
+	HGLOBAL hRet = NULL;
+	const TCHAR *pStorageFormat;
+	BYTE *pImageData = NULL;
+	int imageLen;
+
+	if (IWGetImage(m_pIWTrans, nType, nPos, &pStorageFormat, &imageLen, (const void**)&pImageData) == 0) //IW_SUCCESS)
+	{
+		if (pImageData && imageLen)
+		{
+			if (pStorageFormat && !_tcscmp(pStorageFormat, _T("raw")))
+			{
+				// TODO: Get audio params
+				//const TCHAR* Data;
+				//long nWidth, nHeight, nDepth;
+
+				//IWFindItem(m_pIWTrans, nType, nPos, 6, 1, 1, &Data);
+				//nWidth = _ttol(Data);
+
+				//IWFindItem(m_pIWTrans, nType, nPos, 7, 1, 1, &Data);
+				//nHeight = _ttol(Data);
+
+				return PackageAsHGLOBAL(pImageData, imageLen, false);
+			}
+		}
+	}
+
+	return NULL;
+}
+
+HGLOBAL COpenEBTSEditorDoc::GetAudioIcon()
+{
+	HGLOBAL hRet = NULL;
+
+	HRSRC hResources;
+	HGLOBAL hResource;
+	BYTE* pResource;
+	long cb;
+	HINSTANCE hInstance;
+	BYTE* pDIB;
+
+	hInstance = AfxGetResourceHandle();
+	hResources = ::FindResource(hInstance, MAKEINTRESOURCE(IDR_BMPVOICE), _T("BMP"));
+	if (hResources == NULL)
+		goto Error;
+	hResource = ::LoadResource(hInstance, hResources);
+	if (hResource == NULL)
+		goto Error;
+	pResource = (BYTE*)::LockResource(hResource);
+	if (pResource == NULL)
+		goto Error;
+	cb = ::SizeofResource(hInstance, hResources);
+
+	hRet = GlobalAlloc(GPTR, cb);
+	if (hRet == NULL)
+		goto Error;
+	pDIB = (BYTE*)GlobalLock(hRet);
+	memcpy(pDIB, pResource, cb);
+	GlobalUnlock(hRet);
+
+Error:
+	return hRet;
+}
+
+HGLOBAL COpenEBTSEditorDoc::PackageAsHGLOBAL(BYTE* p, long n, bool bFreePointer/*=true*/)
 {
 	HGLOBAL hRet;
 	hRet = GlobalAlloc(GPTR, n);
 	BYTE *ptr = (BYTE*)GlobalLock(hRet);
 	memcpy(ptr, p, n);
 	GlobalUnlock(hRet);
-	MemFree((BYTE*)p);
+	if (bFreePointer)
+	{
+		MemFree((BYTE*)p);
+	}
 
 	return hRet;
 }

@@ -1017,29 +1017,36 @@ int CNISTRecord::GetImageResolution(double *pdPPMM)
 }
 
 bool CNISTRecord::FormatSupportedInput(CStdString sFormat)
-// Currently RAW is not supported for import, because we don't have an easy way to specify
-// image properties.
 {
 	OpenEBTSImageFormat fmt;
 
 	fmt = CNISTField::ImageFormatFromImageExt(sFormat);
-	if (fmt == fmtBMP || fmt == fmtJPG || fmt == fmtJP2 || fmt == fmtWSQ || fmt == fmtFX4 || fmt == fmtPNG || fmt == fmtCBEFF)
+	if (fmt == fmtRAW || fmt == fmtBMP || fmt == fmtJPG || fmt == fmtJP2 ||
+		fmt == fmtWSQ || fmt == fmtFX4 || fmt == fmtPNG || fmt == fmtCBEFF)
+	{
 		return true;
+	}
 	else
+	{
 		return false;
+	}
 }
 
 bool CNISTRecord::FormatSupportedEBTS(CStdString sFormat)
-// This differs from the input/output formats: the EBTS file internally can support RAW, 
-// but not BMP.
+// This differs from the input/output formats: the EBTS file internally can support BMP.
 {
 	OpenEBTSImageFormat fmt;
 
 	fmt = CNISTField::ImageFormatFromImageExt(sFormat);
-	if (fmt == fmtRAW || fmt == fmtJPG || fmt == fmtJP2 || fmt == fmtWSQ || fmt == fmtFX4 || fmt == fmtPNG || fmt == fmtCBEFF)
+	if (fmt == fmtRAW || fmt == fmtJPG || fmt == fmtJP2 || fmt == fmtWSQ ||
+		fmt == fmtFX4 || fmt == fmtPNG || fmt == fmtCBEFF)
+	{
 		return true;
+	}
 	else
+	{
 		return false;
+	}
 }
 
 float CNISTRecord::CompressionToWSQRate(float fCompression)
@@ -1241,10 +1248,10 @@ int CNISTRecord::SetImage(CStdString sInputFormat, int nRecordIndex, int nLength
 		memcpy(pDataOut, pData, nLength);
 	}
 
-	// If it's a "cbeff" there's nothing else to do
-	if (fmtIn == fmtCBEFF)
+	// If it's a "cbeff" or "raw" there's nothing else to do
+	if (fmtIn == fmtCBEFF || fmtIn == fmtRAW)
 	{
-		pField->m_ImageFormat = fmtCBEFF;
+		pField->m_ImageFormat = fmtIn;
 		pField->m_pImageData = pDataOut;
 		pField->m_nImageLen = nLengthOut;
 		pDataOut = NULL; // now belongs to m_pImageData
@@ -1684,6 +1691,7 @@ int CNISTRecord::GetDATField(int nRecordType)
 		case 7:  iRet = TYPE7_DAT;  break;
 		case 8:  iRet = TYPE8_DAT;  break;
 		case 10: iRet = TYPE10_DAT; break;
+		case 11: iRet = TYPE11_DAT; break;
 		case 13: iRet = TYPE13_DAT; break;
 		case 14: iRet = TYPE14_DAT; break;
 		case 15: iRet = TYPE15_DAT; break;

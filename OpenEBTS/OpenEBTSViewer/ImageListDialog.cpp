@@ -32,6 +32,7 @@ BEGIN_MESSAGE_MAP(CImageListDialog, CDialog)
 	ON_WM_SIZE()
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_LIST1, OnCustomdrawList)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CImageListDialog::OnLvnItemchangedList1)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CImageListDialog::OnNMDblclkList1)
 END_MESSAGE_MAP()
 
 
@@ -174,4 +175,24 @@ BOOL CImageListDialog::PreTranslateMessage(MSG* pMsg)
 	}
 
 	return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CImageListDialog::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+
+	COpenEBTSRecord* pRecord = (COpenEBTSRecord*)m_ctlList.GetItemData(pNMItemActivate->iItem);
+
+	if (pRecord && pRecord->m_hAudio)
+	{
+		BYTE* pAudio = (BYTE*)GlobalLock(pRecord->m_hAudio);
+		if (pAudio)
+		{
+			CWaitCursor wc;
+			PlaySound((LPCWSTR)pAudio, AfxGetInstanceHandle(), SND_MEMORY);
+			GlobalUnlock(pRecord->m_hAudio);
+		}
+	}
+
+	*pResult = 0;
 }

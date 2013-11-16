@@ -257,6 +257,37 @@ int CIWOutlookBar::AddRecord(int nType, COpenEBTSRecord* pRecord)
 			}
 			break;
 		}
+		case 11:
+		{
+			CImageListDialog* pDlg;
+			nFolder = GetFolderIndex(nType);
+			if(nFolder >= 0)
+			{
+				COL2Item* pItem = (COL2Item*)GetFolder(nFolder)->m_Items.GetAt(0);
+				COL2SubItem* pSubItem = (COL2SubItem*)pItem->m_SubItems.GetAt(0);
+				pDlg = (CImageListDialog*) CWnd::FromHandle(pSubItem->hHostedWnd);			
+			}
+			else
+			{
+				pDlg = new CImageListDialog(AfxGetMainWnd());
+				pDlg->Create(IDD_IMAGE_LIST, this);
+
+				CRect rc;
+				pDlg->m_ctlList.GetClientRect(&rc);
+				pDlg->m_imageList.Create(rc.Width()-60, rc.Width()-60, 0, 0, 0);
+				pDlg->m_ctlList.SetImageList(&pDlg->m_imageList, LVSIL_NORMAL);
+
+				nFolder = COutlook2Ctrl::AddFolder("Voice Samples", IDI_FOLDER_CLOSED, nType);
+				AddFolderItem("", 0, nFolder);
+				AddSubItem(pDlg->GetSafeHwnd(), true, nFolder);
+			}
+			
+			int nIndex = pDlg->m_ctlList.GetItemCount();
+			pDlg->m_ctlList.InsertItem(nIndex, _T(""));
+			pDlg->m_ctlList.SetItemData(nIndex, (DWORD_PTR) pRecord);
+
+			break;
+		}
 		case 16:
 		case 17:
 		{
@@ -355,6 +386,7 @@ void CIWOutlookBar::SetCurFolder(int nFolder, bool bAnimation)
 		case 7:
 		case 8:
 		case 10:
+		case 11:
 		case 13:
 		case 14:
 		case 15:

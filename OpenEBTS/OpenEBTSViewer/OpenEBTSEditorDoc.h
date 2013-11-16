@@ -47,11 +47,12 @@ public:
 class COpenEBTSRecord
 {
 public:
-	COpenEBTSRecord() { m_hDIB = m_hImage = NULL; m_nRecordType = m_nImageType = -1; }
+	COpenEBTSRecord() { m_hDIB = m_hImage = m_hAudio = NULL; m_nRecordType = m_nImageType = -1; }
 	~COpenEBTSRecord()
 	{
 		if(m_hDIB) GlobalFree(m_hDIB);
 		if(m_hImage) GlobalFree(m_hImage);
+		if(m_hAudio) GlobalFree(m_hAudio);
 		m_arrFields.Empty();
 	}
 
@@ -59,6 +60,7 @@ public:
 	int m_nImageType;
 	COpenEBTSFieldArray m_arrFields;
 	CStringArray m_arrStrings;
+	HGLOBAL m_hAudio;
 	HGLOBAL m_hDIB;
 	HGLOBAL m_hImage;
 };
@@ -125,6 +127,9 @@ public:
 	// reads facial/smt records
 	int ReadType10Records();
 
+	// reads audio records
+	int ReadType11Records();
+
 	// reads palmprint records
 	int ReadType15Records();
 
@@ -140,10 +145,13 @@ public:
 	int ReadType99Records();
 
 	HGLOBAL GetThumbnail(int nType, int nPos);
+	HGLOBAL GetAudio(int nType, int nPos);
+	HGLOBAL GetAudioIcon();
+
 	int GetImageType(const TCHAR* szType);
 	int GetEncoderClsid(const WCHAR* format, CLSID* pClsid);
 
-	HGLOBAL PackageAsHGLOBAL(BYTE* p, long n);
+	HGLOBAL PackageAsHGLOBAL(BYTE* p, long n, bool bFreePointer = true);
 
 public:
 	COpenEBTSRecord* GetRecord(int nIndex);

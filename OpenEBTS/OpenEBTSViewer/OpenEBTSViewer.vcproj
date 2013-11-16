@@ -73,7 +73,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenEBTSa.lib"
+				AdditionalDependencies="winmm.lib"
 				OutputFile="$(ProjectDir)\$(IntDir)\$(ProjectName)a.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../OpenEBTS/DebugA"
@@ -248,7 +248,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenEBTSa.lib"
+				AdditionalDependencies="winmm.lib"
 				OutputFile="$(ProjectDir)\$(IntDir)\$(ProjectName)a.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../OpenEBTS/ReleaseA"
@@ -423,7 +423,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenEBTS.lib"
+				AdditionalDependencies="winmm.lib"
 				OutputFile="$(ProjectDir)\$(IntDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../OpenEBTS/Debug"
@@ -574,6 +574,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="0"
 				AdditionalIncludeDirectories="../OpenEBTS"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				MinimalRebuild="false"
@@ -598,7 +599,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenEBTS.lib"
+				AdditionalDependencies="winmm.lib"
 				OutputFile="$(ProjectDir)\$(IntDir)\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../OpenEBTS/Release"
@@ -1064,9 +1065,17 @@
 				RelativePath=".\res\Toolbar_Enabled.bmp"
 				>
 			</File>
+			<File
+				RelativePath=".\res\voice.bmp"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\OpenEBTSViewer.reg"
+			>
+		</File>
+		<File
+			RelativePath=".\res\voice.bpm"
 			>
 		</File>
 	</Files>

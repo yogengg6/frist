@@ -336,9 +336,10 @@ OPENEBTS_API int WINAPI IWAddRecord(CIWTransaction* pIWTrans, int nRecordType, i
 	if (nRecordType == RECORD_TYPE2  || nRecordType == RECORD_TYPE4  ||
 		nRecordType == RECORD_TYPE7  || nRecordType == RECORD_TYPE8  ||
 		nRecordType == RECORD_TYPE9  || nRecordType == RECORD_TYPE10 ||
-		nRecordType == RECORD_TYPE13 || nRecordType == RECORD_TYPE14 ||
-		nRecordType == RECORD_TYPE15 || nRecordType == RECORD_TYPE16 ||
-		nRecordType == RECORD_TYPE17 || nRecordType == RECORD_TYPE99)
+		nRecordType == RECORD_TYPE11 || nRecordType == RECORD_TYPE13 ||
+		nRecordType == RECORD_TYPE14 || nRecordType == RECORD_TYPE15 ||
+		nRecordType == RECORD_TYPE16 || nRecordType == RECORD_TYPE17 ||
+		nRecordType == RECORD_TYPE99)
 	{
 		if (pIWTrans)
 		{
