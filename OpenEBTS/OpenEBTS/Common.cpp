@@ -61,7 +61,7 @@ void LogMessageInit()
 	}
 }
 
-// These macros can be used to avoid additional log-setting-dependant
+// These macros can be used to avoid additional log-setting-dependent
 // operations if we know logging is disabled.
 bool IsLogging()		{ return g_nLogLevel == 1; }
 bool IsLoggingVerbose()	{ return g_nLogLevel > 1; }
@@ -70,6 +70,9 @@ void LogMessageVerbose(CStdString& str)
 {
 	LogMessage(str, true);
 }
+
+// We protect the logfile from reentrancy with this mutex
+std::mutex g_logFileMutex;
 
 void LogMessage(CStdString& str, bool bVerbose/*=false*/)
 {
@@ -92,6 +95,7 @@ void LogMessage(CStdString& str, bool bVerbose/*=false*/)
 	{
 		csOutput += _T("\n");
 
+		auto_mutex_lock logFileLock(&g_logFileMutex);
 		logFile = _tfopenpath(csPath, _TPATH("a+t"));
 		if (logFile != NULL)
 		{

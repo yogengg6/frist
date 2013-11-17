@@ -6,9 +6,11 @@
 #include <wchar.h>
 #include <string.h>
 #include <limits.h>
+#include <sys/stat.h>
 #include <vector>
 #include <memory>
 #include <map>
+#include <mutex>
 using namespace std;
 #include "StdString.h"			// Smart CStdString type used throughout
 #include "StringSlots.h"		// Self-destructing string allocation to respect string-returning interface

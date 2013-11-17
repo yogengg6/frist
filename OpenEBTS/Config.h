@@ -117,7 +117,7 @@ typedef DWORD			DWORD_PTR;
 #define LOBYTE(w)           ((BYTE)(((DWORD_PTR)(w)) & 0xff))
 #define HIBYTE(w)           ((BYTE)((((DWORD_PTR)(w)) >> 8) & 0xff))
 
-// Make sure this struct gets packed on a 2-byte bounday, since it's 14 bytes long
+// Make sure this struct gets packed on a 2-byte boundary, since it's 14 bytes long
 #pragma pack(push, 2)
 typedef struct tagBITMAPFILEHEADER {
         WORD    bfType;

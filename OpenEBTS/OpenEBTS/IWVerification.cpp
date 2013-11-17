@@ -68,9 +68,10 @@ int CIWVerification::ReadVerificationFile(CStdStringPath sPath, CStdString& sPar
 	f = _tfopenpath(sPath, _TPATH("rb"));
 	if (f != NULL)
 	{
-		fseek(f, 0, SEEK_END);
-		long lSize = ftell(f);
-		fseek(f, 0, SEEK_SET);
+		// Get file size
+		struct stat fileStats;
+		fstat(fileno(f), &fileStats);
+		long lSize = fileStats.st_size;
 
 		pFile = new BYTE[lSize + 1];
 		fread(pFile, 1, lSize, f);

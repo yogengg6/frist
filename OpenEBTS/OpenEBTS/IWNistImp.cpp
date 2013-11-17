@@ -37,16 +37,16 @@ OPENEBTS_API int WINAPI IWRead(const TCHARPATH *szPath, CIWVerification *pIWVer,
 	{
 		if ((nErrCode = pTrans->ReadTransactionFile(CStdString(szPath))) == IW_SUCCESS)
 		{
-			nErrCode = pTrans->GetRecords();
+				nErrCode = pTrans->GetRecords();
 
-			if (nErrCode == IW_SUCCESS || nErrCode == IW_WARN_INVALID_FIELD_NUM)
-			{
-				*ppIWTrans = pTrans;
-				pTrans->SetVerification(pIWVer);
+				if (nErrCode == IW_SUCCESS || nErrCode == IW_WARN_INVALID_FIELD_NUM)
+				{
+					*ppIWTrans = pTrans;
+					pTrans->SetVerification(pIWVer);
+				}
+				else
+					delete pTrans;
 			}
-			else
-				delete pTrans;
-		}
 		else
 			nErrCode = IW_ERR_READING_FILE;
 	}
@@ -1298,6 +1298,9 @@ Exit:
 	return ret;
 }
 
+// The WSQ library isn't thread-safe, we prevent reentrancy with this mutex
+std::mutex g_WSQMutex;
+
 OPENEBTS_API int WINAPI BMPtoWSQ(BYTE* pImageIn, int cbIn, float fRate, BYTE** ppImageOut, int *pcbOut)
 // Input must be 8 bpp, otherwise IW_ERR_UNSUPPORTED_BIT_DEPTH is returned
 {
@@ -1330,6 +1333,8 @@ OPENEBTS_API int WINAPI BMPtoWSQ(BYTE* pImageIn, int cbIn, float fRate, BYTE** p
 	ret = BMPtoRAW(pImageIn, cbIn, &pRAW, &cbSizeRAW, &width, &height, &DPI);
 	if (ret != IW_SUCCESS) goto Exit;
 
+	// Protect WSQ library
+	auto_mutex_lock lockWSQ(&g_WSQMutex);
 	retWSQ = wsq_encode_mem(&pWSQ, &cbSizeWSQ, fRate, pRAW, width, height, 8, DPI, NULL);
 	if (retWSQ != 0) goto Exit;
 
@@ -1362,6 +1367,8 @@ OPENEBTS_API int WINAPI WSQtoBMP(BYTE* pImageIn, int cbIn, BYTE **ppImageOut, in
 	IWS_BEGIN_EXCEPTION_METHOD("WSQtoBMP")
 	IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 
+	// Protect WSQ library
+	auto_mutex_lock lockWSQ(&g_WSQMutex);
 	retWSQ = wsq_decode_mem(&pRAW, &width, &height, &bpp, &DPI, &lossy, pImageIn, cbIn);
 	if (retWSQ != 0) goto Exit;
 

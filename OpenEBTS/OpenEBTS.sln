@@ -1,22 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenEBTS", "OpenEBTS\OpenEBTS.vcproj", "{83964D48-FAC0-413F-9B29-D61DDA43DD66}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenEBTS", "OpenEBTS\OpenEBTS.vcxproj", "{83964D48-FAC0-413F-9B29-D61DDA43DD66}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenEBTSSample1", "OpenEBTSSamples\OpenEBTSSample1\OpenEBTSSample1.vcproj", "{8539754F-CFB1-4578-AF3F-29DD6AF8C85C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{83964D48-FAC0-413F-9B29-D61DDA43DD66} = {83964D48-FAC0-413F-9B29-D61DDA43DD66}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenEBTSSample1", "OpenEBTSSamples\OpenEBTSSample1\OpenEBTSSample1.vcxproj", "{8539754F-CFB1-4578-AF3F-29DD6AF8C85C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenEBTSSample2", "OpenEBTSSamples\OpenEBTSSample2\OpenEBTSSample2.vcproj", "{25CF4879-96A7-48C4-9562-EE235857259E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{83964D48-FAC0-413F-9B29-D61DDA43DD66} = {83964D48-FAC0-413F-9B29-D61DDA43DD66}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenEBTSSample2", "OpenEBTSSamples\OpenEBTSSample2\OpenEBTSSample2.vcxproj", "{25CF4879-96A7-48C4-9562-EE235857259E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenEBTSViewer", "OpenEBTSViewer\OpenEBTSViewer.vcproj", "{127F08A7-A8E9-413A-8681-85809E90FC46}"
-	ProjectSection(ProjectDependencies) = postProject
-		{83964D48-FAC0-413F-9B29-D61DDA43DD66} = {83964D48-FAC0-413F-9B29-D61DDA43DD66}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenEBTSViewer", "OpenEBTSViewer\OpenEBTSViewer.vcxproj", "{127F08A7-A8E9-413A-8681-85809E90FC46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

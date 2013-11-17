@@ -227,9 +227,14 @@
 
 #define IWS_END_CATCHEXCEPTION_BLOCK() \
 	} \
+	catch (exception& ex) \
+	{ \
+		sException.Format(_T("[%s] Exception occurred: %s"), sFrom, CStdString(ex.what())); \
+		LogMessage(sException); \
+	}\
 	catch (...) \
 	{ \
-		sException.Format(_T("[%s] Unknown exception occurred."), sFrom); \
+		sException.Format(_T("[%s] Exception occurred"), sFrom); \
 		LogMessage(sException); \
 	}
 
@@ -243,5 +248,27 @@ void LogMessageVerbose(const TCHAR* sz);
 
 bool UTF8toUCS(const char *pIn, wchar_t **ppOut);
 bool UCStoUTF8(const wchar_t *wIn, char **ppOut, int *pnLength);
+
+class auto_mutex_lock
+{
+private:
+	std::mutex *m_pMutex;
+public:
+	auto_mutex_lock(std::mutex *pMutex)
+	{
+		m_pMutex = pMutex;
+		if (m_pMutex != NULL)
+		{
+			m_pMutex->lock();
+		}
+	}
+	~auto_mutex_lock()
+	{
+		if (m_pMutex != NULL)
+		{
+			m_pMutex->unlock();
+		}
+	}
+};
 
 #endif // _COMMON_H

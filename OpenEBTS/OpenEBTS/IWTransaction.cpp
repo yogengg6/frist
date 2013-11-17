@@ -87,8 +87,6 @@ int CIWTransaction::ReadTransactionFile(CStdStringPath sFilePath)
 
 	m_sFilePath = sFilePath;
 
-	IWS_BEGIN_EXCEPTION_METHOD("CIWTransaction::ReadTransactionFile")
-
 	if (m_pTransactionData)
 	{
 		delete [] m_pTransactionData;
@@ -101,27 +99,32 @@ int CIWTransaction::ReadTransactionFile(CStdStringPath sFilePath)
 
 	if (f != NULL)
 	{
-		fseek(f, 0, SEEK_END);
-		long lSize = ftell(f);
-		fseek(f, 0, SEEK_SET);
+		// Get file size
+		struct stat fileStats;
+		fstat(fileno(f), &fileStats);
+		long lSize = fileStats.st_size;
 
-		m_pTransactionData = new BYTE[lSize];
+		try
+		{
+			m_pTransactionData = new BYTE[lSize];
+		}
+		catch(bad_alloc& ex)
+		{
+			CStdString sException;
+			sException.Format(_T("CIWTransaction::ReadTransactionFile] Memory allocation for %d bytes failed: %s"), lSize, CStdString(ex.what()));
+			LogMessage(sException);
+			throw;
+		}
 
 		if (m_pTransactionData)
 		{
-			IWS_BEGIN_CATCHEXCEPTION_BLOCK()
-
 			if (fread(m_pTransactionData, 1, lSize, f) == (unsigned long)lSize)
 				nRet = IW_SUCCESS;
-
-			IWS_END_CATCHEXCEPTION_BLOCK()
 		}		
 		else
 			nRet = IW_ERR_OUT_OF_MEMORY;
 
-		IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 		fclose(f);
-		IWS_END_CATCHEXCEPTION_BLOCK()
 	}
 	else
 		nRet = IW_ERR_OPENING_FILE_FOR_READING;
@@ -132,7 +135,7 @@ int CIWTransaction::ReadTransactionFile(CStdStringPath sFilePath)
 		m_pTransactionData = NULL;
 	}
 
-	if (IsLogging())
+	if (IsLoggingVerbose())
 	{
 		CStdString sLogMessage;
 		sLogMessage.Format(IDS_LOGTRANSREAD, sFilePath, nRet);
@@ -148,8 +151,6 @@ int CIWTransaction::ReadTransactionFileMem(const BYTE *pMemFile, int MemFileSize
 
 	m_sFilePath = _T("");
 
-	IWS_BEGIN_EXCEPTION_METHOD("CIWTransaction::ReadTransactionFileMem")
-
 	if (m_pTransactionData)
 	{
 		delete [] m_pTransactionData;
@@ -158,16 +159,22 @@ int CIWTransaction::ReadTransactionFileMem(const BYTE *pMemFile, int MemFileSize
 
 	m_bTransactionLoaded = false;
 
-	m_pTransactionData = new BYTE[MemFileSize];
+	try
+	{
+		m_pTransactionData = new BYTE[MemFileSize];
+	}
+	catch(bad_alloc& ex)
+	{
+		CStdString sException;
+		sException.Format(_T("CIWTransaction::ReadTransactionFileMem] Memory allocation for %d bytes failed: %s"), MemFileSize, CStdString(ex.what()));
+		LogMessage(sException);
+		throw;
+	}
 
 	if (m_pTransactionData)
 	{
-		IWS_BEGIN_CATCHEXCEPTION_BLOCK()
-
 		memcpy(m_pTransactionData, pMemFile, MemFileSize);
 		nRet = IW_SUCCESS;
-
-		IWS_END_CATCHEXCEPTION_BLOCK()
 	}		
 	else
 		nRet = IW_ERR_OUT_OF_MEMORY;
@@ -178,7 +185,7 @@ int CIWTransaction::ReadTransactionFileMem(const BYTE *pMemFile, int MemFileSize
 		m_pTransactionData = 0;
 	}
 
-	if (IsLogging())
+	if (IsLoggingVerbose())
 	{
 		CStdString sLogMessage;
 		sLogMessage.Format(IDS_LOGTRANSREADMEM, nRet);
@@ -889,32 +896,36 @@ int CIWTransaction::ImportImage(int RecordType, int RecordIndex, CStdStringPath 
 	CStdString	sExt;
 	FILE		*f;
 
-	IWS_BEGIN_EXCEPTION_METHOD("CIWTransaction::ImportImage")
-
 	f = _tfopenpath(sPath, _TPATH("rb"));
 	if (f != NULL)
 	{
-		fseek(f, 0, SEEK_END);
-		nLength = ftell(f);
-		fseek(f, 0, SEEK_SET);
+		// Get file size
+		struct stat fileStats;
+		fstat(fileno(f), &fileStats);
+		nLength = fileStats.st_size;
 
 		pData = new BYTE[nLength];
+		try
+		{
+			pData = new BYTE[nLength];
+		}
+		catch(bad_alloc& ex)
+		{
+			CStdString sException;
+			sException.Format(_T("CIWTransaction::ImportImage] Memory allocation for %d bytes failed: %s"), nLength, CStdString(ex.what()));
+			LogMessage(sException);
+			throw;
+		}
 
 		if (pData)
 		{
-			IWS_BEGIN_CATCHEXCEPTION_BLOCK()
-
 			if (fread(pData, 1, nLength, f) == (unsigned long)nLength)
 				nRet = IW_SUCCESS;
-
-			IWS_END_CATCHEXCEPTION_BLOCK()
 		}		
 		else
 			nRet = IW_ERR_OUT_OF_MEMORY;
 
-		IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 		fclose(f);
-		IWS_END_CATCHEXCEPTION_BLOCK()
 
 		// If sInputFormat is empty, we determine the input format via the file extension
 		if (sInputFormat.IsEmpty())
@@ -934,7 +945,6 @@ int CIWTransaction::ImportImage(int RecordType, int RecordIndex, CStdStringPath 
 		nRet = IW_ERR_OPENING_FILE_FOR_READING;
 
 	if (pData)
-
 	{
 		delete [] pData;
 		pData = NULL;

@@ -366,9 +366,10 @@ bool CRuleObj::SetOptionalMap(CStdString& sMap, CStdString& sFilePath,
 
 			if (f != NULL)
 			{
-				fseek(f, 0, SEEK_END);
-				lSize = ftell(f);
-				fseek(f, 0, SEEK_SET);
+				// Get file size
+				struct stat fileStats;
+				fstat(fileno(f), &fileStats);
+				lSize = fileStats.st_size;
 
 				pFile = new BYTE[lSize + 2];
 				memset(pFile, '\0', lSize + 2);
