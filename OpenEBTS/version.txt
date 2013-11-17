@@ -3,6 +3,17 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.15, November 17th 2013
+------------------------------------
+
+* Support for Type-11 Voice Sample using standard IWSetImage/IWGetImage routines and fmtRAW
+* OpenEBTSViewer Type-11 support, plays audio for Voice Sample records
+* Resolved multi-threading issue when concurrently loading same verification file
+* Resolved multi-threading issue when concurrently decompressing WSQ images
+* Improved exception handling and logging in a multi-threaded environment
+* Windows solution upgraded to Visual Studio 2012
+
+
 Version 2.0.0.14, September 22nd 2013
 -------------------------------------
 
