@@ -128,6 +128,8 @@ typedef struct tagBITMAPFILEHEADER {
 } BITMAPFILEHEADER;
 #pragma pack(pop)
 
+#define GetCurrentThreadId	pthread_self
+
 #endif
 
 #endif /* CONFIG_H_ */
