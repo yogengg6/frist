@@ -421,7 +421,7 @@ void COpenEBTSEditorView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		if (pAudio)
 		{
 			CWaitCursor wc;
-			PlaySound((LPCWSTR)pAudio, AfxGetInstanceHandle(), SND_MEMORY);
+			PlaySound((TCHAR*)pAudio, AfxGetInstanceHandle(), SND_MEMORY);
 			GlobalUnlock(m_pRecord->m_hAudio);
 		}
 	}

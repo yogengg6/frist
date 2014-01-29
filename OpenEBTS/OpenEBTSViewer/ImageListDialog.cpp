@@ -189,7 +189,7 @@ void CImageListDialog::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 		if (pAudio)
 		{
 			CWaitCursor wc;
-			PlaySound((LPCWSTR)pAudio, AfxGetInstanceHandle(), SND_MEMORY);
+			PlaySound((TCHAR*)pAudio, AfxGetInstanceHandle(), SND_MEMORY);
 			GlobalUnlock(pRecord->m_hAudio);
 		}
 	}
