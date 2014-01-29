@@ -184,7 +184,7 @@ int CNISTField::RemoveSubField(int nSubField)
 
 		if (pItem->m_nSubField == nSubField)
 		{
-			wSubFieldIndex.push_back(i);
+			wSubFieldIndex.push_back((WORD)i);
 			bFound = true;
 		}
 	}

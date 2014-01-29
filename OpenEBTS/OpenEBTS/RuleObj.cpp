@@ -412,7 +412,7 @@ bool CRuleObj::SetOptionalMap(CStdString& sMap, CStdString& sFilePath,
 			return false;	// Error decoding UTF-8
 		}
 
-		delete pFile;
+		delete [] pFile;
 #else
 		szFile = (char*)pFile;
 #endif

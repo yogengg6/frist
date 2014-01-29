@@ -87,9 +87,11 @@ void LogMessage(CStdString& str, bool bVerbose/*=false*/)
 	if (csPath.IsEmpty())
 		return;
 
-	//Prepend the date and time
+	// Prepend the date and time and thread ID to each entry
 	CStdString csDateTime = BuildDateTimeString();
-	CStdString csOutput = csDateTime + " " + csString;
+	CStdString csThreadID;
+	csThreadID.Format(_T("%04x"), GetCurrentThreadId());
+	CStdString csOutput = csDateTime + " " + csThreadID + " " + csString;
 
 	if (csOutput.GetLength())
 	{

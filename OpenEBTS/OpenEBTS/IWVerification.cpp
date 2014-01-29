@@ -100,7 +100,7 @@ int CIWVerification::ReadVerificationFile(CStdStringPath sPath, CStdString& sPar
 			return IW_ERR_READING_FILE;	// Error decoding UTF-8
 		}
 
-		delete pFile;
+		delete [] pFile;
 		pFile = (BYTE*)pFileNew;
 #endif
 
@@ -117,7 +117,7 @@ int CIWVerification::ReadVerificationFile(CStdStringPath sPath, CStdString& sPar
 		nRet = IW_ERR_OPENING_FILE_FOR_READING;
 	}
 
-	if (pFile != NULL) delete pFile;
+	if (pFile != NULL) delete [] pFile;
 
 	return nRet;
 }

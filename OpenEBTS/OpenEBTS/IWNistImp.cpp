@@ -985,7 +985,10 @@ OPENEBTS_API int WINAPI RAWtoBMP(int width, int height, int DPI, int depth, BYTE
 			pbi->bmiHeader.biClrUsed = (DWORD)(1 << pbi->bmiHeader.biBitCount);
 
 		// write the color table
-		memcpy(pbi->bmiColors, color_table, table_size);
+		if (color_table != NULL)
+		{
+			memcpy(pbi->bmiColors, color_table, table_size);
+		}
 
 		// write the pixel data
 		if (depth != 24)
@@ -1017,7 +1020,7 @@ OPENEBTS_API int WINAPI RAWtoBMP(int width, int height, int DPI, int depth, BYTE
 
 		*pcbOut = dwFileSize;
 
-		if (color_table) delete color_table;
+		if (color_table) delete [] color_table;
 
 		ret = IW_SUCCESS;
 	}
