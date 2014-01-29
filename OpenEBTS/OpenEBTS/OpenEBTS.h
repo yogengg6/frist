@@ -242,6 +242,11 @@ OPENEBTS_API int WINAPI IWSetVerification(
 	CIWVerification *pIWVer					// Verification pointer
 );
 
+OPENEBTS_API int WINAPI IWCloneVerification(
+	CIWVerification *pIWVer,				// Verification pointer
+	CIWVerification **ppIWVer				// Newley created verification
+);
+
 OPENEBTS_API int WINAPI IWGet(
 	CIWTransaction* pIWTrans,				// Transaction pointer
 	const TCHAR* szMnemonic,				// Field identifier

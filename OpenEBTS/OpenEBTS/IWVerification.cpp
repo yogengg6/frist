@@ -56,6 +56,17 @@ CIWVerification::~CIWVerification()
 {
 }
 
+CIWVerification* CIWVerification::Clone()
+{
+	CIWVerification* pVerClone = new CIWVerification();
+
+	pVerClone->m_bVerificationLoaded = m_bVerificationLoaded;
+	pVerClone->m_transactionDefAry = m_transactionDefAry;
+	pVerClone->m_rulesAry = m_rulesAry;
+
+	return pVerClone;
+}
+
 int CIWVerification::ReadVerificationFile(CStdStringPath sPath, CStdString& sParseError)
 {
 	int nRet = IW_ERR_READING_FILE;

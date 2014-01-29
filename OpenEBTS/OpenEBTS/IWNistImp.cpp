@@ -32,6 +32,12 @@ OPENEBTS_API int WINAPI IWRead(const TCHARPATH *szPath, CIWVerification *pIWVer,
 	IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 
 	CIWTransaction *pTrans = new CIWTransaction;
+	if (IsLoggingVerbose())
+	{
+		CStdString sMsg;
+		sMsg.Format(_T("[IWRead] MEMDBG: Allocating transaction %x"), pTrans);
+		LogMessage(sMsg);
+	}
 
 	if (pTrans)
 	{
@@ -72,6 +78,12 @@ OPENEBTS_API int WINAPI IWReadMem(BYTE *pBuffer, int nBufferSize, CIWVerificatio
 	IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 
 	CIWTransaction *pTrans = new CIWTransaction;
+	if (IsLoggingVerbose())
+	{
+		CStdString sMsg;
+		sMsg.Format(_T("[IWReadMem] MEMDBG: Allocating transaction %x"), pTrans);
+		LogMessage(sMsg);
+	}
 
 	if (pTrans)
 	{
@@ -129,6 +141,12 @@ OPENEBTS_API int WINAPI IWReadVerification(const TCHARPATH* szPath, CIWVerificat
 	IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 
 	CIWVerification *pVerification = new CIWVerification;
+	if (IsLoggingVerbose())
+	{
+		CStdString sMsg;
+		sMsg.Format(_T("[IWReadVerification] MEMDBG: Allocating verification %x"), pVerification);
+		LogMessage(sMsg);
+	}
 
 	if (nMaxParseError > 0)
 	{
@@ -169,8 +187,35 @@ OPENEBTS_API int WINAPI IWSetVerification(CIWTransaction *pIWTrans, CIWVerificat
 {
 	int nRet = IW_ERR_TRANSACTION_NOT_LOADED;
 
+	if (IsLoggingVerbose())
+	{
+		CStdString sMsg;
+		sMsg.Format(_T("[IWSetVerification] MEMDBG: Associating verification %x to transaction %x"), pIWVer, pIWTrans);
+		LogMessage(sMsg);
+	}
+
 	if (pIWTrans != NULL)
 		nRet = pIWTrans->SetVerification(pIWVer);
+
+	return nRet;
+}
+
+OPENEBTS_API int WINAPI IWCloneVerification(CIWVerification *pIWVer, CIWVerification **ppIWVer)
+{
+	int nRet = IW_ERR_NULL_POINTER;
+
+	if (pIWVer != NULL)
+	{
+		*ppIWVer = pIWVer->Clone();
+		nRet = IW_SUCCESS;
+
+		if (IsLoggingVerbose())
+		{
+			CStdString sMsg;
+			sMsg.Format(_T("[IWCloneVerification] MEMDBG: Cloned verification %x to verification %x"), pIWVer, *ppIWVer);
+			LogMessage(sMsg);
+		}
+	}
 
 	return nRet;
 }
@@ -201,6 +246,14 @@ OPENEBTS_API int WINAPI IWClose(CIWTransaction **ppIWTrans)
 			IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 
 			delete pIWTrans;
+
+			if (IsLoggingVerbose())
+			{
+				CStdString sMsg;
+				sMsg.Format(_T("[IWClose] MEMDBG: Freed transaction %x"), pIWTrans);
+				LogMessage(sMsg);
+			}
+
 			*ppIWTrans = 0;
 			nRet = IW_SUCCESS;
 
@@ -224,9 +277,17 @@ OPENEBTS_API int WINAPI IWCloseVerification(CIWVerification **ppIWVer)
 			IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 
 			delete pIWVer;
+
+			if (IsLoggingVerbose())
+			{
+				CStdString sMsg;
+				sMsg.Format(_T("[IWCloseVerification] MEMDBG: Freed verification %x"), pIWVer);
+				LogMessage(sMsg);
+			}
+
 			*ppIWVer = 0;
 			nRet = IW_SUCCESS;
-
+			
 			IWS_END_CATCHEXCEPTION_BLOCK()
 		}
 	}
@@ -438,6 +499,12 @@ OPENEBTS_API int WINAPI IWNew(const TCHAR* szTransactionType, CIWVerification* p
 	IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 
 	CIWTransaction *pIWTrans = new CIWTransaction;
+	if (IsLoggingVerbose())
+	{
+		CStdString sMsg;
+		sMsg.Format(_T("[IWNew] MEMDBG: Allocating transaction %x"), pIWTrans);
+		LogMessage(sMsg);
+	}
 
 	nRet = pIWTrans->New(szTransactionType, pIWVer);
 

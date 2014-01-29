@@ -96,6 +96,8 @@ public:
 					 int DataArraySize, const TCHAR** DataArray, const TCHAR** DescArray, int *Entries);
 
 	std::vector<CRuleObj>* GetRuleArray() { return &m_rulesAry; }
+
+	CIWVerification* Clone();
 };
 
 #endif // IWVERIFICATION_H
