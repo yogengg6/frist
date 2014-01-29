@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: com.obi.OpenEBTS
-Specification-Version: 2.0.0.13
-Implementation-Version: 3
+Specification-Version: 2.0.0.15
+Implementation-Version: 1

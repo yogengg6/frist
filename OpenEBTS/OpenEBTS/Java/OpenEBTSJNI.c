@@ -507,6 +507,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWGetImageAs
 	{
 		jbaImage = (*env)->NewByteArray(env, cbImage);
 		(*env)->SetByteArrayRegion(env, jbaImage, 0, cbImage, pImage);
+		IWMemFree(&pImage);
 	}
 
 	PACKAGERETVAL
@@ -580,6 +581,31 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetVerification
 	ret = IWSetVerification(pTra, pVer);
 
 	PACKAGERETVAL
+}
+
+/*
+ * Class:     OpenEBTS
+ * Method:    IWCloneVerification
+ * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)I
+ */
+JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWCloneVerification
+  (JNIEnv *env, jobject obj, jint nVerification, jobject joRet)
+{
+	RETVAL
+	CIWVerification	*pVer = (CIWVerification*)nVerification;
+	CIWVerification	*pVerClone;
+	jint			nVerificationClone = 0;
+
+	ret = IWCloneVerification(pVer, &pVerClone);
+
+	if (ret == IW_SUCCESS)
+	{
+		nVerificationClone = (jint)pVerClone;
+	}
+
+	PACKAGERETVAL
+
+	return nVerificationClone;
 }
 
 /*

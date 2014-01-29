@@ -142,8 +142,6 @@ public class OpenEBTS
 	public native byte[] IWGetImageAs(int nTransaction, int nRecordType, int nRecordIndex, int nFmtOut, NISTReturn ret);
 	public native void IWGetImageAsToFile(int nTransaction, int nRecordType, int nRecordIndex, String sPath, int nFmtOut,
 			NISTReturn ret);
-	public native int IWReadVerification(String sPath, StringBuffer sParseErrorOut, NISTReturn ret); 
-	public native void IWCloseVerification(int nVerification, NISTReturn ret);
 	public native void IWSetVerification(int nTransaction, int nVerification, NISTReturn ret);
 	public native void IWVerify(int nTransaction, NISTReturn ret);
 	public native int IWGetErrorCount(int nTransaction, NISTReturn ret);
@@ -159,6 +157,9 @@ public class OpenEBTS
 	private native void IWSetItem(int nTransaction, String sData, int nRecordType, int nRecordIndex,
 			int nFieldIndex, int nSubfieldIndex, int nlItemIndex, NISTReturn ret);
 	// OpenEBTS functions dealing with Verification files
+	public native int IWReadVerification(String sPath, StringBuffer sParseErrorOut, NISTReturn ret); 
+	public native void IWCloseVerification(int nVerification, NISTReturn ret);
+	public native int IWCloneVerification(int nVerification, NISTReturn ret);
 	private native String[] IWGetTransactionCategories(int nVerification, NISTReturn ret);
 	private native String[] IWGetTransactionTypeNames(int nVerification, String sCategory, NISTReturn ret);
 	private native String[] IWGetTransactionTypeDescriptions(int nVerification, String sCategory, NISTReturn ret);
@@ -352,9 +353,10 @@ public class OpenEBTS
 		public int associateVerificationFile(NISTVerification ver)
 		{
 			if (_nVerification != 0) IWCloseVerification(_nVerification, _ret);
-			IWSetVerification(_nTransaction, ver._nVerification, _ret);
-			// NISTVerification will be responsible for freeing itself
 			_nVerification = 0;
+			// We clone the verification so that we can free it independently of NISTVerification.
+			_nVerification = IWCloneVerification(ver._nVerification, _ret);
+			IWSetVerification(_nTransaction, _nVerification, _ret);
 			return _ret.nRet;
 		}
 

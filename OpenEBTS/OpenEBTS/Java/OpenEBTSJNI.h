@@ -283,22 +283,6 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWGetImageAsToFile
 
 /*
  * Class:     com_obi_OpenEBTS
- * Method:    IWReadVerification
- * Signature: (Ljava/lang/String;Ljava/lang/StringBuffer;Lcom/obi/OpenEBTS/NISTReturn;)I
- */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadVerification
-  (JNIEnv *, jobject, jstring, jobject, jobject);
-
-/*
- * Class:     com_obi_OpenEBTS
- * Method:    IWCloseVerification
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)V
- */
-JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWCloseVerification
-  (JNIEnv *, jobject, jint, jobject);
-
-/*
- * Class:     com_obi_OpenEBTS
  * Method:    IWSetVerification
  * Signature: (IILcom/obi/OpenEBTS/NISTReturn;)V
  */
@@ -384,6 +368,30 @@ JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWFindItem
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetItem
   (JNIEnv *, jobject, jint, jstring, jint, jint, jint, jint, jint, jobject);
+
+/*
+ * Class:     com_obi_OpenEBTS
+ * Method:    IWReadVerification
+ * Signature: (Ljava/lang/String;Ljava/lang/StringBuffer;Lcom/obi/OpenEBTS/NISTReturn;)I
+ */
+JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadVerification
+  (JNIEnv *, jobject, jstring, jobject, jobject);
+
+/*
+ * Class:     com_obi_OpenEBTS
+ * Method:    IWCloseVerification
+ * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)V
+ */
+JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWCloseVerification
+  (JNIEnv *, jobject, jint, jobject);
+
+/*
+ * Class:     com_obi_OpenEBTS
+ * Method:    IWCloneVerification
+ * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)I
+ */
+JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWCloneVerification
+  (JNIEnv *, jobject, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
