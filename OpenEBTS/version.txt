@@ -3,6 +3,16 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.16, January 31st 2014
+-----------------------------------
+
+* Adapted CNISTRecord::GetImageInfo to work with experimental Type-11 Voice Recognition records.
+* Made IWStrTok thread-safe so IWRead won't crash in multi threaded environments.
+* Addressed memory leak whereby Java function NISTFile.getImageAs leaked an image.
+* Added IWCloneVerification / Java NISTFile.associateVerificationFile now clones verification object to ensure complete memory independence between transaction and verification - necessary in Java as various scenarios may cause the GC to free these out of order.
+* Logfile now contains threadid for each entry and advanced diagnostic messages around allocation, association and deallocation of transaction and verification objects.
+
+
 Version 2.0.0.15, November 17th 2013
 ------------------------------------
 
