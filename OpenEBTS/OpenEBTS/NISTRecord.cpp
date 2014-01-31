@@ -917,42 +917,50 @@ int CNISTRecord::GetImageInfo(CStdString& sStorageFormat, int *pnLength, int *pn
 		sStorageFormat = CNISTField::ImageExtFromImageFormat(pField->m_ImageFormat);
 		*pnLength = pField->m_nImageLen;
 
-		CStdString sData;
-
-		FindItem(TYPE4_HLL, 1, 1, sData); // note: *_HLL are all the same
-		*pnHLL = (int)_tcstol(sData, NULL, 10);
-		FindItem(TYPE4_VLL, 1, 1, sData); // note: *_VLL are all the same
-		*pnVLL = (int)_tcstol(sData, NULL, 10);
-
-		if (m_nRecordType >= RECORD_TYPE3 && m_nRecordType <= RECORD_TYPE7)
-		// These are always all grayscale
+		if (m_nRecordType == RECORD_TYPE11)
 		{
-			*pnBitsPerPixel = 8;
-			nRet = IW_SUCCESS;
-		}
-		else if (m_nRecordType == 8)
-		// signature is always binary
-		{
-			*pnBitsPerPixel = 1;
-			nRet = IW_SUCCESS;
-		}
-		else if (m_nRecordType == 10)
-		// could be color or grayscale
-		{
-			FindItem(TYPE10_CSP, 1, 1, sData);
-			*pnBitsPerPixel = sData.CompareNoCase(_T("GRAY")) ? 24 : 8;
-			nRet = IW_SUCCESS;
-		}
-		else if (m_nRecordType >= RECORD_TYPE13 && m_nRecordType <= RECORD_TYPE17)
-		// Field has bits per pixel (*_BPX)
-		{
-			FindItem(TYPE13_BPX, 1, 1, sData);  // note: *_BPX are all the same
-			*pnBitsPerPixel = (int)_tcstol(sData, NULL, 10);
+			// Currently Type-11 Audio is still experimental and doesn't contain any additional fields
 			nRet = IW_SUCCESS;
 		}
 		else
 		{
-			// All cases have been dealt with
+			CStdString sData;
+
+			FindItem(TYPE4_HLL, 1, 1, sData); // note: *_HLL are all the same
+			*pnHLL = (int)_tcstol(sData, NULL, 10);
+			FindItem(TYPE4_VLL, 1, 1, sData); // note: *_VLL are all the same
+			*pnVLL = (int)_tcstol(sData, NULL, 10);
+
+			if (m_nRecordType >= RECORD_TYPE3 && m_nRecordType <= RECORD_TYPE7)
+			// These are always all grayscale
+			{
+				*pnBitsPerPixel = 8;
+				nRet = IW_SUCCESS;
+			}
+			else if (m_nRecordType == 8)
+			// signature is always binary
+			{
+				*pnBitsPerPixel = 1;
+				nRet = IW_SUCCESS;
+			}
+			else if (m_nRecordType == 10)
+			// could be color or grayscale
+			{
+				FindItem(TYPE10_CSP, 1, 1, sData);
+				*pnBitsPerPixel = sData.CompareNoCase(_T("GRAY")) ? 24 : 8;
+				nRet = IW_SUCCESS;
+			}
+			else if (m_nRecordType >= RECORD_TYPE13 && m_nRecordType <= RECORD_TYPE17)
+			// Field has bits per pixel (*_BPX)
+			{
+				FindItem(TYPE13_BPX, 1, 1, sData);  // note: *_BPX are all the same
+				*pnBitsPerPixel = (int)_tcstol(sData, NULL, 10);
+				nRet = IW_SUCCESS;
+			}
+			else
+			{
+				// All cases have been dealt with
+			}
 		}
 	}
 
