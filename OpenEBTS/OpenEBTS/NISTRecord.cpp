@@ -253,16 +253,17 @@ int CNISTRecord::ReadRecord(BYTE* pTransactionData, int nRecordType)
 	return nRet;
 }
 
-/*********************************************************/
-/* IWStrTok is NOT thread safe!                          */
-/*********************************************************/
+//
+// IWStrTok was never thread safe - it should really be rewritten to not even use statics as
+// this is just messy, but for now we'll use __declspec(thread) static to make it work
+//
 
 char* CNISTRecord::IWStrTok(char *pInStr, char cDelim, bool *pbEndofRecord)
 {
-	static char *pCurPos = 0;
-	static char *pString = 0;
-	static char *pEndString = 0;
-	static int nCurPos = 0;
+	__declspec(thread) static char *pCurPos = 0;
+	__declspec(thread) static char *pString = 0;
+	__declspec(thread) static char *pEndString = 0;
+	__declspec(thread) static int nCurPos = 0;
 	char *pTemp;
 	char *pRet = 0;
 
