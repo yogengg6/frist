@@ -3,6 +3,12 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.17, February 27th 2014
+------------------------------------
+
+* Windows binaries now statically linked to Microsoft runtimes to simplify dissemination.
+
+
 Version 2.0.0.16, January 31st 2014
 -----------------------------------
 
