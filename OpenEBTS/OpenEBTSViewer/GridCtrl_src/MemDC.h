@@ -8,7 +8,7 @@
 //
 
 //////////////////////////////////////////////////
-// CMemDC - memory DC
+// CMemDC2 - memory DC
 //
 // Author: Keith Rule
 // Email:  keithr@europa.com
@@ -20,15 +20,16 @@
 // History - 10/3/97 Fixed scrolling bug.
 //                   Added print support.
 //           25 feb 98 - fixed minor assertion bug
+//           2014-02-25 - [IWS] Renamed to CMemDC2 to avoid conflict with MFC's CMemDC
 //
 // This class implements a memory Device Context
 
-class CMemDC : public CDC
+class CMemDC2 : public CDC
 {
 public:
 
     // constructor sets up the memory DC
-    CMemDC(CDC* pDC) : CDC()
+    CMemDC2(CDC* pDC) : CDC()
     {
         ASSERT(pDC != NULL);
 
@@ -66,7 +67,7 @@ public:
     }
 
     // Destructor copies the contents of the mem DC to the original DC
-    ~CMemDC()
+    ~CMemDC2()
     {
         if (m_bMemDC)
         {
@@ -85,14 +86,14 @@ public:
     }
 
     // Allow usage as a pointer
-    CMemDC* operator->() {return this;}
+    CMemDC2* operator->() {return this;}
         
     // Allow usage as a pointer
-    operator CMemDC*() {return this;}
+    operator CMemDC2*() {return this;}
 
 private:
     CBitmap  m_bitmap;      // Offscreen bitmap
-    CBitmap* m_pOldBitmap;  // bitmap originally found in CMemDC
+    CBitmap* m_pOldBitmap;  // bitmap originally found in CMemDC2
     CDC*     m_pDC;         // Saves CDC passed in constructor
     CRect    m_rect;        // Rectangle of drawing area.
     BOOL     m_bMemDC;      // TRUE if CDC really is a Memory DC.
