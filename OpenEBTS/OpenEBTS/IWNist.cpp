@@ -4,15 +4,14 @@
 #ifdef WIN32
 
 BOOL APIENTRY DllMain( HANDLE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
+					   DWORD  ul_reason_for_call,
+					   LPVOID lpReserved
 					 )
 {
-    switch (ul_reason_for_call)
+	switch (ul_reason_for_call)
 	{
 		case DLL_PROCESS_ATTACH:
 			LogMessageInit(); // general logging to file
-			LogMessage(IDS_OPENEBTSLOADED);
 
 			FreeImage_Initialise();
 			FreeImage_SetOutputMessage(FreeImageErrorHandler);
@@ -20,11 +19,10 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
 		case DLL_PROCESS_DETACH:
 			FreeImage_DeInitialise();
-			LogMessage(IDS_OPENEBTSUNLOADING);
 			break;
-    }
+	}
 
-    return TRUE;
+	return TRUE;
 }
 
 #else

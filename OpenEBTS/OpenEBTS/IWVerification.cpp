@@ -151,6 +151,8 @@ int CIWVerification::LoadRules(TCHAR *pFile, CStdString sPath, CStdString& sErr)
 	CStdString sDescription, sLongDescription, sSpecialChars, sDateFormat, sAdvancedRule, sTags;
 	CStdString sTransactionList;
 	CStdString sMMap, sOMap;
+	CStdString sLastMnemonic;
+
 
 	if (bFound)
 	{
@@ -228,6 +230,7 @@ int CIWVerification::LoadRules(TCHAR *pFile, CStdString sPath, CStdString& sErr)
 				LogMessageVerbose(sTemp);
 			}
 #endif
+
 			CRuleObj ruleObj;
 			if (ruleObj.SetData(sPath, sTransactionList, sLocationIndex, sMnemonic, sCharType, sFieldSize,
 								sOccurrence, sDescription, sLongDescription, sSpecialChars, sDateFormat,
@@ -237,8 +240,15 @@ int CIWVerification::LoadRules(TCHAR *pFile, CStdString sPath, CStdString& sErr)
 			}
 			else
 			{
+				if (!sErr.IsEmpty())
+				{
+					sErr += " (last read menmonic was " + sLastMnemonic + ")";
+				}
+
 				return IW_ERR_LOADING_VERICATION;
 			}
+
+			sLastMnemonic = sMnemonic; // in case of future error
 
 			pRule = GetRule(&pFile);
 		}

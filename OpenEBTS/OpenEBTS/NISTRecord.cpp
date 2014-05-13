@@ -81,7 +81,7 @@ void CNISTRecord::SetNativeScanningResolution(double dNativeResolutionPPMM)
 	m_dNativeResolutionPPMM = dNativeResolutionPPMM;
 }
 
-int CNISTRecord::ReadLogicalRecordLen(BYTE* pTransactionData, int nRecordType, int nRecordIndex)
+int CNISTRecord::ReadLogicalRecordLen(CIWStrTokParams& parserParms, BYTE* pTransactionData, int nRecordType, int nRecordIndex)
 {
 	char szTemp[120];
 	char *pTemp;
@@ -90,19 +90,19 @@ int CNISTRecord::ReadLogicalRecordLen(BYTE* pTransactionData, int nRecordType, i
 	// grab the first few bytes, the len field is always first and should be in here
 	memcpy(szTemp, pTransactionData, sizeof(szTemp));
 
-	pTemp = IWStrTok(szTemp, CHAR_PERIOD);
+	pTemp = IWStrTok(parserParms, szTemp, CHAR_PERIOD);
 
 	if (pTemp)
 	{
 		if (atoi(pTemp) == nRecordType)
 		{
-			pTemp = IWStrTok(NULL, CHAR_COLON);
+			pTemp = IWStrTok(parserParms, NULL, CHAR_COLON);
 
 			if (pTemp)
 			{
 				if (atoi(pTemp) == REC_TAG_LEN)
 				{
-					pTemp = IWStrTok(NULL, CHAR_GS);
+					pTemp = IWStrTok(parserParms, NULL, CHAR_GS);
 
 					if (pTemp)
 						nRet = atoi(pTemp);
@@ -135,7 +135,9 @@ int CNISTRecord::ReadRecord(BYTE* pTransactionData, int nRecordType)
 	m_nRecordType = nRecordType;
 	m_bGetImage = false;
 
-	m_nRecordLen = ReadLogicalRecordLen(pTransactionData, nRecordType); // get size of this record
+	CIWStrTokParams parserParms;
+
+	m_nRecordLen = ReadLogicalRecordLen(parserParms, pTransactionData, nRecordType); // get size of this record
 
 	if (m_nRecordLen > 0)
 	{
@@ -152,7 +154,7 @@ int CNISTRecord::ReadRecord(BYTE* pTransactionData, int nRecordType)
 
 			memcpy(pRecord, pTransactionData, m_nRecordLen * sizeof(BYTE));
 
-			pTemp = (BYTE*)IWStrTok((char*)pRecord, CHAR_PERIOD);
+			pTemp = (BYTE*)IWStrTok(parserParms, (char*)pRecord, CHAR_PERIOD);
 	
 			while (pTemp && !bEndofRecord)
 			{
@@ -160,7 +162,7 @@ int CNISTRecord::ReadRecord(BYTE* pTransactionData, int nRecordType)
 
 				if (nField == nRecordType) // make sure we're in sync
 				{
-					pTemp = (BYTE*)IWStrTok(NULL, CHAR_COLON, &bEndofRecord); // get the field
+					pTemp = (BYTE*)IWStrTok(parserParms, NULL, CHAR_COLON, &bEndofRecord); // get the field
 
 					if (pTemp)
 					{
@@ -171,14 +173,14 @@ int CNISTRecord::ReadRecord(BYTE* pTransactionData, int nRecordType)
 							// take advantage of the fact that I know
 							// the pointer is sitting at the beginning of the image bytes
 							m_bGetImage = true;
-							pFieldData = (BYTE*)IWStrTok(NULL, CHAR_GS, &bEndofRecord); // get the field	data	
+							pFieldData = (BYTE*)IWStrTok(parserParms, NULL, CHAR_GS, &bEndofRecord); // get the field	data	
 							m_bGetImage = false;
 							// Explicitly set bEndofRecord because we know that DAT fields are
 							// always the last fields
 							bEndofRecord = true;
 						}
 						else
-							pFieldData = (BYTE*)IWStrTok(NULL, CHAR_GS, &bEndofRecord); // get the field	data	
+							pFieldData = (BYTE*)IWStrTok(parserParms, NULL, CHAR_GS, &bEndofRecord); // get the field	data	
 
 						// This shouldn't happen, but can if the file is corrupted
 						if (!pFieldData)
@@ -241,7 +243,7 @@ int CNISTRecord::ReadRecord(BYTE* pTransactionData, int nRecordType)
 				// get next field
 				if (!bEndofRecord)
 				{
-					pTemp = (BYTE*)IWStrTok(NULL, CHAR_PERIOD, &bEndofRecord);
+					pTemp = (BYTE*)IWStrTok(parserParms, NULL, CHAR_PERIOD, &bEndofRecord);
 				}
 			}
 			delete [] pRecord;
@@ -258,42 +260,38 @@ int CNISTRecord::ReadRecord(BYTE* pTransactionData, int nRecordType)
 // this is just messy, but for now we'll use __declspec(thread) static to make it work
 //
 
-char* CNISTRecord::IWStrTok(char *pInStr, char cDelim, bool *pbEndofRecord)
+char* CNISTRecord::IWStrTok(CIWStrTokParams& position, char *pInStr, char cDelim, bool *pbEndofRecord)
 {
-	__declspec(thread) static char *pCurPos = 0;
-	__declspec(thread) static char *pString = 0;
-	__declspec(thread) static char *pEndString = 0;
-	__declspec(thread) static int nCurPos = 0;
 	char *pTemp;
 	char *pRet = 0;
 
 	if (m_bGetImage)
-		return pCurPos; 
+		return position.pCurPos; 
 
 	if (pInStr)
 	{
-		pCurPos = pString = pInStr;
-		nCurPos = 0;
+		position.pCurPos = position.pString = pInStr;
+		position.nCurPos = 0;
 		size_t nLen = strlen(pInStr);
-		pEndString = pString+nLen;
+		position.pEndString = position.pString+nLen;
 	}
 	
-	while (pCurPos <= pEndString)
+	while (position.pCurPos <= position.pEndString)
 	{
-		if (*pCurPos == cDelim || *pCurPos == CHAR_FS)
+		if (*position.pCurPos == cDelim || *position.pCurPos == CHAR_FS)
 		{
-			if (*pCurPos == CHAR_FS && pbEndofRecord)
+			if (*position.pCurPos == CHAR_FS && pbEndofRecord)
 				*pbEndofRecord = true;
 
-			if (pCurPos > pString)
+			if (position.pCurPos > position.pString)
 			{
-				pTemp = pCurPos-1;
+				pTemp = position.pCurPos-1;
 				
-				*pCurPos = '\0'; // break the string at the delimiter
-				pCurPos++; // move off null
+				*position.pCurPos = '\0'; // break the string at the delimiter
+				position.pCurPos++; // move off null
 				
 				// move to begin of previous field
-				while (pTemp > pString && *pTemp != '\0')
+				while (pTemp > position.pString && *pTemp != '\0')
 					pTemp--;
 
 				// move off null
@@ -304,14 +302,14 @@ char* CNISTRecord::IWStrTok(char *pInStr, char cDelim, bool *pbEndofRecord)
 			}
 			else
 			{
-				*pCurPos = '\0'; // return empty string
-				pRet = pCurPos;
+				*position.pCurPos = '\0'; // return empty string
+				pRet = position.pCurPos;
 			}
 
 			break;
 		}
 		else
-			pCurPos++;
+			position.pCurPos++;
 	}
 	
 	return pRet;

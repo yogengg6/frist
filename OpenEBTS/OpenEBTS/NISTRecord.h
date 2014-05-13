@@ -5,6 +5,7 @@
 #include "Common.h"
 
 class CNISTField;
+class CIWStrTokParams;
 
 class CNISTRecord
 {
@@ -17,7 +18,7 @@ protected:
 
 	bool m_bGetImage;
 
-	char* IWStrTok(char* pInStr, char cDelim, bool *pbEndofRecord = NULL);
+	char* IWStrTok(CIWStrTokParams& position, char* pInStr, char cDelim, bool *pbEndofRecord = NULL);
 	CNISTField *GetNISTField(int nField);
 
 	void AddField(CNISTField *pField);
@@ -38,7 +39,7 @@ public:
 	CNISTRecord();
 	virtual ~CNISTRecord();
 
-	int ReadLogicalRecordLen(BYTE* pTransactionData, int nRecordType, int nRecordIndex = 1);
+	int ReadLogicalRecordLen(CIWStrTokParams& parserParms, BYTE* pTransactionData, int nRecordType, int nRecordIndex = 1);
 	int GetLogicalRecordLen() { return m_nRecordLen; }
 
 	void InitializeNewRecord(int nRecordType);
@@ -84,6 +85,23 @@ public:
 
 	void AdjustRecordLength();
 	int GetLength();
+};
+
+class CIWStrTokParams
+{
+public:
+	char *pCurPos;
+	char *pString;
+	char *pEndString;
+	int nCurPos;
+
+	CIWStrTokParams()
+	{
+		pCurPos = 0;
+		pString = 0;
+		pEndString = 0;
+		nCurPos = 0;
+	}
 };
 
 #endif // _IW_NISTRECORD_H
