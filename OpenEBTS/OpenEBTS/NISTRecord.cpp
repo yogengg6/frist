@@ -608,7 +608,20 @@ int CNISTRecord::AddSubItems(CNISTField *pNISTField, char *szFieldData)
 							if (nSubFieldItemLen)
 							{
 								*pTempSub = '\0'; // chop off our string
+#ifdef UNICODE
+								// Field data may be in UTF-8, let's get it properly into wide char land
+								wchar_t *wNew;
+
+								if (!UTF8toUCS(pTempSubItem, &wNew))
+								{
+									return IW_ERR_READING_FILE;	// Error decoding UTF-8
+								}
+
+								pSubItem->m_sData = wNew;
+								delete wNew;
+#else
 								pSubItem->m_sData = pTempSubItem;
+#endif
 							}
 							pTempSubItem = pTempSub+1; // get past null
 
