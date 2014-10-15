@@ -56,18 +56,18 @@ int CIWTransaction::New(CStdString sTransactionType, CIWVerification *pIWVer)
 		pRec1->SetRecordType(RECORD_TYPE1);
 		pRec1->SetItem(sTransactionType, TYPE1_TOT, 1, 1);
 
+#ifdef UNICODE
+		// In the UNICODE version we specify that we will be writing UTF-8 chars into fields
+		pRec1->SetItem(L"003", TYPE1_DCS, 1, 1);		// Character Set Index (CSI) is "003" for UTF-8
+		pRec1->SetItem(L"UTF-8", TYPE1_DCS, 1, 2);		// Character Set Name (CSN)
+#endif
+
 		m_RecordAry.push_back(pRec1);
 
 		m_pVerification = pIWVer;
 		m_bTransactionLoaded = true;
 
 		m_nIDCSequence = 0; // reset the IDC sequence
-
-#ifdef UNICODE
-		// In the UNICODE version we specify that we will be writing UTF-8 chars into fields
-		Set(L"T1_DCS_CSI", L"003", 1, 1);	// Character Set Index is "003" for UTF-8
-		Set(L"T1_DCS_CSN", L"UTF-8", 1, 1);	// Character Set Name
-#endif
 	}
 
 	if (IsLogging())
