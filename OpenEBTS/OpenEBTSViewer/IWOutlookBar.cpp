@@ -309,7 +309,8 @@ int CIWOutlookBar::AddRecord(int nType, COpenEBTSRecord* pRecord)
 				pDlg->m_imageList.Create(rc.Width()-60, rc.Width()-60, 0, 0, 0);
 				pDlg->m_ctlList.SetImageList(&pDlg->m_imageList, LVSIL_NORMAL);
 
-				nFolder = COutlook2Ctrl::AddFolder("Irises", IDI_FOLDER_CLOSED, nType);
+				const char *szType = (nType == 16 ? "Miscellaneous" : "Irises");
+				nFolder = COutlook2Ctrl::AddFolder(szType, IDI_FOLDER_CLOSED, nType);
 				AddFolderItem("", 0, nFolder);
 				AddSubItem(pDlg->GetSafeHwnd(), true, nFolder);
 			}
