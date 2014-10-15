@@ -3,6 +3,17 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.19, Oct 15th, 2014
+--------------------------------
+
+* Bugfix: When reading-in a file CNISTRecord::AddSubItems now does proper UTF8toUCS conversion of text in ALL cases.
+* Bugfix: If no verification file was  associated in the call to CIWTransaction::New, the field T1_DCS (Directory of Character Sets) was not being set.
+* In OpenEBTSViewer Type-16 images are now called "Miscellaneous", not "Irises".
+* Added Type-8 signature fields to automatic generation fieldnames array s_rgszAutomaticMNU.
+* Support for dates with two digit years (CIWVerification::VerifyFieldDateFormat).
+* Logging for IWGetRuleRestrictions entry.
+
+
 Version 2.0.0.18, May 13th, 2014
 --------------------------------
 
