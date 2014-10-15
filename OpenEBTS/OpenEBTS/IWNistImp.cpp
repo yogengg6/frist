@@ -721,6 +721,13 @@ OPENEBTS_API int WINAPI IWGetRuleRestrictions(CIWVerification* pIWVer, const TCH
 		IWS_BEGIN_EXCEPTION_METHOD("IWGetRuleRestrictions")
 		IWS_BEGIN_CATCHEXCEPTION_BLOCK()
 
+		if (IsLogging())
+		{
+			CStdString sMsg;
+			sMsg.Format(_T("[IWGetRuleRestrictions] TOT(%s) MNU(%s)"), szTransactionType, szMnemonic);
+			LogMessage(sMsg);
+		}
+
 		nRet = pIWVer->GetRuleRestrictions(szTransactionType, szMnemonic, pnRecordType, pnField, pnSubfield, pnItem, pszDesc, pszLongDesc,
 										   pszCharType, pszSpecialChars, pszDateFormat, pszAdvancedRule, pnSizeMin, pnSizeMax, pnOccMin,
 										   pnOccMax, pnOffset, (bool*)pbAutomaticallySet, (bool*)pbMandatory);
