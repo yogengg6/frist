@@ -2071,6 +2071,7 @@ bool CIWVerification::VerifyFieldDateFormat(CIWTransaction *pTrans, CRuleObj *pR
 	CStdString	sY, sM, sD;
 	long		iY, iM, iD;
 	long		lY, lM, lD;
+	long		numYearDigits;
 
 	sFmt = pRule->GetDateFormat();
 
@@ -2090,6 +2091,19 @@ bool CIWVerification::VerifyFieldDateFormat(CIWTransaction *pTrans, CRuleObj *pR
 	if (iY == -1)
 	{
 		iY = sFmt.Find(_T("YYYY"));
+		if (iY == -1)
+		{
+			iY = sFmt.Find(_T("YY"));
+			numYearDigits = 2;
+		}
+		else
+		{
+			numYearDigits = 4;
+		}
+	}
+	else
+	{
+		numYearDigits = 4;
 	}
 	iM = sFmt.Find(_T("MM"));
 	iD = sFmt.Find(_T("DD"));
@@ -2099,20 +2113,24 @@ bool CIWVerification::VerifyFieldDateFormat(CIWTransaction *pTrans, CRuleObj *pR
 		iY--; iM--; iD--;	// Shift all index counters down 1
 	}
 
-	sY = sData.Mid(iY, 4);	// extract year string
-	sM = sData.Mid(iM, 2);	// extract month string
-	sD = sData.Mid(iD, 2);	// extract day string
+	sY = sData.Mid(iY, numYearDigits);	// extract year string
+	sM = sData.Mid(iM, 2);				// extract month string
+	sD = sData.Mid(iD, 2);				// extract day string
 
 	lY = _tcstol(sY.c_str(), NULL, 10);	// extract year number
 	lM = _tcstol(sM.c_str(), NULL, 10);	// extract month number
 	lD = _tcstol(sD.c_str(), NULL, 10);	// extract day number
 
-	// Year must be anywhere from 1900 to 2099
-	if (lY < 1900 || lY > 2099)
+	// Year must be anywhere from 1900 to 2099 for 4-digit years
+	// Note: if we have 2-digit years all years are valid
+	if (numYearDigits == 4)
 	{
-		// Invalid year %ld
-		FlagFieldError(pTrans, pRule, IW_WARN_INVALID_DATE, IDS_INVALIDYEAR, lY);
-		bRet = false;
+		if (lY < 1900 || lY > 2099)
+		{
+			// Invalid year %ld
+			FlagFieldError(pTrans, pRule, IW_WARN_INVALID_DATE, IDS_INVALIDYEAR, lY);
+			bRet = false;
+		}
 	}
 
 	// Month between 1 and 12
