@@ -242,7 +242,8 @@ int CIWVerification::LoadRules(TCHAR *pFile, CStdString sPath, CStdString& sErr)
 			{
 				if (!sErr.IsEmpty())
 				{
-					sErr += " (last read menmonic was " + sLastMnemonic + ")";
+					sTemp.Format(IDS_VERRULESUMMARY, sLocationIndex, sMnemonic, sCharType, sFieldSize, sOccurrence, sLastMnemonic);
+					sErr += "\n" + sTemp;
 				}
 
 				return IW_ERR_LOADING_VERICATION;
