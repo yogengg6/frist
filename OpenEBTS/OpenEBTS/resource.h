@@ -15,15 +15,39 @@
 #endif
 
 #ifdef _DEBUG
-	#ifdef _WIN64
-		#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS Debug x64\0"
+	#ifdef UNICODE
+		#ifdef _WIN64
+			#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS UNICODE x64 Debug\0"
+		#else
+			#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS UNICODE x86 Debug\0"
+		#endif
 	#else
-		#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS Debug x86\0"
+		#ifdef _WIN64
+			#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS ASCII x64 Debug\0"
+		#else
+			#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS ASCII x86 Debug\0"
+		#endif
 	#endif
 #else
-	#ifdef _WIN64
-		#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS Release x64\0"
+	#ifdef UNICODE
+		#ifdef SPANISH
+			#ifdef _WIN64
+				#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS UNICODE x64 Release (ES)\0"
+			#else
+				#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS UNICODE x86 Release (ES)\0"
+			#endif
+		#else
+			#ifdef _WIN64
+				#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS UNICODE x64 Release (EN)\0"
+			#else
+				#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS UNICODE x86 Release (EN)\0"
+			#endif
+		#endif
 	#else
-		#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS Release x86\0"
+		#ifdef _WIN64
+			#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS ASCII x64 Release\0"
+		#else
+			#define OPENEBTS_CONFIG_PLATFORM "OpenEBTS ASCII x86 Release\0"
+		#endif
 	#endif
 #endif
