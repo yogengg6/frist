@@ -40,3 +40,34 @@
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
+
+
+#ifdef _DEBUG
+	#ifdef UNICODE
+		#ifdef _WIN64
+			#define OPENEBTSVIEWER_CONFIG_PLATFORM "OpenEBTSViewer UNICODE x64 Debug\0"
+		#else
+			#define OPENEBTSVIEWER_CONFIG_PLATFORM "OpenEBTSViewer UNICODE x86 Debug\0"
+		#endif
+	#else
+		#ifdef _WIN64
+			#define OPENEBTSVIEWER_CONFIG_PLATFORM "OpenEBTSViewer ASCII x64 Debug\0"
+		#else
+			#define OPENEBTSVIEWER_CONFIG_PLATFORM "OpenEBTSViewer ASCII x86 Debug\0"
+	#endif
+#endif
+#else
+	#ifdef UNICODE
+		#ifdef _WIN64
+			#define OPENEBTSVIEWER_CONFIG_PLATFORM "OpenEBTSViewer UNICODE x64 Release\0"
+		#else
+			#define OPENEBTSVIEWER_CONFIG_PLATFORM "OpenEBTSViewer UNICODE x86 Release\0"
+		#endif
+	#else
+		#ifdef _WIN64
+			#define OPENEBTSVIEWER_CONFIG_PLATFORM "OpenEBTSViewer ASCII x64 Release\0"
+		#else
+			#define OPENEBTSVIEWER_CONFIG_PLATFORM "OpenEBTSViewer ASCII x86 Release\0"
+		#endif
+	#endif
+#endif
