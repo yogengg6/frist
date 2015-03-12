@@ -71,6 +71,7 @@ private:
 	std::vector<CStdString> m_omapName;	// from omap tag
 	std::vector<CStdString> m_mmapDesc;	// from mmap tag
 	std::vector<CStdString> m_omapDesc;	// from omap tag
+	CStdString m_sMapFilename;			// filename of external mmap/omap file, if any
 
 public:
 	CRuleObj();
@@ -97,6 +98,7 @@ public:
 	std::vector<CStdString> GetOMapValNames() { return m_omapName; }
 	std::vector<CStdString> GetMMapValDescriptions() { return m_mmapDesc; }
 	std::vector<CStdString> GetOMapValDescriptions() { return m_omapDesc; }
+	CStdString GetMapFilename() { return m_sMapFilename; }
 	CStdString GetMMap();
 	int GetLocFormType() { return m_nLocFormType; }
 	int	GetRecordType() { return m_nRecordType; }

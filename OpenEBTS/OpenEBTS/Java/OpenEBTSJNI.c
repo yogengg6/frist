@@ -3,7 +3,7 @@
 #include "OpenEBTSErrors.h"
 #include "OpenEBTSJNIHelpers.h"
 #include "OpenEBTSJNI.h"
-
+#include <malloc.h>
 
 #define RETVAL			int ret = 0;
 #define PACKAGERETVAL	PackageReturnValue(env, ret, joRet);
@@ -1055,8 +1055,8 @@ JNIEXPORT jobject JNICALL Java_com_obi_OpenEBTS_IWGetValueList
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	const TCHAR		*szTOT = NULL;
 	const TCHAR		*szMNU = NULL;
-	const TCHAR		*szName[1000];	// a reasonable amount of values
-	const TCHAR		*szValue[1000];
+	const TCHAR		**szName = NULL;
+	const TCHAR		**szValue = NULL;
 	int				nValues;
 	int				bMandatory;
 	jobject			jobjValues = NULL;
@@ -1064,13 +1064,22 @@ JNIEXPORT jobject JNICALL Java_com_obi_OpenEBTS_IWGetValueList
 	szTOT = JNIGetString(env, jsTOT);
 	szMNU = JNIGetString(env, jsMNU);
 
-	ret = IWGetValueList(pVer, szTOT, szMNU, &bMandatory, 1000, szValue, szName, &nValues);
+	// Calling IWGetValueList with nDataArraySize of 0 gives us the number of entries
+	ret = IWGetValueList(pVer, szTOT, szMNU, NULL, 0, NULL, NULL, &nValues);
+	if (ret == IW_SUCCESS && nValues > 0)
+	{
+		szName = malloc(sizeof(TCHAR*) * nValues);
+		szValue = malloc(sizeof(TCHAR*) * nValues);
+		ret = IWGetValueList(pVer, szTOT, szMNU, &bMandatory, nValues, szValue, szName, &nValues);
+	}
 
 	if (ret == IW_SUCCESS && nValues >  0)
 	{
 		jobjValues = JNICreateNISTValueList(env, szTOT, szMNU, bMandatory, szName, szValue, nValues);
 	}
 
+	if (szName != NULL) free((void*)szName);
+	if (szValue != NULL) free((void*)szValue);
 	JNIReleaseString(env, jsTOT, szTOT);
 	JNIReleaseString(env, jsMNU, szMNU);
 	PACKAGERETVAL

@@ -94,7 +94,7 @@ public:
 	int GetLocationIndex(const TCHAR* TransactionType, const TCHAR* pMnemonic, const TCHAR** ppLocationIndex);
 	int GetValueList(const TCHAR* TransactionType, const TCHAR* Mnemonic, bool *Mandatory,
 					 int DataArraySize, const TCHAR** DataArray, const TCHAR** DescArray, int *Entries);
-
+	int GetValueListFilename(const TCHAR* TransactionType, const TCHAR* pMnemonic, const TCHAR** pszFilename);
 	std::vector<CRuleObj>* GetRuleArray() { return &m_rulesAry; }
 
 	CIWVerification* Clone();

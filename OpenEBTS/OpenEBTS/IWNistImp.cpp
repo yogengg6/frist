@@ -774,6 +774,23 @@ OPENEBTS_API int WINAPI IWGetValueList(CIWVerification* pIWVer, const TCHAR* szT
 	return nRet;
 }
 
+OPENEBTS_API int WINAPI IWGetValueListFilename(CIWVerification* pIWVer, const TCHAR* szTransactionType, const TCHAR* szMnemonic, const TCHAR** pszFilename)
+{
+	int nRet = IW_ERR_VERIFICATION_NOT_LOADED;
+
+	if (pIWVer && pIWVer->IsLoaded())
+	{
+		IWS_BEGIN_EXCEPTION_METHOD("IWGetValueListFilename")
+		IWS_BEGIN_CATCHEXCEPTION_BLOCK()
+
+		nRet = pIWVer->GetValueListFilename(szTransactionType, szMnemonic, pszFilename);
+
+		IWS_END_CATCHEXCEPTION_BLOCK()
+	}
+
+	return nRet;
+}
+
 //************************************************************/
 //                                                            /
 //                        Images                              /

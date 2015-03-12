@@ -334,7 +334,6 @@ bool CRuleObj::SetOptionalMap(CStdString& sMap, CStdString& sFilePath,
 		if (bfileLocal)
 		{
 			sFilename = sMap.Right(sMap.GetLength() - sFilePrefix.GetLength());
-
 #ifdef WIN32
 			TCHAR		szPath[_MAX_PATH];
 			TCHAR		szDrive[_MAX_DRIVE];
@@ -380,6 +379,9 @@ bool CRuleObj::SetOptionalMap(CStdString& sMap, CStdString& sFilePath,
 			}
 			else
 				return false;
+
+			// Save for future calls to IWGetValueListFilename
+			m_sMapFilename = sFilename;
 		}
 		if (bfileFTP)
 		{

@@ -2845,6 +2845,9 @@ int CIWVerification::GetValueList(const TCHAR* TransactionType, const TCHAR* pMn
 
 				if (bCopy)
 				{
+					// We may also be limited by the amount of values to copy by DataArraySize
+					*pEntries = min(*pEntries, DataArraySize);
+
 					for (int j = 0; j < *pEntries; j++)
 					{
 						if (j < DataArraySize)
@@ -2857,6 +2860,34 @@ int CIWVerification::GetValueList(const TCHAR* TransactionType, const TCHAR* pMn
 					}
 				}
 
+				nRet = IW_SUCCESS;
+				break;
+			}
+		}
+	}
+
+	return nRet;
+}
+
+int CIWVerification::GetValueListFilename(const TCHAR* TransactionType, const TCHAR* pMnemonic, const TCHAR** pszFilename)
+{
+	int						nRet = IW_ERR_MNEMONIC_NOT_FOUND;
+	CRuleObj				*pRule;
+	CStdString				sTOT(TransactionType);
+	CStdString				sVal;
+
+	if (TransactionType == NULL) return IW_ERR_NULL_POINTER;
+	if (pMnemonic == NULL) return IW_ERR_NULL_POINTER;
+
+	for (int i = 0; i < (int)m_rulesAry.size(); i++)
+	{
+		pRule = &m_rulesAry.at(i);
+
+		if (pRule->GetMNU().CompareNoCase(pMnemonic) == 0)
+		{
+			if (pRule->IsMandatory(sTOT) || pRule->IsOptional(sTOT))
+			{
+				*pszFilename = CreateNewStringSlot(pRule->GetMapFilename());
 				nRet = IW_SUCCESS;
 				break;
 			}

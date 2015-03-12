@@ -3,6 +3,13 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.21, Mar 12th, 2015
+--------------------------------
+
+* Fixed memory overflow issue when managing Verification File value lists with more than 1,000 items from Java (Java_com_obi_OpenEBTS_IWGetValueList)
+* Added IWGetValueListFilename for future Verification File localization toolkit
+
+
 Version 2.0.0.20, Mar 2nd, 2015
 -------------------------------
 
