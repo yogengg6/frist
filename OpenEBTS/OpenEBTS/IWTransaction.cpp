@@ -904,7 +904,6 @@ int CIWTransaction::ImportImage(int RecordType, int RecordIndex, CStdStringPath 
 		fstat(fileno(f), &fileStats);
 		nLength = fileStats.st_size;
 
-		pData = new BYTE[nLength];
 		try
 		{
 			pData = new BYTE[nLength];
@@ -1278,6 +1277,11 @@ int CIWTransaction::Write(CStdStringPath sPath)
 		CStdString sLogMessage;
 		sLogMessage.Format(IDS_LOGTRANSWRITE, sPath, nRet);
 		LogMessage(sLogMessage);
+	}
+
+	if (pBuffer != NULL)
+	{
+		IWMemFree(&pBuffer);
 	}
 
 	return nRet;
