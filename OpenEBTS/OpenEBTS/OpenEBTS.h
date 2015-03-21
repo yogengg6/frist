@@ -226,6 +226,13 @@ OPENEBTS_API int WINAPI IWGetValueList(
 	int *pnEntries							// Number of entries entered into DataArray
 );
 
+OPENEBTS_API int WINAPI IWGetValueListFilename(
+	CIWVerification* pIWVer,				// Verification Pointer
+	const TCHAR* szTransactionType,			// Type of transaction
+	const TCHAR* szMnemonic,				// Field identifier
+	const TCHAR** pszFilename				// Filename (returned)
+);
+
 OPENEBTS_API int WINAPI IWReadVerification(
 	const TCHARPATH* szPath,				// Path name to file
 	CIWVerification** ppIWVer,				// Pointer to a verification pointer
