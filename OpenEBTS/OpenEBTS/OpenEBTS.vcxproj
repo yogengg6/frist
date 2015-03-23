@@ -221,8 +221,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) c:\windows\syswow64
-copy $(TargetPath) "C:\Program Files (x86)\ImageWare Systems\EPIBUILDER\6"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -251,8 +251,7 @@ copy $(TargetPath) "C:\Program Files (x86)\ImageWare Systems\EPIBUILDER\6"</Comm
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) c:\windows\system32
-</Command>
+      <Command>copy $(TargetPath) C:\Windows\System32</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -439,7 +438,8 @@ copy $(TargetPath) "C:\Program Files (x86)\ImageWare Systems\EPIBUILDER\6"</Comm
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command />
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">
@@ -808,6 +808,9 @@ copy $(TargetPath) "C:\Program Files (x86)\ImageWare Systems\EPIBUILDER\6"</Comm
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenEBTS.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\OpenEBTSNET\OpenEBTSNETSample\OpenEBTSNETSample.csproj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

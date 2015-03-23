@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B0E98C7D-349E-4F31-9AC6-75C6900B38E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenEBTSNet</RootNamespace>
+    <AssemblyName>OpenEBTSNET</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="File\OpenEBTSField.cs" />
+    <Compile Include="File\OpenEBTSFile.cs" />
+    <Compile Include="File\OpenEBTSItem.cs" />
+    <Compile Include="File\OpenEBTSRecord.cs" />
+    <Compile Include="File\OpenEBTSSubfield.cs" />
+    <Compile Include="File\SafeHandleTransaction.cs" />
+    <Compile Include="OpenEBTSException.cs" />
+    <Compile Include="OpenEBTSImageFormat.cs" />
+    <Compile Include="OpenEBTSInterop.cs" />
+    <Compile Include="OpenEBTSInteropWrap.cs" />
+    <Compile Include="Verification\OpenEBTSFieldDefinition.cs" />
+    <Compile Include="Verification\OpenEBTSFieldDefinitions.cs" />
+    <Compile Include="Verification\OpenEBTSFieldRules.cs" />
+    <Compile Include="Verification\OpenEBTSFieldValue.cs" />
+    <Compile Include="Verification\OpenEBTSFieldValues.cs" />
+    <Compile Include="Verification\OpenEBTSRecordOccurrence.cs" />
+    <Compile Include="Verification\OpenEBTSRecordOccurrences.cs" />
+    <Compile Include="Verification\OpenEBTSTransaction.cs" />
+    <Compile Include="Verification\OpenEBTSTransactionCategories.cs" />
+    <Compile Include="Verification\OpenEBTSTransactionCategory.cs" />
+    <Compile Include="Verification\OpenEBTSTransactions.cs" />
+    <Compile Include="Verification\OpenEBTSVerification.cs" />
+    <Compile Include="OpenEBTSErrors.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Verification\SafeHandleVerification.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
