@@ -206,7 +206,7 @@ namespace OpenEBTSNet
 
 			if (errCode != (int)OpenEBTSErrors.ErrorCodes.IW_SUCCESS)
 			{
-				throw new OpenEBTSException("IWFindItem", errCode);
+				throw new OpenEBTSException("IWSetItem", errCode);
 			}
 		}
 
@@ -242,6 +242,13 @@ namespace OpenEBTSNet
 			{
 				throw new OpenEBTSException("IWSet", errCode);
 			}
+		}
+
+		internal static bool TrySet(SafeHandleTransaction handle, string mnemonic, int recordIndex, int secondaryIndex, string data)
+		{
+			int errCode = OpenEBTSInterop.IWSet(handle.DangerousGetHandle(), mnemonic, data, secondaryIndex, recordIndex);
+
+			return (errCode == (int)OpenEBTSErrors.ErrorCodes.IW_SUCCESS);
 		}
 
 		internal static void ImportImage(SafeHandleTransaction handle, int recordType, int recordIndex, string filePath,
@@ -414,12 +421,34 @@ namespace OpenEBTSNet
 
 			if (errCode != (int)OpenEBTSErrors.ErrorCodes.IW_SUCCESS)
 			{
-				throw new OpenEBTSException("IWSet", errCode);
+				throw new OpenEBTSException("IWGet", errCode);
 			}
 
 			return Marshal.PtrToStringUni(retVal);
 		}
 
+		internal static bool TryGet(SafeHandleTransaction handle, string mnemonic, int recordIndex, int secondaryIndex, out string data)
+		{
+			IntPtr retVal = IntPtr.Zero;
+
+			int errCode = OpenEBTSInterop.IWGet(handle.DangerousGetHandle(), mnemonic, ref retVal, secondaryIndex, recordIndex);
+
+			if (errCode == (int) OpenEBTSErrors.ErrorCodes.IW_SUCCESS)
+			{
+				data = Marshal.PtrToStringUni(retVal);
+				return true;
+			}
+			if (errCode == (int) OpenEBTSErrors.ErrorCodes.IW_ERR_MNEMONIC_NOT_FOUND ||
+				errCode == (int) OpenEBTSErrors.ErrorCodes.IW_ERR_RECORD_NOT_FOUND)
+			{
+				data = "";
+				return false;
+			}
+			else
+			{
+				throw new OpenEBTSException("IWGet", errCode);
+			}
+		}
 
 		internal static int GetRecordTypeCount(SafeHandleTransaction handle, int recordType)
 		{

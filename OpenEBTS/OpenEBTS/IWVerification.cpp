@@ -368,6 +368,7 @@ TCHAR *CIWVerification::GetRule(TCHAR **ppFile)
 }
 
 void CIWVerification::SkipComments(TCHAR **ppRule)
+// Lines that begin with either # or ' are comments
 {
 	TCHAR *pTemp = *ppRule;
 
@@ -378,7 +379,7 @@ void CIWVerification::SkipComments(TCHAR **ppRule)
 			while (*pTemp && isspace(*pTemp))
 				pTemp++;
 		
-			if (*pTemp && *pTemp == '#')
+			if (*pTemp && (*pTemp == '#' || *pTemp == '\''))
 			{
 				while (*pTemp && *pTemp != '\n')
 					pTemp++;

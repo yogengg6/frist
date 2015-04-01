@@ -27,8 +27,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,0,0,22
- PRODUCTVERSION 2,0,0,22
+ FILEVERSION 2,0,0,23
+ PRODUCTVERSION 2,0,0,23
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -45,11 +45,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "ImageWare Systems, Inc"
             VALUE "FileDescription", OPENEBTS_CONFIG_PLATFORM
-            VALUE "FileVersion", "2, 0, 0, 22"
+            VALUE "FileVersion", "2, 0, 0, 23"
             VALUE "InternalName", "OpenEBTS"
             VALUE "OriginalFilename", "OpenEBTS.dll"
-            VALUE "ProductName", "OpenEBTS Module"
-            VALUE "ProductVersion", "2.0.0.22"
+            VALUE "ProductName", "OpenEBTS"
+            VALUE "ProductVersion", "2.0.0.23"
         END
     END
     BLOCK "VarFileInfo"

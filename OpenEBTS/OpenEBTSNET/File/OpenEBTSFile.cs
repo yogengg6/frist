@@ -88,8 +88,8 @@ namespace OpenEBTSNet
 		}
 
 		/// <summary>
-		/// Same as AssociateVerificationFile but instead of taking the path of a Verification file takes 
-		/// an OpenEBTSVerification object.
+		/// Associates the verification file with the transaction file, enabling referencing the data within
+		/// via mnemonics and perfoming verification
 		/// </summary>
 		/// <param name="verification">OpenEBTSVerification object</param>
 		/// <remarks>Before calling Verify the OpenEBTSVerification object must contain a valid Verification File,
@@ -113,8 +113,7 @@ namespace OpenEBTSNet
 		/// </summary>
 		/// <returns>True if NIST file passes verification, false otherwise</returns>
 		/// <remarks>Note that before calling Verify, a Verification File containing all the rules must be associated 
-		/// with this NIST Transaction File, either via AssociateVerificationFile or AssociateVerification</remarks>
-		/// <seealso cref="AssociateVerificationFile"/>
+		/// with this NIST Transaction File via AssociateVerification</remarks>
 		/// <seealso cref="AssociateVerification"/>
 		/// <seealso cref="VerifyErrors"/>
 		public bool Verify()
@@ -171,6 +170,26 @@ namespace OpenEBTSNet
 		}
 
 		/// <summary>
+		/// Retrieves textual data from the Transaction File by referring to an item by its hierarchical
+		/// set of idexes
+		/// </summary>
+		/// <param name="recordType">Type of EBTS record</param>
+		/// <param name="recordIndex">1-based index of record</param>
+		/// <param name="fieldIndex">1-based field index</param>
+		/// <param name="subfieldIndex">1-based subfield index</param>
+		/// <param name="itemIndex">1-based item index</param>
+		/// <returns>Text at the specified location in the EBTS file</returns>
+		/// <seealso cref="SetDataViaIndexes"/>
+		/// <seealso cref="SetDataViaMnemonic"/>
+		/// <seealso cref="TrySetDataViaMnemonic"/>
+		/// <seealso cref="GetDataViaMnemonic"/>
+		/// <seealso cref="TryGetDataViaMnemonic"/>
+		public string GetDataViaIndexes(int recordType, int recordIndex, int fieldIndex, int subfieldIndex, int itemIndex)
+		{
+			return OpenEBTSInteropWrap.FindItem(Handle, recordType, recordIndex, fieldIndex, subfieldIndex, itemIndex);
+		}
+
+		/// <summary>
 		/// Retrieves textual data from the Transaction File by referring to an item by its mnemonic, as 
 		/// defined in its associated Verification File
 		/// </summary>
@@ -180,12 +199,37 @@ namespace OpenEBTSNet
 		/// <returns>Data at the specified location</returns>
 		/// <remarks>To use mnemonics to refer to items in the Transaction File a Verification File must first 
 		/// be associated with the Transaction File</remarks>
-		/// <seealso cref="AssociateVerificationFile"/>
 		/// <seealso cref="AssociateVerification"/>
+		/// <seealso cref="SetDataViaIndexes"/>
 		/// <seealso cref="SetDataViaMnemonic"/>
+		/// <seealso cref="TrySetDataViaMnemonic"/>
+		/// <seealso cref="GetDataViaIndexes"/>
+		/// <seealso cref="TryGetDataViaMnemonic"/>
 		public string GetDataViaMnemonic(string mnemonic, int recordIndex, int secondaryIndex)
 		{
 			return OpenEBTSInteropWrap.Get(Handle, mnemonic, recordIndex, secondaryIndex);
+		}
+
+
+		/// <summary>
+		/// Same function as GetDataViaMnemonic but returns false if either the mnemonic or the record does not exist
+		/// </summary>
+		/// <param name="mnemonic">Mnemonic</param>
+		/// <param name="recordIndex">Record index for that particular Record Type</param>
+		/// <param name="secondaryIndex">Field Index, or depending on the mnemonic, Subitem or Item index</param>
+		/// <param name="data">Data is returned here on success</param>
+		/// <returns>True if the data was obtained</returns>
+		/// <remarks>To use mnemonics to refer to items in the Transaction File a Verification File must first 
+		/// be associated with the Transaction File</remarks>
+		/// <seealso cref="AssociateVerification"/>
+		/// <seealso cref="SetDataViaIndexes"/>
+		/// <seealso cref="SetDataViaMnemonic"/>
+		/// <seealso cref="TrySetDataViaMnemonic"/>
+		/// <seealso cref="GetDataViaIndexes"/>
+		/// <seealso cref="GetDataViaMnemonic"/>
+		public bool TryGetDataViaMnemonic(string mnemonic, int recordIndex, int secondaryIndex, out string data)
+		{
+			return OpenEBTSInteropWrap.TryGet(Handle, mnemonic, recordIndex, secondaryIndex, out data);
 		}
 
 		/// <summary>
@@ -338,6 +382,26 @@ namespace OpenEBTSNet
 		}
 
 		/// <summary>
+		/// Sets textual data to the Transaction File by referring to an item by its hierarchical
+		/// set of idexes
+		/// </summary>
+		/// <param name="recordType">Type of EBTS record</param>
+		/// <param name="recordIndex">1-based index of record</param>
+		/// <param name="fieldIndex">1-based field index</param>
+		/// <param name="subfieldIndex">1-based subfield index</param>
+		/// <param name="itemIndex">1-based item index</param>
+		/// <param name="itemIndex">Text to set</param>
+		/// <seealso cref="SetDataViaMnemonic"/>
+		/// <seealso cref="TrySetDataViaMnemonic"/>
+		/// <seealso cref="GetDataViaIndexes"/>
+		/// <seealso cref="GetDataViaMnemonic"/>
+		/// <seealso cref="TryGetDataViaMnemonic"/>
+		public void SetDataViaIndexes(int recordType, int recordIndex, int fieldIndex, int subfieldIndex, int itemIndex, string data)
+		{
+			OpenEBTSInteropWrap.SetItem(Handle, recordType, recordIndex, fieldIndex, subfieldIndex, itemIndex, data);
+		}
+
+		/// <summary>
 		/// Places textual data into the Transaction File item described by a mnemonic
 		/// </summary>
 		/// <param name="mnemonic">Mnemonic</param>
@@ -346,12 +410,36 @@ namespace OpenEBTSNet
 		/// <param name="data">Text to place in the Transaction File</param>
 		/// <remarks>To use mnemonics to refer to items in the Transaction File a Verification File must first 
 		/// be associated with the Transaction File</remarks>
-		/// <seealso cref="AssociateVerificationFile"/>
 		/// <seealso cref="AssociateVerification"/>
+		/// <seealso cref="SetDataViaIndexes"/>
+		/// <seealso cref="TrySetDataViaMnemonic"/>
+		/// <seealso cref="GetDataViaIndexes"/>
 		/// <seealso cref="GetDataViaMnemonic"/>
+		/// <seealso cref="TryGetDataViaMnemonic"/>
 		public void SetDataViaMnemonic(string mnemonic, int recordIndex, int secondaryIndex, string data)
 		{
 			OpenEBTSInteropWrap.Set(Handle, mnemonic, recordIndex, secondaryIndex, data);
+		}
+
+		/// <summary>
+		/// Places textual data into the Transaction File item described by a mnemonic. Unlike SetDataViaMnemonic
+		/// this version of the function will not throw an exception on failure but simply return false
+		/// </summary>
+		/// <param name="mnemonic">Mnemonic</param>
+		/// <param name="recordIndex">Record index for that particular Record Type</param>
+		/// <param name="secondaryIndex">Field Index, or depending on the mnemonic, Subitem or Item index</param>
+		/// <param name="data">Text to place in the Transaction File</param>
+		/// <remarks>To use mnemonics to refer to items in the Transaction File a Verification File must first 
+		/// be associated with the Transaction File</remarks>
+		/// <seealso cref="AssociateVerification"/>
+		/// <seealso cref="SetDataViaIndexes"/>
+		/// <seealso cref="SetDataViaMnemonic"/>
+		/// <seealso cref="GetDataViaIndexes"/>
+		/// <seealso cref="GetDataViaMnemonic"/>
+		/// <seealso cref="TryGetDataViaMnemonic"/>
+		public bool TrySetDataViaMnemonic(string mnemonic, int recordIndex, int secondaryIndex, string data)
+		{
+			return OpenEBTSInteropWrap.TrySet(Handle, mnemonic, recordIndex, secondaryIndex, data);
 		}
 
 		// Support overloaded version to allow choice

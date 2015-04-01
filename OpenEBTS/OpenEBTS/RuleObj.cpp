@@ -284,6 +284,8 @@ bool CRuleObj::SetOptionalMap(CStdString& sMap, CStdString& sFilePath,
 {
 	TCHAR		c;
 	bool		bInsideValue;
+	bool		bStartOfLine;
+	bool		bInsideComment;
 	CStdString	sName;
 	CStdString	sDesc;
 	CStdString	sFilename;
@@ -296,6 +298,7 @@ bool CRuleObj::SetOptionalMap(CStdString& sMap, CStdString& sFilePath,
 	bool bfileLocal = false;
 	int			i;
 	int			j;
+	int			iStart;
 
 	if (sMap.IsEmpty()) return true;	// no map, nothing to copy
 
@@ -419,12 +422,35 @@ bool CRuleObj::SetOptionalMap(CStdString& sMap, CStdString& sFilePath,
 		szFile = (char*)pFile;
 #endif
 
+		bStartOfLine = true; // indicates we're on the first char of the line
 		bInsideValue = true; // the first char of the string is the first char of the first value
+		bInsideComment = false;
 
-		for (i = 0; i < (int)_tcslen(szFile); i++)
+		iStart = 0;
+#ifdef UNICODE
+		// Skip UTF-8 BOM if present
+		if (_tcslen(szFile) > 1 && szFile[0] == 0xFEFF)
+		{
+			iStart = 1;
+		}
+#endif
+
+		for (i = iStart; i < (int)_tcslen(szFile); i++)
 		{
 			c = szFile[i];
-			if (c == 0x09)
+
+			if (bInsideComment && c != 0x0A)
+			{
+				continue;
+			}
+
+			if (bStartOfLine && c == '\'')
+			{
+				// The whole line is a comment, we need to skip it
+				bStartOfLine = false;
+				bInsideComment = true;
+			}
+			else if (c == 0x09)
 			{
 				bInsideValue = false;	// end of value, about to enter description
 
@@ -435,12 +461,21 @@ bool CRuleObj::SetOptionalMap(CStdString& sMap, CStdString& sFilePath,
 			}
 			else if (c == 0x0A)
 			{
-				bInsideValue = true;	// end of description, about to enter value
+				if (bInsideComment)
+				{
+					bInsideComment = false;
+				}
+				else
+				{
+					bInsideValue = true;	// end of description, about to enter value
 
-				// save current value descriptions is array and reset it
-				sDesc.Trim();
-				if (!sDesc.IsEmpty()) mapValDescriptions.push_back(sDesc);
-				sDesc.Empty();
+					// save current value descriptions in array and reset it
+					sDesc.Trim();
+					if (!sDesc.IsEmpty()) mapValDescriptions.push_back(sDesc);
+					sDesc.Empty();
+				}
+
+				bStartOfLine = true;
 			}
 			else
 			{
@@ -452,6 +487,8 @@ bool CRuleObj::SetOptionalMap(CStdString& sMap, CStdString& sFilePath,
 				{
 					sDesc += c;		// add new char to present description
 				}
+
+				bStartOfLine = false;
 			}
 		}
 
