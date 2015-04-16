@@ -31,8 +31,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release - Sig Check|x86'">
-    <OutputPath>bin\x86\Release - Sig Check\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseSigCheck|x86' ">
+    <OutputPath>bin\x86\ReleaseSigCheck\</OutputPath>
     <DefineConstants>TRACE;SIG_CHECK</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
