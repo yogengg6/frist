@@ -15,7 +15,7 @@ namespace OpenEBTSNETSample
 
 		static void Main(string[] args)
 		{
-			SamplesFolder = Environment.GetEnvironmentVariable("OPENEBTSSAMPLESFOLDER");
+			SamplesFolder = @"C:\Users\Public\My Code\openbiometrics-code\OpenEBTS\OpenEBTSSamples\Samples";
 			if (string.IsNullOrEmpty(SamplesFolder))
 			{
 				Console.WriteLine("You must set the environment variable OPENEBTSSAMPLESFOLDER to the folder containing the OpenEBTS sample files");

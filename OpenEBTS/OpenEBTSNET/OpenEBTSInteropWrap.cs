@@ -786,12 +786,12 @@ namespace OpenEBTSNet
 			string path = GetLibraryPath(module);
 			if (string.IsNullOrEmpty(path))
 			{
-				throw new OpenEBTSException("CheckSiginature", -1, "File OpenEBTS.dll was not found");
+				throw new OpenEBTSException("CheckSiginature", -1, string.Format("File \"{0}\" was not found", path));
 			}
 			verifier.Initialize(path, false);
 			if (!(verifier.WinVerifySignature() && verifier.ChainIsValid))
 			{
-				throw new OpenEBTSException("CheckSignature", -1, "An integrity error occurred while loading OpenEBTS.dll;.  This is likely caused by an unauthorized modification of this file. Please contact your system administrator and perform a re-install of this application.");
+				throw new OpenEBTSException("CheckSignature", -1, string.Format("An integrity error occurred while loading \"{0}\".  This is likely caused by an unauthorized modification of this file. Please contact your system administrator and perform a re-install of this application.", path));
 			}
 		}
 
