@@ -3,6 +3,14 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.24, Apr 16th, 2015
+--------------------------------
+* WSQ compression errors (due to low heap memory) reported to caller
+* OpenEBTS .NET: OpenEBTSFile Get and Set now specify MNU in error message on failure
+* OpenEBTS.dll:  Availability of new code-signed Windows native OpenEBTS binary
+* OpenEBTS .NET: Availability of new code-signature verification binary
+
+
 Version 2.0.0.23, Apr 1st, 2015
 -------------------------------
 * Verification file comments can now also start with ', not just #
