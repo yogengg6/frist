@@ -246,7 +246,7 @@ namespace OpenEBTSNet
 
 			if (errCode != (int)OpenEBTSErrors.ErrorCodes.IW_SUCCESS)
 			{
-				throw new OpenEBTSException("IWSet", errCode);
+				throw new OpenEBTSException("IWSet " + mnemonic, errCode);
 			}
 		}
 
@@ -427,7 +427,7 @@ namespace OpenEBTSNet
 
 			if (errCode != (int)OpenEBTSErrors.ErrorCodes.IW_SUCCESS)
 			{
-				throw new OpenEBTSException("IWGet", errCode);
+				throw new OpenEBTSException("IWGet " + mnemonic, errCode);
 			}
 
 			return Marshal.PtrToStringUni(retVal);
