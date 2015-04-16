@@ -23,11 +23,15 @@ namespace OpenEBTSNet
 			string message = string.Format("OpenEBTS function {0} reported error {1}: {2}", functionName, errorCode,
 										   OpenEBTSErrors.GetDescription(errorCode, ""));
 
-			if (errorCode == OpenEBTSErrors.ErrorCodes.IW_ERR_LOADING_VERICATION && !string.IsNullOrEmpty(errorMessage))
+			if ((errorCode == OpenEBTSErrors.ErrorCodes.IW_ERR_LOADING_VERICATION) && !string.IsNullOrEmpty(errorMessage))
 			{
 				message += string.Format("\nVerification file error:\n{0}", errorMessage);
 			}
 
+			if ((int)errorCode == -1)
+			{
+				message = errorMessage;
+			}
 			return message;
 		}
 	}

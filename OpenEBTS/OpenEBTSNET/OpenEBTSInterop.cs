@@ -560,5 +560,17 @@ namespace OpenEBTSNet
 		internal static extern int BMPtoPNG(IntPtr pImageIn, int cbIn, ref IntPtr ppImageOut, ref int pcbOut);
 
 		#endregion Image conversion
+
+		#region kernel32
+		[DllImport("kernel32.dll", SetLastError = true)]
+		internal static extern IntPtr LoadLibrary(string dllToLoad);
+			
+		[DllImport("kernel32.dll", SetLastError = true)]
+		[PreserveSig]
+		internal static extern uint GetModuleFileName([In] IntPtr hModule, [Out] StringBuilder lpFilename, [In] [MarshalAs(UnmanagedType.U4)] int nSize);
+
+		[DllImport("kernel32.dll")]
+		internal static extern bool FreeLibrary(IntPtr hModule);
+		#endregion
 	}
 }

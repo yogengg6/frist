@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageWare.CodeSigning;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -12,6 +13,7 @@ namespace OpenEBTSNet
 
 		internal static SafeHandleTransaction Read(string filePath)
 		{
+			CheckSignatures();
 			IntPtr transactionPtr = IntPtr.Zero;
 
 			int errCode = OpenEBTSInterop.IWRead(filePath, IntPtr.Zero, ref transactionPtr);
@@ -25,6 +27,7 @@ namespace OpenEBTSNet
 
 		internal static SafeHandleTransaction ReadFromMem(byte[] transactionBuffer)
 		{
+			CheckSignatures();
 			IntPtr transactionPtr = IntPtr.Zero;
 			IntPtr unmanagedPointer = IntPtr.Zero;
 
@@ -53,6 +56,7 @@ namespace OpenEBTSNet
 
 		internal static SafeHandleTransaction New(string TOT)
 		{
+			CheckSignatures();
 			IntPtr transactionPtr = IntPtr.Zero;
 
 			// Prepare a blank transaction. Don't pass in verification, it gets associated
@@ -69,6 +73,7 @@ namespace OpenEBTSNet
 
 		internal static void Write(SafeHandleTransaction handle, string filePath)
 		{
+			CheckSignatures();
 			int errCode = OpenEBTSInterop.IWWrite(handle.DangerousGetHandle(), filePath);
 
 			if (errCode != (int)OpenEBTSErrors.ErrorCodes.IW_SUCCESS)
@@ -79,6 +84,7 @@ namespace OpenEBTSNet
 
 		internal static byte[] WriteMem(SafeHandleTransaction handle)
 		{
+			CheckSignatures();
 			IntPtr dataPtr = IntPtr.Zero;
 
 			try
@@ -526,6 +532,7 @@ namespace OpenEBTSNet
 
 		internal static SafeHandleVerification ReadVerification(string filePath)
 		{
+			CheckSignatures();
 			const int maxChars = 1024;
 			StringBuilder parseError = new StringBuilder(maxChars);
 			IntPtr verificationPtr = IntPtr.Zero;
@@ -755,5 +762,64 @@ namespace OpenEBTSNet
 		}
 
 		#endregion Verification file related
+
+		#region Code Signing
+
+		private static bool signatureCheckPassed = false;
+
+		private static void CheckSignatures()
+		{
+#if SIG_CHECK
+			if (signatureCheckPassed)
+			{
+				return;
+			}
+			CheckSignature("OpenEBTS.dll");
+			CheckSignature("FreeImage.dll");
+			signatureCheckPassed = true;
+#endif
+		}
+
+		private static void CheckSignature(string module)
+		{
+			AuthenticodeVerifier verifier = new AuthenticodeVerifier();
+			string path = GetLibraryPath(module);
+			if (string.IsNullOrEmpty(path))
+			{
+				throw new OpenEBTSException("CheckSiginature", -1, "File OpenEBTS.dll was not found");
+			}
+			verifier.Initialize(path, false);
+			if (!(verifier.WinVerifySignature() && verifier.ChainIsValid))
+			{
+				throw new OpenEBTSException("CheckSignature", -1, "An integrity error occurred while loading OpenEBTS.dll;.  This is likely caused by an unauthorized modification of this file. Please contact your system administrator and perform a re-install of this application.");
+			}
+		}
+
+		private static string GetLibraryPath(string dllName)
+		{
+			string retVal = null;
+
+			IntPtr lib = OpenEBTSInterop.LoadLibrary(dllName);
+
+			if (lib != IntPtr.Zero)
+			{
+				try
+				{
+					StringBuilder sb = new StringBuilder(256);
+					OpenEBTSInterop.GetModuleFileName(lib, sb, 256);
+					retVal = sb.ToString();
+				}
+				finally
+				{
+					OpenEBTSInterop.FreeLibrary(lib);
+				}
+			}
+			else
+			{
+				return null;
+			}
+			return retVal;
+		}
+		#endregion
 	}
 }
