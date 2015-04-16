@@ -1430,7 +1430,11 @@ OPENEBTS_API int WINAPI BMPtoWSQ(BYTE* pImageIn, int cbIn, float fRate, BYTE** p
 	// Protect WSQ library
 	auto_mutex_lock lockWSQ(&g_WSQMutex);
 	retWSQ = wsq_encode_mem(&pWSQ, &cbSizeWSQ, fRate, pRAW, width, height, 8, DPI, NULL);
-	if (retWSQ != 0) goto Exit;
+	if (retWSQ != 0)
+	{
+		ret = IW_ERR_WSQ_COMPRESS;
+		goto Exit;
+	}
 
 	*pcbOut = cbSizeWSQ;
 	*ppImageOut = new BYTE[cbSizeWSQ];
