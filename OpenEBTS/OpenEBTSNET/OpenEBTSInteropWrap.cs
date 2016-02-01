@@ -1,6 +1,7 @@
 ﻿using ImageWare.CodeSigning;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -782,16 +783,17 @@ namespace OpenEBTSNet
 
 		private static void CheckSignature(string module)
 		{
-			AuthenticodeVerifier verifier = new AuthenticodeVerifier();
-			string path = GetLibraryPath(module);
-			if (string.IsNullOrEmpty(path))
+			try
 			{
-				throw new OpenEBTSException("CheckSiginature", -1, string.Format("File \"{0}\" was not found", path));
+				Utils.CheckPlugInSignature(module);
+			} 
+			catch(CodeSigningException)
+			{
+				throw new OpenEBTSException("CheckSignature", -1, string.Format("An integrity error occurred while loading \"{0}\".  This is likely caused by an unauthorized modification of this file. Please contact your system administrator and perform a re-install of this application.", module));
 			}
-			verifier.Initialize(path, false);
-			if (!(verifier.WinVerifySignature() && verifier.ChainIsValid))
+			catch (FileNotFoundException) 
 			{
-				throw new OpenEBTSException("CheckSignature", -1, string.Format("An integrity error occurred while loading \"{0}\".  This is likely caused by an unauthorized modification of this file. Please contact your system administrator and perform a re-install of this application.", path));
+				throw new OpenEBTSException("CheckSiginature", -1, string.Format("File \"{0}\" was not found", module));
 			}
 		}
 
