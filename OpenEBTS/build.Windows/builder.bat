@@ -2,7 +2,7 @@ REM
 REM Note, this should point to the MSBuild.exe on your machine
 REM
 
-SET MSBUILD="C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe"
+SET MSBUILD="C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 
 REM Check for missing parameters, this batch file needs 6 of them
 IF %1.==. GOTO No1
