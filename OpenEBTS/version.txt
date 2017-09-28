@@ -3,6 +3,14 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.26, Sept 28th, 2017
+---------------------------------
+* OpenEBTSViewer 2.0.0.8: now properly displays all subfields for image records in the floating Image Details window
+* OpenEBTSViewer 2.0.0.8: larger default size for floating Image Details window
+* OpenEBTSViewer 2.0.0.8: full version text now properly displayed in About Box
+* Fixed incorrect FileVersion VERSIONINFO tags on OpenEBTS DLLs and OpenEBTSViewer EXE caused in 2.0.0.25
+
+
 Version 2.0.0.25, Sept 28th, 2017
 ---------------------------------
 * All projects updated to Visual Studio 2015

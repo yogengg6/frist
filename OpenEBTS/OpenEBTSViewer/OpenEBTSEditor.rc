@@ -205,7 +205,7 @@ CAPTION "About OpenEBTSEditor"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,15,12,21,20
-    LTEXT           "OpenEBTSEditor Version 2.0",IDC_STATIC,43,18,119,8,SS_NOPREFIX
+    LTEXT           "OpenEBTSEditor Version 2.0.0.8",IDC_STATIC,43,18,119,8,SS_NOPREFIX
     CTEXT           "Copyright© 2007 ImageWare Systems, Inc. All rights reserved.",IDC_STATIC,7,48,221,8
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
 END
@@ -251,8 +251,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,0,0,6
- PRODUCTVERSION 2,0,0,6
+ FILEVERSION 2,0,0,8
+ PRODUCTVERSION 2,0,0,8
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -268,13 +268,13 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "ImageWare Systems, Inc."
-            VALUE "FileDescription", "OpenEBTSViewer ASCII x86 Release"
-            VALUE "FileVersion", "2.0.0.6"
+            VALUE "FileDescription", OPENEBTSVIEWER_CONFIG_PLATFORM
+            VALUE "FileVersion", "2.0.0.8"
             VALUE "InternalName", "OpenEBTSViewer.exe"
             VALUE "LegalCopyright", "©2006 ImageWare Systems, Inc.  All rights reserved."
             VALUE "OriginalFilename", "OpenEBTSViewer.exe"
             VALUE "ProductName", "ImageWare OpenEBTS Viewer"
-            VALUE "ProductVersion", "2.0.0.6"
+            VALUE "ProductVersion", "2.0.0.8"
         END
     END
     BLOCK "VarFileInfo"

@@ -473,7 +473,7 @@ int COpenEBTSEditorDoc::ReadFingerprintRecords(int nRecordType, int nPos, BOOL b
 	int NumSubfields, Subfield;
 	int NumItems, Item;
 
-	CString sSubField, sItemData, sData, sLBText;
+	CString sSubField, sData, sLBText;
 	const TCHAR *Data;
 
 	char* fld_name[] = { "Unknown", "Record Length","Image Designator","Impression Type",
@@ -542,8 +542,11 @@ int COpenEBTSEditorDoc::ReadFingerprintRecords(int nRecordType, int nPos, BOOL b
 				{
 					IWFindItem(m_pIWTrans, nRecordType, i, FieldNum, Subfield, Item, &Data);
 
-					sItemData.Format(_T("Item %d = %s"), Item, CString(Data));
-					sData += sItemData;
+					if (!sData.IsEmpty())
+					{
+						sData += " | ";
+					}
+					sData += Data;
 				}
 
 				int nData = _ttoi(Data);
@@ -562,12 +565,11 @@ int COpenEBTSEditorDoc::ReadFingerprintRecords(int nRecordType, int nPos, BOOL b
 							sLBText += Data;
 						break;
 					default:
-						sLBText += Data;
+						sLBText += sData;
 						break;
 				}
 
 				sLBText += "\n";
-				
 			}
 			
 			pRec->m_arrStrings.Add(sLBText);
@@ -613,7 +615,7 @@ int COpenEBTSEditorDoc::ReadType8Records()
 	int NumSubfields, Subfield;
 	int NumItems, Item;
 
-	CString sSubField, sItemData, sData, sLBText;
+	CString sSubField, sData, sLBText;
 	const TCHAR *Data;
 
 	for (int i = 1; i <= nRecordTypeCount; i++)
@@ -649,13 +651,15 @@ int COpenEBTSEditorDoc::ReadType8Records()
 				{
 					IWFindItem(m_pIWTrans, nRecordType, i, FieldNum, Subfield, Item, &Data);
 
-					sItemData.Format(_T("Item %d = %s"), Item, CString(Data));
-					sData += sItemData;
+					if (!sData.IsEmpty())
+					{
+						sData += " | ";
+					}
+					sData += Data;
 				}
-				
+
 				sLBText += Data;
 				sLBText += _T("\n");
-				
 			}
 			
 			pRec->m_arrStrings.Add(sLBText);
@@ -697,7 +701,7 @@ int COpenEBTSEditorDoc::ReadType10Records()
 	int NumItems, Item;
 
 	CString sSubField;
-	CString sItemData, sData, sLBText;
+	CString sData, sLBText;
 	const TCHAR *Data;
 
 	for (int i = 1; i <= nRecordTypeCount; i++)
@@ -736,16 +740,11 @@ int COpenEBTSEditorDoc::ReadType10Records()
 						pRec->m_nImageType = GetImageType(Data);
 					}
 
-					if(NumItems == 1)
+					if (!sData.IsEmpty())
 					{
-						sItemData = Data;
-						sData += sItemData;
+						sData += " | ";
 					}
-					else
-					{
-						sItemData.Format(_T("Item %d = %s "), Item, Data);
-						sData += sItemData;
-					}
+					sData += Data;
 				}
 
 				sLBText.Format(_T("%d\t%s%s%s\n"), FieldNum, sSubField, NumItems > 1 ? _T(": ") : _T(""), sData);
@@ -789,7 +788,7 @@ int COpenEBTSEditorDoc::ReadType11Records()
 	int NumItems, Item;
 
 	CString sSubField;
-	CString sItemData, sData, sLBText;
+	CString sData, sLBText;
 	const TCHAR *Data;
 
 	for (int i = 1; i <= nRecordTypeCount; i++)
@@ -828,16 +827,11 @@ int COpenEBTSEditorDoc::ReadType11Records()
 						pRec->m_nImageType = GetImageType(Data);
 					}
 
-					if(NumItems == 1)
+					if (!sData.IsEmpty())
 					{
-						sItemData = Data;
-						sData += sItemData;
+						sData += " | ";
 					}
-					else
-					{
-						sItemData.Format(_T("Item %d = %s "), Item, Data);
-						sData += sItemData;
-					}
+					sData += Data;
 				}
 
 				sLBText.Format(_T("%d\t%s%s%s\n"), FieldNum, sSubField, NumItems > 1 ? _T(": ") : _T(""), sData);
@@ -880,7 +874,7 @@ int COpenEBTSEditorDoc::ReadType15Records()
 	int NumItems, Item;
 
 	CString sSubField;
-	CString sItemData, sData, sLBText;
+	CString sData, sLBText;
 	const TCHAR *Data;
 
 	for (int i = 1; i <= nRecordTypeCount; i++)
@@ -919,16 +913,11 @@ int COpenEBTSEditorDoc::ReadType15Records()
 						pRec->m_nImageType = GetImageType(Data);
 					}
 
-					if(NumItems == 1)
+					if (!sData.IsEmpty())
 					{
-						sItemData = Data;
-						sData += sItemData;
+						sData += " | ";
 					}
-					else
-					{
-						sItemData.Format(_T("Item %d = %s "), Item, Data);
-						sData += sItemData;
-					}
+					sData += Data;
 				}
 
 				sLBText.Format(_T("%d\t%s%s%s\n"), FieldNum, sSubField, NumItems > 1 ? _T(": ") : _T(""), sData);
@@ -982,7 +971,7 @@ int COpenEBTSEditorDoc::ReadType1617Records(int nRecordType)
 	int NumSubfields, Subfield;
 	int NumItems, Item;
 
-	CString sSubField, sItemData, sData, sLBText;
+	CString sSubField, sData, sLBText;
 	const TCHAR *Data;
 
 //	IWFindItem(m_pIWTrans, nRecordType, 3, FieldNum, Subfield, Item, &Data);
@@ -1011,16 +1000,11 @@ int COpenEBTSEditorDoc::ReadType1617Records(int nRecordType)
 				{
 					IWFindItem(m_pIWTrans, nRecordType, i, FieldNum, Subfield, Item, &Data);
 
-					if(NumItems == 1)
+					if (!sData.IsEmpty())
 					{
-						sItemData = Data;
-						sData += sItemData;
+						sData += " | ";
 					}
-					else
-					{
-						sItemData.Format(_T("Item %d = %s\n"), Item, CString(Data));
-						sData += sItemData;
-					}
+					sData += Data;
 				}
 
 				sLBText.Format(_T("%d\t%s%s"), FieldNum, sSubField, sData);
