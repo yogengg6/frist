@@ -3,15 +3,17 @@ To obtain the 4 binaries, libcurl.lib, libcurld.lib,  x64/libcurl.lib and x64/li
 the following steps were performed:
 
 
-1) The sources for libcurl 7.21.4 were downloaded from http://curl.haxx.se. Starting with the
-sources was necessary because there was no officially downloadable 64-bit binary for Windows.
+1) The sources for libcurl 7.55.1 were downloaded from http://curl.haxx.se.
 
-2) After extraction of the compressed package, the file vc6curl.dsw was converted into an sln
-with Visual Studio 2008 SP1.
+2) After extraction of the compressed package, the solution curl-7.55.1\projects\Windows\VC14\curl-all.sln was opened.
+with Visual Studio 2015.
 
-3) The solution platform x64 was added in the Configuration Manager dialog.
+3) For Solution Configurations Lib Debug and Lib Release and Solution Platforms Win32 and x64 or the libcurl project, the C++ Code Generation Runtime Library was set from the DLL version to the non-DLL version.
 
-4) - Lib Release Win32 was built, producing a Win32 static library.
-   - Lib Release x64 was built, producing a Win64 static library.
-   - Lib Debug Win32 was built, producing a Win32 debug static library.
-   - Lib Debug x64 was built, producing a Win64 debug static library.
+4) The 4 Configuration/Platform combinations of libcurl were built, resulting in these 4 files, which were collected and checked-in for use by OpenEBTS
+
+curl-7.55.1\build\Win32\VC14\LIB Release\libcurl.lib
+curl-7.55.1\build\Win32\VC14\LIB Debug\libcurld.lib
+curl-7.55.1\build\Win64\VC14\LIB Release\libcurl.lib
+curl-7.55.1\build\Win64\VC14\LIB Debug\libcurld.lib
+
