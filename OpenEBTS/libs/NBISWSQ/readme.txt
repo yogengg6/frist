@@ -35,3 +35,5 @@ required set, were all placed in the folder 'include'.
 
 These source must be compiled with the __NBISLE__ flag on both Windows and Linux
 since they are both little endian operating systems.
+
+For OpenEBTS version 2.0.0.25 (Sept 28th, 2017) and up, this project now builds with Visual Studio 2015.

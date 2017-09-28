@@ -3,6 +3,11 @@ OpenEBTS Version History
 ========================
 
 
+Version 2.0.0.25, Sept 28th, 2017
+---------------------------------
+* All projects updated to Visual Studio 2015
+
+
 Version 2.0.0.24, Apr 16th, 2015
 --------------------------------
 * WSQ compression errors (due to low heap memory) reported to caller
