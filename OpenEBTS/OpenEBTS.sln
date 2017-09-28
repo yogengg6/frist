@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenEBTS", "OpenEBTS\OpenEBTS.vcxproj", "{83964D48-FAC0-413F-9B29-D61DDA43DD66}"
 EndProject
@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEBTSNET", "OpenEBTSNET\
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEBTSNETSample", "OpenEBTSNET\OpenEBTSNETSample\OpenEBTSNETSample.csproj", "{5486AAC9-EAC1-45A3-B35D-0EC40EECE6E8}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OpenEBTSViewerSetup", "OpenEBTSViewerSetup\OpenEBTSViewerSetup.vdproj", "{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -160,6 +162,19 @@ Global
 		{5486AAC9-EAC1-45A3-B35D-0EC40EECE6E8}.ReleaseSigCheck|x86.Build.0 = Release|x86
 		{5486AAC9-EAC1-45A3-B35D-0EC40EECE6E8}.ReleaseSpanish|x64.ActiveCfg = Release|x86
 		{5486AAC9-EAC1-45A3-B35D-0EC40EECE6E8}.ReleaseSpanish|x86.ActiveCfg = Release|x86
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.Debug|x64.ActiveCfg = Debug
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.Debug|x86.ActiveCfg = Debug
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.DebugA|x64.ActiveCfg = Debug
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.DebugA|x86.ActiveCfg = Debug
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.Release|x64.ActiveCfg = Release
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.Release|x86.ActiveCfg = Release
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.Release|x86.Build.0 = Release
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.ReleaseA|x64.ActiveCfg = Release
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.ReleaseA|x86.ActiveCfg = Release
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.ReleaseSigCheck|x64.ActiveCfg = Release
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.ReleaseSigCheck|x86.ActiveCfg = Release
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.ReleaseSpanish|x64.ActiveCfg = Release
+		{5EF52A1E-90BF-48B7-93BA-D865DEDD7A03}.ReleaseSpanish|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
