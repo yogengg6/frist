@@ -8,12 +8,12 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include subdir.mk
 -include wsq/subdir.mk
 -include util/subdir.mk
 -include jpegl/subdir.mk
 -include ioutil/subdir.mk
 -include fet/subdir.mk
+-include subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -33,16 +33,15 @@ all: libNBISWSQ.a
 libNBISWSQ.a: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC Archiver'
-	ar -r "libNBISWSQ.a" $(OBJS) $(USER_OBJS) $(LIBS)
+	ar -r  "libNBISWSQ.a" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(ARCHIVES) libNBISWSQ.a
+	-$(RM) $(ARCHIVES)$(OBJS)$(C_DEPS) libNBISWSQ.a
 	-@echo ' '
 
 .PHONY: all clean dependents
-.SECONDARY:
 
 -include ../makefile.targets
