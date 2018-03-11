@@ -2,20 +2,20 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-O_SRCS := 
-C_SRCS := 
-S_UPPER_SRCS := 
 OBJ_SRCS := 
 ASM_SRCS := 
+C_SRCS := 
+O_SRCS := 
+S_UPPER_SRCS := 
+ARCHIVES := 
 OBJS := 
 C_DEPS := 
-ARCHIVES := 
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-wsq \
-util \
-jpegl \
-ioutil \
 fet \
+ioutil \
+jpegl \
+util \
+wsq \
 

@@ -4,7 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../../Helpers.cpp \
+/mnt/hgfs/UbuntuShare/OpenEBTS/OpenEBTSSamples/Helpers.cpp \
 ../OpenEBTSSample2.cpp 
 
 OBJS += \
@@ -17,17 +17,17 @@ CPP_DEPS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Helpers.o: ../../Helpers.cpp
+Helpers.o: /mnt/hgfs/UbuntuShare/OpenEBTS/OpenEBTSSamples/Helpers.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -DUNICODE -I../../../OpenEBTS -I../../.. -I../.. -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -DUNICODE -I../../../OpenEBTS -I../../.. -I../.. -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 %.o: ../%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -DUNICODE -I../../../OpenEBTS -I../../.. -I../.. -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -DUNICODE -I../../../OpenEBTS -I../../.. -I../.. -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
