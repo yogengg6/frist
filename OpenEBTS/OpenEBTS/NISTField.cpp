@@ -445,7 +445,7 @@ void CNISTField::GetFieldLabel(char* szLabel, int nMaxChars, int nRecordType, in
 	if (nFieldIndex < 1)
 	{
 		// Probably won't happen
-		strcpy_s(szLabel, nMaxChars, "");
+		strncpy(szLabel, "", nMaxChars);
 		return;
 	}
 
@@ -461,9 +461,9 @@ void CNISTField::GetFieldLabel(char* szLabel, int nMaxChars, int nRecordType, in
 	}
 
 	// Generate "%d.%0[N]d:" where [N] is numDigitsToUse
-	sprintf_s(szFormat, 16, "%%d.%%0%dd:", numDigitsToUse);
+	snprintf(szFormat, 16, "%%d.%%0%dd:", numDigitsToUse);
 	// Now apply "%d.%0[N]d:" to m_nRecordType and nFieldIndex
-	sprintf_s(szLabel, nMaxChars, szFormat, nRecordType, nFieldIndex);
+	snprintf(szLabel, nMaxChars, szFormat, nRecordType, nFieldIndex);
 }
 
 int CNISTField::GetWriteLen()
@@ -592,8 +592,8 @@ int CNISTField::Write(BYTE *pBuffer, int *poffset, bool bRecordSeparator)
 		GetFieldLabel(szFieldLabel, sizeof(szFieldLabel), m_nRecordType, m_nField);
 		// Append lenght]
 		char szLength[16];
-		sprintf_s(szLength, sizeof(szLength), "%d", len);
-		strcat_s(szFieldLabel, sizeof(szFieldLabel), szLength);
+		snprintf(szLength, sizeof(szLength), "%d", len);
+		strncat(szFieldLabel, szLength, sizeof(szFieldLabel));
 
 		memcpy(pBuffer + *poffset, szFieldLabel, strlen(szFieldLabel));	// Field tag is ALWAYS in regular ASCII
 		*poffset = *poffset + (int)strlen(szFieldLabel);
