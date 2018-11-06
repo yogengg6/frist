@@ -170,8 +170,8 @@ void JNISetStringViaConstructor(JNIEnv* env, jstring js, TCHAR* sz)
 
 	if ((*env)->ExceptionOccurred(env))
 	{
-         (*env)->ExceptionDescribe(env);
-         (*env)->ExceptionClear(env);
+		 (*env)->ExceptionDescribe(env);
+		 (*env)->ExceptionClear(env);
 	}
 }
 */
@@ -184,17 +184,17 @@ void JNIAppendStringtoStringBuffer(JNIEnv* env, jobject sb, TCHAR* sz)
 	jclass		cls;
 	jmethodID	mid;
 
-    if (sb == NULL) return;
+	if (sb == NULL) return;
 
 	js = JNINewString(env, sz);
 
 	cls = (*env)->GetObjectClass(env, sb);
 	if (cls == 0) return;
 
-    mid = (*env)->GetMethodID(env, cls, "append", "(Ljava/lang/String;)Ljava/lang/StringBuffer;");
-    if (mid == 0) return;
+	mid = (*env)->GetMethodID(env, cls, "append", "(Ljava/lang/String;)Ljava/lang/StringBuffer;");
+	if (mid == 0) return;
 
-    (*env)->CallObjectMethod(env, sb, mid, js);
+	(*env)->CallObjectMethod(env, sb, mid, js);
 }
 
 jobjectArray JNICreateStringArray(JNIEnv* env, const TCHAR** sz, int n)
