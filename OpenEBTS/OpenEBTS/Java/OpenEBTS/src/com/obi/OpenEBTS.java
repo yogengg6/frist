@@ -116,58 +116,58 @@ public class OpenEBTS
 	}
 
 	// OpenEBTS functions dealing with NIST files
-	public native int IWNew(String sTOT, NISTReturn ret);
-	public native int IWReadFromFile(String sPath, int nVerification, NISTReturn ret);
-	public native void IWWriteToFile(int nTransaction, String sPath, NISTFileFormat fmt, NISTReturn ret);
-	public native int IWReadFromMem(byte[] buffer, int nVerification, NISTReturn ret);
-	public native byte[] IWWriteToMem(int nTransaction, NISTReturn ret);	
-	public native void IWClose(int nTransaction, NISTReturn ret);
-	public native int IWAddRecord(int nTransaction, int nRecordType, NISTReturn ret); 
-	public native void IWDeleteRecord(int nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
-	public native int IWGetRecordTypeCount(int nTransaction, int nRecordType, NISTReturn ret);
-	public native int IWGetNumRecords(int nTransaction, NISTReturn ret);
-	public native void IWSetDataViaMnemonic(int nTransaction, String sMnemonic, int nRecordIndex,
+	public native long IWNew(String sTOT, NISTReturn ret);
+	public native long IWReadFromFile(String sPath, long nVerification, NISTReturn ret);
+	public native void IWWriteToFile(long nTransaction, String sPath, NISTFileFormat fmt, NISTReturn ret);
+	public native long IWReadFromMem(byte[] buffer, long nVerification, NISTReturn ret);
+	public native byte[] IWWriteToMem(long nTransaction, NISTReturn ret);	
+	public native void IWClose(long nTransaction, NISTReturn ret);
+	public native int IWAddRecord(long nTransaction, int nRecordType, NISTReturn ret); 
+	public native void IWDeleteRecord(long nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
+	public native int IWGetRecordTypeCount(long nTransaction, int nRecordType, NISTReturn ret);
+	public native int IWGetNumRecords(long nTransaction, NISTReturn ret);
+	public native void IWSetDataViaMnemonic(long nTransaction, String sMnemonic, int nRecordIndex,
 			int nSecondaryIndex, String sData, NISTReturn ret);
-	public native String IWGetDataViaMnemonic(int nTransaction, String sMnemonic, int nRecordIndex,
+	public native String IWGetDataViaMnemonic(long nTransaction, String sMnemonic, int nRecordIndex,
 			int nSecondaryIndex, NISTReturn ret);
-	public native void IWSetImage(int nTransaction, int nRecordType, int nRecordIndex, byte image[],
+	public native void IWSetImage(long nTransaction, int nRecordType, int nRecordIndex, byte image[],
 			int nfmtIn, int nfmtOut, int nCompression, NISTReturn ret);
-	public native byte[] IWGetImage(int nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
-	public native int IWGetImageFormat(int nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
-	public native int IWGetImageWidth(int nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
-	public native int IWGetImageHeight(int nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
-	public native int IWGetImageDepth(int nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
-	public native void IWSetImageFromFile(int nTransaction, int nRecordType, int nRecordIndex, String sPath,
+	public native byte[] IWGetImage(long nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
+	public native int IWGetImageFormat(long nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
+	public native int IWGetImageWidth(long nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
+	public native int IWGetImageHeight(long nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
+	public native int IWGetImageDepth(long nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
+	public native void IWSetImageFromFile(long nTransaction, int nRecordType, int nRecordIndex, String sPath,
 			int nfmtIn, int nfmtOut, int nCompression, NISTReturn ret);
-	public native byte[] IWGetImageAs(int nTransaction, int nRecordType, int nRecordIndex, int nFmtOut, NISTReturn ret);
-	public native void IWGetImageAsToFile(int nTransaction, int nRecordType, int nRecordIndex, String sPath, int nFmtOut,
+	public native byte[] IWGetImageAs(long nTransaction, int nRecordType, int nRecordIndex, int nFmtOut, NISTReturn ret);
+	public native void IWGetImageAsToFile(long nTransaction, int nRecordType, int nRecordIndex, String sPath, int nFmtOut,
 			NISTReturn ret);
-	public native void IWSetVerification(int nTransaction, int nVerification, NISTReturn ret);
-	public native void IWVerify(int nTransaction, NISTReturn ret);
-	public native int IWGetErrorCount(int nTransaction, NISTReturn ret);
-	public native String IWGetErrorString(int nTransaction, int nIndex, NISTReturn ret);
-	public native int IWGetErrorCode(int nTransaction, int nIndex, NISTReturn ret);
-	private native int IWGetFieldCount(int nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
-	private native int IWGetNextField(int nTransaction, int nRecordType, int nRecordIndex, int nField, NISTReturn ret);
-	private native int IWNumSubfields(int nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex, NISTReturn ret);
-	private native int IWNumItems(int nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex,
+	public native void IWSetVerification(long nTransaction, long nVerification, NISTReturn ret);
+	public native void IWVerify(long nTransaction, NISTReturn ret);
+	public native int IWGetErrorCount(long nTransaction, NISTReturn ret);
+	public native String IWGetErrorString(long nTransaction, int nIndex, NISTReturn ret);
+	public native int IWGetErrorCode(long nTransaction, int nIndex, NISTReturn ret);
+	private native int IWGetFieldCount(long nTransaction, int nRecordType, int nRecordIndex, NISTReturn ret);
+	private native int IWGetNextField(long nTransaction, int nRecordType, int nRecordIndex, int nField, NISTReturn ret);
+	private native int IWNumSubfields(long nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex, NISTReturn ret);
+	private native int IWNumItems(long nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex,
 			int nSubfieldIndex, NISTReturn ret);
-	private native String IWFindItem(int nTransaction, int nRecordType, int nRecordIndex,
+	private native String IWFindItem(long nTransaction, int nRecordType, int nRecordIndex,
 			 int nFieldIndex, int nSubfieldIndex, int nItemIndex, NISTReturn ret);
-	private native void IWSetItem(int nTransaction, String sData, int nRecordType, int nRecordIndex,
+	private native void IWSetItem(long nTransaction, String sData, int nRecordType, int nRecordIndex,
 			int nFieldIndex, int nSubfieldIndex, int nlItemIndex, NISTReturn ret);
 	// OpenEBTS functions dealing with Verification files
-	public native int IWReadVerification(String sPath, StringBuffer sParseErrorOut, NISTReturn ret); 
-	public native void IWCloseVerification(int nVerification, NISTReturn ret);
-	public native int IWCloneVerification(int nVerification, NISTReturn ret);
-	private native String[] IWGetTransactionCategories(int nVerification, NISTReturn ret);
-	private native String[] IWGetTransactionTypeNames(int nVerification, String sCategory, NISTReturn ret);
-	private native String[] IWGetTransactionTypeDescriptions(int nVerification, String sCategory, NISTReturn ret);
-	private native int[][] IWGetRecordTypeOccurrences(int nVerification, String sTOT, NISTReturn ret);  
-	private native String[] IWGetMnemonicsNames(int nVerification, String sTOT, NISTReturn ret);
-	private native String[] IWGetMnemonicsDescriptions(int nVerification, String sTOT, NISTReturn ret);
-	private native NISTFieldRules IWGetRuleRestrictions(int nVerification, String sTOT, String sMNU, NISTReturn ret); 
-	private native NISTValueList IWGetValueList(int nVerification, String sTOT, String sMNU, NISTReturn _ret);
+	public native long IWReadVerification(String sPath, StringBuffer sParseErrorOut, NISTReturn ret); 
+	public native void IWCloseVerification(long nVerification, NISTReturn ret);
+	public native long IWCloneVerification(long nVerification, NISTReturn ret);
+	private native String[] IWGetTransactionCategories(long nVerification, NISTReturn ret);
+	private native String[] IWGetTransactionTypeNames(long nVerification, String sCategory, NISTReturn ret);
+	private native String[] IWGetTransactionTypeDescriptions(long nVerification, String sCategory, NISTReturn ret);
+	private native int[][] IWGetRecordTypeOccurrences(long nVerification, String sTOT, NISTReturn ret);  
+	private native String[] IWGetMnemonicsNames(long nVerification, String sTOT, NISTReturn ret);
+	private native String[] IWGetMnemonicsDescriptions(long nVerification, String sTOT, NISTReturn ret);
+	private native NISTFieldRules IWGetRuleRestrictions(long nVerification, String sTOT, String sMNU, NISTReturn ret); 
+	private native NISTValueList IWGetValueList(long nVerification, String sTOT, String sMNU, NISTReturn _ret);
 
 	
 	//
@@ -177,8 +177,8 @@ public class OpenEBTS
 	public class NISTFile
 	{
 		private String _sTOT;
-		private int _nTransaction = 0;
-		private int _nVerification = 0;
+		private long _nTransaction = 0;
+		private long _nVerification = 0;
 		private NISTReturn _ret = new NISTReturn();
 
 		public NISTFile()
@@ -390,12 +390,12 @@ public class OpenEBTS
 	//
 	public class NISTRecord
 	{
-		private int _nTransaction;
+		private long _nTransaction;
 		private int _nRecordType;
 		private int _nRecordIndex;
 		private NISTReturn _ret = new NISTReturn();
 
-		public NISTRecord(int nTransaction, int nRecordType, int nRecordIndex)
+		public NISTRecord(long nTransaction, int nRecordType, int nRecordIndex)
 		{
 			_nTransaction = nTransaction;
 			_nRecordType = nRecordType;
@@ -450,13 +450,13 @@ public class OpenEBTS
 	//
 	public class NISTField
 	{
-		private int _nTransaction;
+		private long _nTransaction;
 		private int _nRecordType;
 		private int _nRecordIndex;
 		private int _nFieldIndex;
 		private NISTReturn _ret = new NISTReturn();
 	
-		public NISTField(int nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex)
+		public NISTField(long nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex)
 		{
 			_nTransaction = nTransaction;
 			_nRecordType = nRecordType;
@@ -485,14 +485,14 @@ public class OpenEBTS
 	//
 	public class NISTSubfield
 	{
-		private int _nTransaction;
+		private long _nTransaction;
 		private int _nRecordType;
 		private int _nRecordIndex;
 		private int _nFieldIndex;
 		private int _nSubfieldIndex;
 		private NISTReturn _ret = new NISTReturn();
 		
-		public NISTSubfield(int nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex, int nSubfieldIndex)
+		public NISTSubfield(long nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex, int nSubfieldIndex)
 		{
 			_nTransaction = nTransaction;
 			_nRecordType = nRecordType;
@@ -523,7 +523,7 @@ public class OpenEBTS
 	//
 	public class NISTItem
 	{
-		private int _nTransaction;
+		private long _nTransaction;
 		private int _nRecordType;
 		private int _nRecordIndex;
 		private int _nFieldIndex;
@@ -531,7 +531,7 @@ public class OpenEBTS
 		private int _nItemIndex;
 		private NISTReturn _ret = new NISTReturn();
 		
-		public NISTItem(int nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex, int nSubfieldIndex, int nItemIndex)
+		public NISTItem(long nTransaction, int nRecordType, int nRecordIndex, int nFieldIndex, int nSubfieldIndex, int nItemIndex)
 		{
 			_nTransaction = nTransaction;
 			_nRecordType = nRecordType;
@@ -561,7 +561,7 @@ public class OpenEBTS
 	// Publicizes the rule-system currently defined by a Verification File.
 	public class NISTVerification
 	{
-		private int _nVerification = 0;
+		private long _nVerification = 0;
 		private StringBuffer _sbParseError = new StringBuffer("");
 		private NISTTransactionCategories _cats = null; 
 		private NISTReturn _ret = new NISTReturn();
@@ -608,10 +608,10 @@ public class OpenEBTS
 	// A collection of TOT categories
 	public class NISTTransactionCategories
 	{
-		private int _nVerification = 0;
+		private long _nVerification = 0;
 		private String[] _saCategories;
 
-		public NISTTransactionCategories(int nVerification)
+		public NISTTransactionCategories(long nVerification)
 		{
 			_nVerification = nVerification;
 		}
@@ -635,12 +635,12 @@ public class OpenEBTS
 	// A TOT category has a name and a list of TOTs
 	public class NISTTransactionCategory
 	{
-		private int _nVerification = 0;
+		private long _nVerification = 0;
 		private String _sCategory = "";
 		private NISTTransactionList _trans = null;
 		private NISTReturn _ret = new NISTReturn();
 
-		public NISTTransactionCategory(int nVerification, String sCategory)
+		public NISTTransactionCategory(long nVerification, String sCategory)
 		{
 			_nVerification = nVerification;
 			_sCategory = sCategory;
@@ -669,11 +669,11 @@ public class OpenEBTS
 	// A collection of TOTs
 	public class NISTTransactionList
 	{
-		private int _nVerification = 0;
+		private long _nVerification = 0;
 		private String[] _saNames = {};
 		private String[] _saDescriptions = {};
 
-		public NISTTransactionList(int nVerification)
+		public NISTTransactionList(long nVerification)
 		{
 			_nVerification = nVerification;
 		}
@@ -703,14 +703,14 @@ public class OpenEBTS
 	// as by the fields it may contain.
 	public class NISTTransaction
 	{
-		private int _nVerification = 0;
+		private long _nVerification = 0;
 		private String _sTOT = "";
 		private String _sDescription = "";
 		private NISTRecordOccurrencesList _occurrences = null;
 		private NISTFieldDefinitionList _fielddefs = null;
 		private NISTReturn _ret = new NISTReturn();
 
-		public NISTTransaction(int nVerification, String sTOT, String sDescription)
+		public NISTTransaction(long nVerification, String sTOT, String sDescription)
 		{
 			_nVerification = nVerification;
 			_sTOT = sTOT;
@@ -812,13 +812,13 @@ public class OpenEBTS
 	// A collection of 'RecordOccurrences'
 	public class NISTRecordOccurrencesList
 	{
-		private int _nVerification = 0;
+		private long _nVerification = 0;
 		private String _sTOT = "";
 		private NISTReturn _ret = new NISTReturn();
 		private int[][] _naOccurrences = {};
 		private int _nOccurrences = 0;
 
-		public NISTRecordOccurrencesList(int nVerification, String sTOT)
+		public NISTRecordOccurrencesList(long nVerification, String sTOT)
 		{
 			_nVerification = nVerification;
 			_sTOT = sTOT;
@@ -921,14 +921,14 @@ public class OpenEBTS
 	// All the rules for a specific field
 	public class NISTFieldDefinition
 	{
-		int _nVerification = 0;
+		long _nVerification = 0;
 		String _sTOT = "";
 		NISTFieldRules _fieldrules = null;
 		// Each NISTFieldDefinition can contain "subitem" NISTFieldDefinitions 
 		private NISTFieldDefinitionList _subitemfielddefs = new NISTFieldDefinitionList(null);
 		private NISTFieldValueList _valuelist = null;
 
-		public NISTFieldDefinition(int nVerification, String sTOT, NISTFieldRules fieldrules)
+		public NISTFieldDefinition(long nVerification, String sTOT, NISTFieldRules fieldrules)
 		{
 			_nVerification = nVerification;
 			_sTOT = sTOT;
@@ -1086,7 +1086,7 @@ public class OpenEBTS
 		private NISTReturn _ret = new NISTReturn();
 		private NISTValueList _values = null;
 
-		public NISTFieldValueList(int nVerification, String sTOT, String sMNU)
+		public NISTFieldValueList(long nVerification, String sTOT, String sMNU)
 		{
 			_values = IWGetValueList(nVerification, sTOT, sMNU, _ret);
 			// Note that _values can be NULL at this point 

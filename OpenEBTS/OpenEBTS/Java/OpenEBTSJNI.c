@@ -8,18 +8,13 @@
 #define RETVAL			int ret = 0;
 #define PACKAGERETVAL	PackageReturnValue(env, ret, joRet);
 
-/*
- * Class:     OpenEBTS
- * Method:    IWNew
- * Signature: (Ljava/lang/String;LNISTReturn;)I
- */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNew
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWNew
   (JNIEnv *env, jobject obj, jstring jsTOT, jobject joRet)
 {
 	RETVAL
 	CIWTransaction 	*pTra = NULL;
 	const TCHAR		*szTOT = NULL;
-	jint 			nTransaction = 0;
+	jlong 			nTransaction = 0;
 
 	szTOT = JNIGetString(env, jsTOT);
 
@@ -27,7 +22,7 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNew
 	
 	if (ret == IW_SUCCESS)
 	{
-		nTransaction = (jint)pTra;
+		nTransaction = (jlong)pTra;
 	}
 
 	JNIReleaseString(env, jsTOT, szTOT);
@@ -36,19 +31,14 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNew
 	return nTransaction;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWReadFromFile
- * Signature: (Ljava/lang/String;LNISTReturn;)I
- */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadFromFile
-  (JNIEnv *env, jobject obj, jstring jsPath, jint nVerification, jobject joRet)
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWReadFromFile
+  (JNIEnv *env, jobject obj, jstring jsPath, jlong nVerification, jobject joRet)
 {
 	RETVAL
 	const TCHARPATH		*szPath = NULL;
 	CIWVerification		*pVer = (CIWVerification*)nVerification;
 	CIWTransaction		*pTra = NULL;
-	jint				nTransaction = 0;
+	jlong				nTransaction = 0;
 
 	szPath = JNIGetStringPath(env, jsPath);
 
@@ -56,7 +46,7 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadFromFile
 
 	if (ret == IW_SUCCESS)
 	{
-		nTransaction = (jint)pTra;
+		nTransaction = (jlong)pTra;
 	}
 
 	JNIReleaseStringPath(env, jsPath, szPath);
@@ -65,13 +55,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadFromFile
 	return nTransaction;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWWriteToFile
- * Signature: (ILjava/lang/String;LNISTFile/NISTFileFormat;LNISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWWriteToFile
-  (JNIEnv *env, jobject obj, jint nTransaction, jstring jsPath, jobject joFmt, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jstring jsPath, jobject joFmt, jobject joRet)
 {
 	RETVAL
 	const TCHARPATH	*szPath = NULL;
@@ -81,27 +66,17 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWWriteToFile
 
 	ret = IWWrite(pTra, szPath);
 
-	if (ret == IW_SUCCESS)
-	{
-		nTransaction = (jint)pTra;
-	}
-
 	JNIReleaseStringPath(env, jsPath, szPath);
 	PACKAGERETVAL
 }
 
-/*
- * Class:     com_obi_OpenEBTS
- * Method:    IWReadFromMem
- * Signature: ([BILcom/obi/OpenEBTS/NISTReturn;)I
- */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadFromMem
-  (JNIEnv *env, jobject obj, jbyteArray jbaBuffer, jint nVerification, jobject joRet)
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWReadFromMem
+  (JNIEnv *env, jobject obj, jbyteArray jbaBuffer, jlong nVerification, jobject joRet)
 {
 	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	CIWTransaction	*pTra = NULL;
-	jint			nTransaction = 0;
+	jlong			nTransaction = 0;
 	jboolean		jzIsCopy = 0;
 	int				cbBuffer = 0;
 	jbyte			*pBuffer = NULL;
@@ -117,7 +92,7 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadFromMem
 
 	if (ret == IW_SUCCESS)
 	{
-		nTransaction = (jint)pTra;
+		nTransaction = (jlong)pTra;
 	}
 
 done:
@@ -128,13 +103,8 @@ done:
 	return nTransaction;
 }
 
-/*
- * Class:     com_obi_OpenEBTS
- * Method:    IWWriteToMem
- * Signature: (ILcom/obi/OpenEBTS/NISTFileFormat;Lcom/obi/OpenEBTS/NISTReturn;)[B
- */
 JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWWriteToMem
-  (JNIEnv *env, jobject obj, jint nTransaction, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -155,13 +125,8 @@ JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWWriteToMem
 	return jbaBuffer;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWClose
- * Signature: (ILOpenEBTS/NISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWClose
-  (JNIEnv *env, jobject obj, jint nTransaction, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jobject joRet)
  {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -171,13 +136,8 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWClose
 	PACKAGERETVAL
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWAddRecord
- * Signature: (IILNISTReturn;)V
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWAddRecord
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -189,13 +149,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWAddRecord
 	return nRecordIndex;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWDeleteRecord
- * Signature: (IIILNISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWDeleteRecord
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -205,13 +160,8 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWDeleteRecord
 	PACKAGERETVAL
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetRecordTypeCount
- * Signature: (IILNISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetRecordTypeCount
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -223,13 +173,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetRecordTypeCount
 	return count;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetNumRecords
- * Signature: (ILNISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetNumRecords
-  (JNIEnv *env, jobject obj, jint nTransaction, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -241,13 +186,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetNumRecords
 	return nCount;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWSetDataViaMnemonic
- * Signature: (ILjava/lang/String;IILjava/lang/String;LNISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetDataViaMnemonic
-  (JNIEnv *env, jobject obj, jint nTransaction, jstring jsMNU, jint nRecordIndex, jint nSecondaryIndex,
+  (JNIEnv *env, jobject obj, jlong nTransaction, jstring jsMNU, jint nRecordIndex, jint nSecondaryIndex,
   jstring jsData, jobject joRet)
 {
 	RETVAL
@@ -265,13 +205,8 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetDataViaMnemonic
 	PACKAGERETVAL
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetDataViaMnemonic
- * Signature: (ILjava/lang/String;IILNISTReturn;)Ljava/lang/String;
- */
 JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWGetDataViaMnemonic
-  (JNIEnv *env, jobject obj, jint nTransaction, jstring jsMNU, jint nRecordIndex, jint nSecondaryIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jstring jsMNU, jint nRecordIndex, jint nSecondaryIndex, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -294,13 +229,8 @@ JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWGetDataViaMnemonic
 	return jsData;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWSetImage
- * Signature: (III[BILNISTFile/NISTImageFormat;LNISTFile/NISTImageFormat;ILNISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetImage
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jbyteArray jbaImage,
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jbyteArray jbaImage,
   jint nFmtIn, jint nFmtOut, jint nCompression, jobject joRet)
 {
 	RETVAL
@@ -325,13 +255,8 @@ done:
 	PACKAGERETVAL
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetImage
- * Signature: (IIILNISTReturn;)[B
- */
 JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWGetImage
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -353,7 +278,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWGetImage
 }
 
 ImageInfo IWGetImageFormatHelper
-(JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, int *pret)
+(JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, int *pret)
 //
 // Unfortunately there aren't separate methods for these properties so this function
 // may get called up to 4 times per image.
@@ -377,13 +302,8 @@ ImageInfo IWGetImageFormatHelper
 	return ii;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetImageFormat
- * Signature: (IIILNISTReturn;)LNISTFile/NISTImageFormat;
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageFormat
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
 {
 	RETVAL
 	ImageInfo	ii;
@@ -394,13 +314,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageFormat
 	return ii.nFormat;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetImageWidth
- * Signature: (IIILNISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageWidth
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
 {
 	RETVAL
 	ImageInfo ii;
@@ -411,13 +326,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageWidth
 	return ii.nWidth;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetImageHeight
- * Signature: (IIILNISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageHeight
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
 {
 	RETVAL
 	ImageInfo ii;
@@ -428,13 +338,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageHeight
 	return ii.nHeight;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetImageDepth
- * Signature: (IIILNISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageDepth
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
 {
 	RETVAL
 	ImageInfo ii;
@@ -445,13 +350,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageDepth
 	return ii.nDepth;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWSetImageFromFile
- * Signature: (IIILjava/lang/String;LNISTFile/NISTImageFormat;LNISTFile/NISTImageFormat;ILNISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetImageFromFile
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex,
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex,
   jstring jsPath, jint nFmtIn, jint nFmtOut, jint nCompression, jobject joRet)
 {
 	RETVAL
@@ -467,13 +367,8 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetImageFromFile
 	PACKAGERETVAL
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetImageToFile
- * Signature: (IIILjava/lang/String;LNISTFile/NISTImageFormat;LNISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWGetImageAsToFile
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jstring jsPath, jint nFmt, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jstring jsPath, jint nFmt, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -487,13 +382,8 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWGetImageAsToFile
 	PACKAGERETVAL
 }
 
-/*
- * Class:     com_obi_OpenEBTS
- * Method:    IWGetImageAs
- * Signature: (IIIILcom/obi/OpenEBTS/NISTReturn;)[B
- */
 JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWGetImageAs
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jint nFmt, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jint nFmt, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -514,18 +404,13 @@ JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWGetImageAs
 	return jbaImage;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWReadVerification
- * Signature: (Ljava/lang/String;LNISTReturn;)I
- */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadVerification
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWReadVerification
   (JNIEnv *env, jobject obj, jstring jsPath, jobject jobsbParseErrorOut, jobject joRet)
 {
 	RETVAL
 	const TCHARPATH		*szPath = NULL;
 	CIWVerification		*pVer = NULL;
-	jint				nVerification = 0;
+	jlong				nVerification = 0;
 	TCHAR				szParseError[1024];
 
 	szPath = JNIGetStringPath(env, jsPath);
@@ -534,7 +419,7 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadVerification
 
 	if (ret == IW_SUCCESS)
 	{
-		nVerification = (jint)pVer;
+		nVerification = (jlong)pVer;
 	}
 	else
 	{
@@ -550,13 +435,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadVerification
 	return nVerification;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWCloseVerification
- * Signature: (ILNISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWCloseVerification
-  (JNIEnv *env, jobject obj, jint nVerification, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nVerification, jobject joRet)
 {
 	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
@@ -566,13 +446,8 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWCloseVerification
 	PACKAGERETVAL
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWSetVerification
- * Signature: (IILNISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetVerification
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nVerification, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jlong nVerification, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -583,24 +458,19 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetVerification
 	PACKAGERETVAL
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWCloneVerification
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)I
- */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWCloneVerification
-  (JNIEnv *env, jobject obj, jint nVerification, jobject joRet)
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWCloneVerification
+  (JNIEnv *env, jobject obj, jlong nVerification, jobject joRet)
 {
 	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	CIWVerification	*pVerClone;
-	jint			nVerificationClone = 0;
+	jlong			nVerificationClone = 0;
 
 	ret = IWCloneVerification(pVer, &pVerClone);
 
 	if (ret == IW_SUCCESS)
 	{
-		nVerificationClone = (jint)pVerClone;
+		nVerificationClone = (jlong)pVerClone;
 	}
 
 	PACKAGERETVAL
@@ -608,13 +478,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWCloneVerification
 	return nVerificationClone;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWVerify
- * Signature: (ILNISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWVerify
-  (JNIEnv *env, jobject obj, jint nTransaction, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -624,13 +489,8 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWVerify
 	PACKAGERETVAL
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetErrorCount
- * Signature: (ILNISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetErrorCount
-  (JNIEnv *env, jobject obj, jint nTransaction, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jobject joRet)
 // Note, in this function ret is st explicitly to IW_SUCCESS since
 // IWGetErrorCount doesn't return an error code.
 {
@@ -645,13 +505,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetErrorCount
 	return nCount;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetErrorString
- * Signature: (IILOpenEBTS/NISTReturn;)Ljava/lang/String;
- */
 JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWGetErrorString
- (JNIEnv *env, jobject obj, jint nTransaction, jint nIndex, jobject joRet)
+ (JNIEnv *env, jobject obj, jlong nTransaction, jint nIndex, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -670,13 +525,8 @@ JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWGetErrorString
 	return jsError;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetErrorCode
- * Signature: (IILOpenEBTS/NISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetErrorCode
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nIndex, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -689,13 +539,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetErrorCode
 	return nCode;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetFieldCount
- * Signature: (IIILNISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetFieldCount
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -707,13 +552,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetFieldCount
 	return count;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetNextField
- * Signature: (IIIILNISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetNextField
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jint nFieldIndex, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jint nFieldIndex, jobject joRet)
 {
 	RETVAL
 	CIWTransaction	*pTra = (CIWTransaction*)nTransaction;
@@ -725,13 +565,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetNextField
 	return nFieldIndexNext;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWNumSubfields
- * Signature: (IIIILOpenEBTS/NISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNumSubfields
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jint nFieldIndex,
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jint nFieldIndex,
   jobject joRet)
 {
 	RETVAL
@@ -744,13 +579,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNumSubfields
 	return count;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWNumItems
- * Signature: (IIIIILOpenEBTS/NISTReturn;)I
- */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNumItems
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jint nFieldIndex,
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jint nFieldIndex,
   jint nSubfieldIndex, jobject joRet)
 {
 	RETVAL
@@ -763,13 +593,8 @@ JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNumItems
 	return count;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWFindItem
- * Signature: (IIIIIILOpenEBTS/NISTReturn;)Ljava/lang/String;
- */
 JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWFindItem
-  (JNIEnv *env, jobject obj, jint nTransaction, jint nRecordType, jint nRecordIndex, jint nFieldIndex,
+  (JNIEnv *env, jobject obj, jlong nTransaction, jint nRecordType, jint nRecordIndex, jint nFieldIndex,
   jint nSubfieldIndex, jint nItemIndex, jobject joRet)
  {
 	RETVAL
@@ -788,13 +613,8 @@ JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWFindItem
 	return jsData;
  }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWSetItem
- * Signature: (ILjava/lang/String;IIIIILOpenEBTS/NISTReturn;)V
- */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetItem
-  (JNIEnv *env, jobject obj, jint nTransaction, jstring jsData, jint nRecordType, jint nRecordIndex,
+  (JNIEnv *env, jobject obj, jlong nTransaction, jstring jsData, jint nRecordType, jint nRecordIndex,
   jint nFieldIndex, jint nSubfieldIndex, jint nItemIndex, jobject joRet)
 {
 	RETVAL
@@ -809,13 +629,8 @@ JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetItem
 	PACKAGERETVAL
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetTransactionCategories
- * Signature: (I[Ljava/lang/String;LOpenEBTS/NISTReturn;)V
- */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetTransactionCategories
-  (JNIEnv *env, jobject obj, jint nVerification, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nVerification, jobject joRet)
 {
 	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
@@ -834,15 +649,10 @@ JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetTransactionCategories
 	return jsaCategories;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetTransactionTypeNames
- * Signature: (ILjava/lang/String;LOpenEBTS/NISTReturn;)[Ljava/lang/String;
- */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetTransactionTypeNames
-  (JNIEnv *env, jobject obj, jint nVerification, jstring jsCategory, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nVerification, jstring jsCategory, jobject joRet)
  {
- 	RETVAL
+	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	int				nTOTs = 0;
 	const TCHAR		*szNames[100];	// a reasonable amount of TOTs
@@ -864,15 +674,10 @@ JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetTransactionTypeNames
 	return jsaNames;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetTransactionTypeDescriptions
- * Signature: (ILjava/lang/String;LOpenEBTS/NISTReturn;)[Ljava/lang/String;
- */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetTransactionTypeDescriptions
-  (JNIEnv *env, jobject obj, jint nVerification, jstring jsCategory, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nVerification, jstring jsCategory, jobject joRet)
 {
- 	RETVAL
+	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	int				nTOTs = 0;
 	const TCHAR		*szDescriptions[100];	// a reasonable amount of TOTs
@@ -894,19 +699,14 @@ JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetTransactionTypeDescrip
 	return jsaDescriptions;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetRecordTypeOccurrences
- * Signature: (ILjava/lang/String;LOpenEBTS/NISTReturn;)[[I
- */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetRecordTypeOccurrences
-  (JNIEnv *env, jobject obj, jint nVerification, jstring jsTOT, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nVerification, jstring jsTOT, jobject joRet)
 // IWGetRecordTypeOccurrences returns a 2 dimensional array of ints of size
 // 3 x n, where index 0 indexes the Record Type array, and index 1 and 2 the min
 // and max allowed occurrences arrays, respectively.
 {
- 	RETVAL
- 	jobjectArray	jnaOccurrences = NULL;
+	RETVAL
+	jobjectArray	jnaOccurrences = NULL;
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	int				nOccurrences = 0;
 	const TCHAR		*szTOT = NULL;
@@ -929,15 +729,10 @@ JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetRecordTypeOccurrences
 }
 
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetMnemonicsNames
- * Signature: (ILjava/lang/String;LOpenEBTS/NISTReturn;)[Ljava/lang/String;
- */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetMnemonicsNames
-  (JNIEnv *env, jobject obj, jint nVerification, jstring jsTOT, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nVerification, jstring jsTOT, jobject joRet)
 {
- 	RETVAL
+	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	int				nMNUs = 0;
 	const TCHAR		*szTOT = NULL;
@@ -959,15 +754,10 @@ JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetMnemonicsNames
 	return jsaNames;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetMnemonicsDescriptions
- * Signature: (ILjava/lang/String;LOpenEBTS/NISTReturn;)[Ljava/lang/String;
- */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetMnemonicsDescriptions
-  (JNIEnv *env, jobject obj, jint nVerification, jstring jsTOT, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nVerification, jstring jsTOT, jobject joRet)
 {
- 	RETVAL
+	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	int				nMNUs = 0;
 	const TCHAR		*szDescriptions[1000];	// a reasonable amount of MNUs
@@ -988,17 +778,12 @@ JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetMnemonicsDescriptions
 	return jsaDescriptions;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetRuleRestrictions
- * Signature: (ILjava/lang/String;Ljava/lang/String;LOpenEBTS/NISTReturn;)LOpenEBTS/NISTFieldRules;
- */
 JNIEXPORT jobject JNICALL Java_com_obi_OpenEBTS_IWGetRuleRestrictions
-  (JNIEnv *env, jobject obj, jint nVerification, jstring jsTOT, jstring jsMNU, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nVerification, jstring jsTOT, jstring jsMNU, jobject joRet)
 // Because IWGetRuleRestrictions returns so many parameters in C, in Java we return an entire
 // structure, NISTFieldRules.
 {
- 	RETVAL
+	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	const TCHAR		*szTOT = NULL;
 	const TCHAR		*szMNU = NULL;
@@ -1043,15 +828,10 @@ JNIEXPORT jobject JNICALL Java_com_obi_OpenEBTS_IWGetRuleRestrictions
 	return jobjRules;
 }
 
-/*
- * Class:     OpenEBTS
- * Method:    IWGetValueList
- * Signature: (ILjava/lang/String;Ljava/lang/String;LOpenEBTS/NISTReturn;)LOpenEBTS/NISTValueList;
- */
 JNIEXPORT jobject JNICALL Java_com_obi_OpenEBTS_IWGetValueList
-  (JNIEnv *env, jobject obj, jint nVerification, jstring jsTOT, jstring jsMNU, jobject joRet)
+  (JNIEnv *env, jobject obj, jlong nVerification, jstring jsTOT, jstring jsMNU, jobject joRet)
  {
- 	RETVAL
+	RETVAL
 	CIWVerification	*pVer = (CIWVerification*)nVerification;
 	const TCHAR		*szTOT = NULL;
 	const TCHAR		*szMNU = NULL;

@@ -5,7 +5,7 @@ REM ***
 
 REM  *** creating OpenEBTS.h header file for JNI ***
 echo *** creating OpenEBTS.h header file for JNI ***
-javah -classpath bin -jni com.obi.OpenEBTS
+javah -classpath src -jni com.obi.OpenEBTS
 
 REM  *** moving OpenEBTS to OpenEBTSJava folder, and renaming it OpenEBTSJNI.h to avoid conflicts ***
 echo *** moving OpenEBTS to OpenEBTSJava folder, and renaming it OpenEBTSJNI.h to avoid conflicts ***

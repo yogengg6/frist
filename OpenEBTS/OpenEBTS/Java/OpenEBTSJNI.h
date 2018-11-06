@@ -116,346 +116,346 @@ extern "C" {
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWNew
- * Signature: (Ljava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (Ljava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)J
  */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNew
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWNew
   (JNIEnv *, jobject, jstring, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWReadFromFile
- * Signature: (Ljava/lang/String;ILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (Ljava/lang/String;JLcom/obi/OpenEBTS/NISTReturn;)J
  */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadFromFile
-  (JNIEnv *, jobject, jstring, jint, jobject);
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWReadFromFile
+  (JNIEnv *, jobject, jstring, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWWriteToFile
- * Signature: (ILjava/lang/String;Lcom/obi/OpenEBTS/NISTFileFormat;Lcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JLjava/lang/String;Lcom/obi/OpenEBTS/NISTFileFormat;Lcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWWriteToFile
-  (JNIEnv *, jobject, jint, jstring, jobject, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jobject, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWReadFromMem
- * Signature: ([BILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: ([BJLcom/obi/OpenEBTS/NISTReturn;)J
  */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadFromMem
-  (JNIEnv *, jobject, jbyteArray, jint, jobject);
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWReadFromMem
+  (JNIEnv *, jobject, jbyteArray, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWWriteToMem
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)[B
+ * Signature: (JLcom/obi/OpenEBTS/NISTReturn;)[B
  */
 JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWWriteToMem
-  (JNIEnv *, jobject, jint, jobject);
+  (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWClose
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JLcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWClose
-  (JNIEnv *, jobject, jint, jobject);
+  (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWAddRecord
- * Signature: (IILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWAddRecord
-  (JNIEnv *, jobject, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWDeleteRecord
- * Signature: (IIILcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JIILcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWDeleteRecord
-  (JNIEnv *, jobject, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetRecordTypeCount
- * Signature: (IILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetRecordTypeCount
-  (JNIEnv *, jobject, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetNumRecords
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JLcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetNumRecords
-  (JNIEnv *, jobject, jint, jobject);
+  (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWSetDataViaMnemonic
- * Signature: (ILjava/lang/String;IILjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JLjava/lang/String;IILjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetDataViaMnemonic
-  (JNIEnv *, jobject, jint, jstring, jint, jint, jstring, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jint, jint, jstring, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetDataViaMnemonic
- * Signature: (ILjava/lang/String;IILcom/obi/OpenEBTS/NISTReturn;)Ljava/lang/String;
+ * Signature: (JLjava/lang/String;IILcom/obi/OpenEBTS/NISTReturn;)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWGetDataViaMnemonic
-  (JNIEnv *, jobject, jint, jstring, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWSetImage
- * Signature: (III[BIIILcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JII[BIIILcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetImage
-  (JNIEnv *, jobject, jint, jint, jint, jbyteArray, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jbyteArray, jint, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetImage
- * Signature: (IIILcom/obi/OpenEBTS/NISTReturn;)[B
+ * Signature: (JIILcom/obi/OpenEBTS/NISTReturn;)[B
  */
 JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWGetImage
-  (JNIEnv *, jobject, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetImageFormat
- * Signature: (IIILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JIILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageFormat
-  (JNIEnv *, jobject, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetImageWidth
- * Signature: (IIILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JIILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageWidth
-  (JNIEnv *, jobject, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetImageHeight
- * Signature: (IIILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JIILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageHeight
-  (JNIEnv *, jobject, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetImageDepth
- * Signature: (IIILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JIILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetImageDepth
-  (JNIEnv *, jobject, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWSetImageFromFile
- * Signature: (IIILjava/lang/String;IIILcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JIILjava/lang/String;IIILcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetImageFromFile
-  (JNIEnv *, jobject, jint, jint, jint, jstring, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jstring, jint, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetImageAs
- * Signature: (IIIILcom/obi/OpenEBTS/NISTReturn;)[B
+ * Signature: (JIIILcom/obi/OpenEBTS/NISTReturn;)[B
  */
 JNIEXPORT jbyteArray JNICALL Java_com_obi_OpenEBTS_IWGetImageAs
-  (JNIEnv *, jobject, jint, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetImageAsToFile
- * Signature: (IIILjava/lang/String;ILcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JIILjava/lang/String;ILcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWGetImageAsToFile
-  (JNIEnv *, jobject, jint, jint, jint, jstring, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jstring, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWSetVerification
- * Signature: (IILcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JJLcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetVerification
-  (JNIEnv *, jobject, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWVerify
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JLcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWVerify
-  (JNIEnv *, jobject, jint, jobject);
+  (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetErrorCount
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JLcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetErrorCount
-  (JNIEnv *, jobject, jint, jobject);
+  (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetErrorString
- * Signature: (IILcom/obi/OpenEBTS/NISTReturn;)Ljava/lang/String;
+ * Signature: (JILcom/obi/OpenEBTS/NISTReturn;)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWGetErrorString
-  (JNIEnv *, jobject, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetErrorCode
- * Signature: (IILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetErrorCode
-  (JNIEnv *, jobject, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetFieldCount
- * Signature: (IIILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JIILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetFieldCount
-  (JNIEnv *, jobject, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetNextField
- * Signature: (IIIILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JIIILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWGetNextField
-  (JNIEnv *, jobject, jint, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWNumSubfields
- * Signature: (IIIILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JIIILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNumSubfields
-  (JNIEnv *, jobject, jint, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWNumItems
- * Signature: (IIIIILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JIIIILcom/obi/OpenEBTS/NISTReturn;)I
  */
 JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWNumItems
-  (JNIEnv *, jobject, jint, jint, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWFindItem
- * Signature: (IIIIIILcom/obi/OpenEBTS/NISTReturn;)Ljava/lang/String;
+ * Signature: (JIIIIILcom/obi/OpenEBTS/NISTReturn;)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_com_obi_OpenEBTS_IWFindItem
-  (JNIEnv *, jobject, jint, jint, jint, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jint, jint, jint, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWSetItem
- * Signature: (ILjava/lang/String;IIIIILcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JLjava/lang/String;IIIIILcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWSetItem
-  (JNIEnv *, jobject, jint, jstring, jint, jint, jint, jint, jint, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jint, jint, jint, jint, jint, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWReadVerification
- * Signature: (Ljava/lang/String;Ljava/lang/StringBuffer;Lcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (Ljava/lang/String;Ljava/lang/StringBuffer;Lcom/obi/OpenEBTS/NISTReturn;)J
  */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWReadVerification
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWReadVerification
   (JNIEnv *, jobject, jstring, jobject, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWCloseVerification
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)V
+ * Signature: (JLcom/obi/OpenEBTS/NISTReturn;)V
  */
 JNIEXPORT void JNICALL Java_com_obi_OpenEBTS_IWCloseVerification
-  (JNIEnv *, jobject, jint, jobject);
+  (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWCloneVerification
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)I
+ * Signature: (JLcom/obi/OpenEBTS/NISTReturn;)J
  */
-JNIEXPORT jint JNICALL Java_com_obi_OpenEBTS_IWCloneVerification
-  (JNIEnv *, jobject, jint, jobject);
+JNIEXPORT jlong JNICALL Java_com_obi_OpenEBTS_IWCloneVerification
+  (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetTransactionCategories
- * Signature: (ILcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
+ * Signature: (JLcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
  */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetTransactionCategories
-  (JNIEnv *, jobject, jint, jobject);
+  (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetTransactionTypeNames
- * Signature: (ILjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
+ * Signature: (JLjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
  */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetTransactionTypeNames
-  (JNIEnv *, jobject, jint, jstring, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetTransactionTypeDescriptions
- * Signature: (ILjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
+ * Signature: (JLjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
  */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetTransactionTypeDescriptions
-  (JNIEnv *, jobject, jint, jstring, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetRecordTypeOccurrences
- * Signature: (ILjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[[I
+ * Signature: (JLjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[[I
  */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetRecordTypeOccurrences
-  (JNIEnv *, jobject, jint, jstring, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetMnemonicsNames
- * Signature: (ILjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
+ * Signature: (JLjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
  */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetMnemonicsNames
-  (JNIEnv *, jobject, jint, jstring, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetMnemonicsDescriptions
- * Signature: (ILjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
+ * Signature: (JLjava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)[Ljava/lang/String;
  */
 JNIEXPORT jobjectArray JNICALL Java_com_obi_OpenEBTS_IWGetMnemonicsDescriptions
-  (JNIEnv *, jobject, jint, jstring, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetRuleRestrictions
- * Signature: (ILjava/lang/String;Ljava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)Lcom/obi/OpenEBTS/NISTFieldRules;
+ * Signature: (JLjava/lang/String;Ljava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)Lcom/obi/OpenEBTS/NISTFieldRules;
  */
 JNIEXPORT jobject JNICALL Java_com_obi_OpenEBTS_IWGetRuleRestrictions
-  (JNIEnv *, jobject, jint, jstring, jstring, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jstring, jobject);
 
 /*
  * Class:     com_obi_OpenEBTS
  * Method:    IWGetValueList
- * Signature: (ILjava/lang/String;Ljava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)Lcom/obi/OpenEBTS/NISTValueList;
+ * Signature: (JLjava/lang/String;Ljava/lang/String;Lcom/obi/OpenEBTS/NISTReturn;)Lcom/obi/OpenEBTS/NISTValueList;
  */
 JNIEXPORT jobject JNICALL Java_com_obi_OpenEBTS_IWGetValueList
-  (JNIEnv *, jobject, jint, jstring, jstring, jobject);
+  (JNIEnv *, jobject, jlong, jstring, jstring, jobject);
 
 #ifdef __cplusplus
 }
