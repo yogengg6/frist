@@ -972,7 +972,7 @@ OPENEBTS_API int WINAPI RAWtoBMP(int width, int height, int DPI, int depth, BYTE
 			{
 				for (int i = 0; i < (int) color_count; i++)
 				{
-					RGBQUAD rgbTemp = { i, i, i, 0 };
+					RGBQUAD rgbTemp = { (BYTE)i, (BYTE)i, (BYTE)i, 0 };
 					memcpy(&color_table[i], &rgbTemp, sizeof(RGBQUAD));
 				}
 			}
